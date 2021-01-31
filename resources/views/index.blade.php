@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="{{ app()->getLocale() }}">
     <head>
         <title>Test Index</title>
         <meta charset=UTF-8>
