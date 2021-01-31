@@ -6,7 +6,7 @@
     </head>
     <body></body>
         <div>
-            <h1>{{ config('app.name') }} Index</h1>
+            <h1><a href="{{ route('home')}}">{{ config('app.name') }} Index</a></h1>
             @if (Route::has('login'))
                 <a href="{{ url('/dashboard') }}">Dashboard</a>
             @endif
