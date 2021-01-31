@@ -16,3 +16,8 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
     require('tailwindcss'),
     require('autoprefixer'),
 ]);
+
+// Cache bustin'
+if (mix.inProduction()) {
+    mix.version();
+}

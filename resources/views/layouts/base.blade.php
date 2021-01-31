@@ -4,7 +4,11 @@
         <title>{{ config('app.name') }}@if(View::hasSection('title')) | @yield('title') @endif</title>
         <meta charset=UTF-8>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        @if(config('app.env') == 'local')
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        @else {{-- Cache bustin in production --}}
+        <link rel="stylesheet" href="{{ asset(mix('css/app.css'), true) }}">
+        @endif
     </head>
     <body></body>
         <div class="sm:h-4">
