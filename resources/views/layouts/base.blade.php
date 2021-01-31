@@ -11,7 +11,13 @@
                 <h1 class="flex-none text-2xl"><a href="{{ route('home')}}">{{ config('app.name') }} Index</a></h1>
                 <span class="flex-grow"></span>
             @if (Route::has('login'))
-                <a class="flex-none underline" href="{{ url('/dashboard') }}">Dashboard</a>
+                <div class="flex-none">
+                    <a class="underline" href="{{ url('/dashboard') }}">Dashboard</a>
+                    @auth
+                    &middot;
+                    <a class="underline" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
+                    @endauth
+                </div>
             @endif
             </div>
             @yield('content')
