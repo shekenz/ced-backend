@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ app()->getLocale() }}">
     <head>
-        <title>CE.D | @yield('title')</title>
+        <title>@if(View::hasSection('title')) CE.D | @yield('title') @else CE.D @endif</title>
         <meta charset=UTF-8>
     </head>
     <body></body>
