@@ -9,14 +9,14 @@
     <body></body>
         <div class="sm:h-4">
             <div class="flex bg-green-300 text-green-900 p-3 shadow border-b border-green-500">
-                <h1 class="flex-none text-xl md:text-2xl"><a href="{{ route('home')}}">{{ config('app.name') }} Index</a></h1>
+                <h1 class="flex-none text-xl md:text-2xl hover:underline"><a href="{{ route('home')}}">{{ config('app.name') }} Index</a></h1>
                 <span class="flex-grow"></span>
             @if (Route::has('login'))
                 <div class="flex-none">
-                    <a class="underline" href="{{ url('/dashboard') }}">Dashboard</a>
+                    <a class="underline text-green-700 hover:text-green-900 transition-colors" href="{{ url('/dashboard') }}">Dashboard</a>
                     @auth
                     &middot;
-                    <a class="underline" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
+                    <a class="underline text-green-700 hover:text-green-900 transition-colors" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
                     @endauth
                 </div>
             @endif
