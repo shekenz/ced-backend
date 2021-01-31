@@ -1,7 +1,10 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <title>{{ config('app.name') }}@if(View::hasSection('title')) | @yield('title') @endif</title>
+        <title>{{ config('app.name') }}
+            @if(config('app.env') == 'local') (Dev) @endif
+            @if(View::hasSection('title')) | @yield('title') @endif
+        </title>
         <meta charset=UTF-8>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         @if(config('app.env') == 'local')
@@ -13,7 +16,11 @@
     <body></body>
         <div class="sm:h-4">
             <div class="flex bg-green-300 text-green-900 p-3 shadow border-b border-green-500">
-                <h1 class="flex-none text-xl md:text-2xl hover:underline"><a href="{{ route('home')}}">{{ config('app.name') }} Index</a></h1>
+                <h1 class="flex-none text-xl md:text-2xl hover:underline"><a href="{{ route('home')}}">
+                    {{ config('app.name') }}
+                    @if(config('app.env') == 'local')(Dev)@endif
+                    Index</a>
+                </h1>
                 <span class="flex-grow"></span>
             @if (Route::has('login'))
                 <div class="flex-none">
