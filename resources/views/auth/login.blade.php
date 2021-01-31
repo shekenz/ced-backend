@@ -51,6 +51,9 @@
                     {{ __('Login') }}
                 </x-button>
             </div>
+            <div class="flex item-center mt-4 border-top justify-center">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">Not yet registered? Click here</a>
+            </div>
         </form>
     </x-auth-card>
 </x-guest-layout>
