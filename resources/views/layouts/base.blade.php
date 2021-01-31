@@ -1,9 +1,10 @@
 <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <title>{{ config('app.name') }}
+        <title>
+            {{ config('app.name') }}
             @if(config('app.env') == 'local') (Dev) @endif
-            @if(View::hasSection('title')) | @yield('title') @endif
+            @if(isset($title)) | {{ $title }} @endif
         </title>
         <meta charset=UTF-8>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
