@@ -3,7 +3,7 @@
 @section('title', 'Home')
 
 @section('content')
-    <div id=content style="border: 1px solid black; margin:10px; padding:10px">
+    <div id=content class="shadow-lg p-4 m-5 border border-black">
         C'est ici que j'insèrerai ta maquette @esteban &hearts;<br>
     </div>
 @stop
