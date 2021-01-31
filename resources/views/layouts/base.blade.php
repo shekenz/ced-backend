@@ -9,7 +9,7 @@
     <body></body>
         <div class="sm:h-4">
             <div class="flex bg-green-300 text-green-900 p-3 shadow border-b border-green-500">
-                <h1 class="flex-none text-2xl sm:text-lg"><a href="{{ route('home')}}">{{ config('app.name') }} Index</a></h1>
+                <h1 class="flex-none text-xl md:text-2xl"><a href="{{ route('home')}}">{{ config('app.name') }} Index</a></h1>
                 <span class="flex-grow"></span>
             @if (Route::has('login'))
                 <div class="flex-none">
