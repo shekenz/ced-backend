@@ -39,7 +39,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link href="{{ route('profile') }}">
+                            <x-dropdown-link href="{{ route('user.display', ['id'=> Auth::user()->id]) }}">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('logout')"
@@ -66,15 +66,21 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
+        <div class="border-t border-gray-200">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="flex items-center px-4">
+        <div class="border-t border-gray-200">
+           <x-responsive-nav-link :href="route('user.display', ['id'=> Auth::user()->id])" :active="request()->routeIs('user.display')">
+                {{ __('Profile') }}
+            </x-responsive-nav-link> 
+        </div>
+        <div class="border-t border-gray-200">
+            {{-- We dont't want the email to appear on mobile--}}
+            {{-- <div class="flex items-center px-4">
                 <div class="flex-shrink-0">
                     <svg class="h-10 w-10 fill-current text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -85,9 +91,8 @@
                     <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
-            </div>
-
-            <div class="mt-3 space-y-1">
+            </div> --}}
+            <div class="">
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

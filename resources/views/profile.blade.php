@@ -12,8 +12,8 @@
                     <img class="rounded-full shadow-md w-32 md:w-16 mx-auto mt-5 md:m-4" src="{{ asset('img/default-thumbnail.jpg') }}" alt="Test thumbnail">
                 </div>
                 <div class="flex-grow p-4 md:px-0">
-                    <span class="text-xl">{{ Auth::user()->username }}</span><br>
-                    <span class="text-gray-500">{{ Auth::user()->email }}</span>
+                    <span class="text-xl">{{ $user->username }}</span><br>
+                    <span class="text-gray-500">{{ $user->email }}</span>
                 </div>
             </div>
         </div>

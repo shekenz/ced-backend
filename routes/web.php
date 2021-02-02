@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,14 @@ use Illuminate\Support\Facades\Route;
 // })->name('home');
 Route::view('/', 'index')->name('home');
 
+Route::get('/user/{id}', [UsersController::class, 'display'])->name('user.display');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+
 Route::view('/profile', 'profile')->middleware(['auth'])->name('profile');
+
 
 require __DIR__.'/auth.php';
