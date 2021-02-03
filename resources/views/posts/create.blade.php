@@ -3,10 +3,10 @@
         Create Post
     </x-slot>
     <form class="flex flex-col">
-        <label class="label-shared" for="title">{{ __('Title') }} :</label>
+        <label class="label-shared lg:text-lg" for="title">{{ __('Title') }} :</label>
         <input class="input-shared" id="title" name="title" type="text">
-        <label class="label-shared" for="content">{{ __('Article') }} :</label>
-        <textarea class="input-shared h-96" name="content"></textarea>
+        <label class="label-shared lg:text-lg" for="content">{{ __('Article') }} :</label>
+        <textarea id="tiny" class="input-shared h-96" name="content"></textarea>
         <input class="button-shared lg:w-24" type="submit">
     </form>
 </x-app-layout>
