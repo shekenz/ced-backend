@@ -4,7 +4,7 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center
+                <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
                         <!-- <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /> -->
                         CE.D
@@ -15,6 +15,12 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
+                        {{ __('Posts') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
+                        {{ __('Media') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -39,7 +45,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link href="{{ route('user.display', ['id'=> Auth::user()->id]) }}">
+                            <x-dropdown-link href="{{ route('users.display', ['id'=> Auth::user()->id]) }}">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('logout')"
@@ -66,19 +72,33 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="border-t border-gray-200">
+
+        <!-- Responsive Settings Options -->
+        <div class="p1 border-t border-gray-200">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
 
-        <!-- Responsive Settings Options -->
-        <div class="border-t border-gray-200">
-           <x-responsive-nav-link :href="route('user.display', ['id'=> Auth::user()->id])" :active="request()->routeIs('user.display')">
+        <div class="p1 border-t border-gray-200">
+            <x-responsive-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
+                {{ __('Media') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="p1 border-t border-gray-200">
+            <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
+                {{ __('Posts') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="p1 border-t border-gray-200">
+           <x-responsive-nav-link :href="route('users.display', ['id'=> Auth::user()->id])" :active="request()->routeIs('user.display')">
                 {{ __('Profile') }}
             </x-responsive-nav-link> 
         </div>
-        <div class="border-t border-gray-200">
+
+        <div class="p1 border-t border-gray-200">
             {{-- We dont't want the email to appear on mobile--}}
             {{-- <div class="flex items-center px-4">
                 <div class="flex-shrink-0">
@@ -92,7 +112,7 @@
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
             </div> --}}
-            <div class="">
+            <div class="p1">
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
