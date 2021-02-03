@@ -18,15 +18,15 @@
         <div class="">
             <div class="flex bg-green-300 text-green-900 py-1 px-3 shadow border-b border-green-500">
                 @auth
-                    <a class="flex-none underline text-green-700 hover:text-green-900 transition-colors" href="#">{{ Auth::user()->username }}</a>, vous êtes connecté !
+                    <a class="flex-none flash" href="#">{{ Auth::user()->username }}</a>, vous êtes connecté !
                 @endauth
                 <span class="flex-grow"></span>
             @if (Route::has('login'))
                 <div class="flex-none">
-                    <a class="underline text-green-700 hover:text-green-900 transition-colors" href="{{ url('/dashboard') }}">Dashboard</a>
+                    <a class="flash" href="{{ url('/dashboard') }}">Dashboard</a>
                     @auth
                         &middot;
-                        <a class="underline text-green-700 hover:text-green-900 transition-colors" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
+                        <a class="flash" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
                     @endauth
                 </div>
             @endif

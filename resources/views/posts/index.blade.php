@@ -3,5 +3,5 @@
         Posts
     </x-slot>
 
-    <span class="text-gray-500">[ Posts goes here ]</span>
+    <a href="{{ route('posts.create') }}" class="default">{{ __('New') }}</a>
 </x-app-layout>
