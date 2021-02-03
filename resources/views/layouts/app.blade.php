@@ -32,9 +32,11 @@
                 <div class="py-2 sm:py-8">
                     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                         <div class="bg-white overflow-hidden shadow-sm rounded-md sm:rounded-lg">
+                            @if(isset($title))
                             <h3 class="text-lg py-2 px-3 sm:py-4 sm:px-5 bg-white border-b border-gray-200">
-                                {{ $title ?? '' }}
+                                {{ $title }}
                             </h3>
+                            @endif
                             <div class="p-2 sm:p-4">
                                 {{ $slot ?? ''}}
                             </div>

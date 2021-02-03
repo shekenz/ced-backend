@@ -71,34 +71,34 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="w-full sm:w64 bg-white fixed sm:relative hidden sm:hidden">
 
         <!-- Responsive Settings Options -->
-        <div class="p1 border-t border-gray-200">
+        <div class="border-t border-gray-200">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
         </div>
 
-        <div class="p1 border-t border-gray-200">
+        <div class="border-t border-gray-200">
             <x-responsive-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
                 {{ __('Media') }}
             </x-responsive-nav-link>
         </div>
 
-        <div class="p1 border-t border-gray-200">
+        <div class="border-t border-gray-200">
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                 {{ __('Posts') }}
             </x-responsive-nav-link>
         </div>
 
-        <div class="p1 border-t border-gray-200">
+        <div class="border-t border-gray-200">
            <x-responsive-nav-link :href="route('users.display', ['id'=> Auth::user()->id])" :active="request()->routeIs('user.display')">
                 {{ __('Profile') }}
             </x-responsive-nav-link> 
         </div>
 
-        <div class="p1 border-t border-gray-200">
+        <div class="border-t border-gray-200">
             {{-- We dont't want the email to appear on mobile--}}
             {{-- <div class="flex items-center px-4">
                 <div class="flex-shrink-0">
@@ -112,7 +112,7 @@
                     <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
                 </div>
             </div> --}}
-            <div class="p1">
+            <div class="border-b border-gray-200">
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
