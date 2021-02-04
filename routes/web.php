@@ -26,12 +26,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
-// Users
-Route::get('/user/{id}', [UsersController::class, 'display'])->middleware('auth')->name('users.display');
+// Users (Auth in controller)
+Route::get('/user/{id}', [UsersController::class, 'display'])->name('users.display');
 
-// Posts
-Route::view('/posts', 'posts.index')->middleware('auth')->name('posts.index');
-Route::get('/post/create', [PostsController::class, 'create'])->middleware('auth')->name('posts.create');
+// Posts (Auth in controller)
+Route::view('/posts', 'posts.index')->name('posts.index');
+Route::post('/posts', [PostsController::class, 'store'])->name('posts.store');
+Route::get('/post/create', [PostsController::class, 'create'])->name('posts.create');
 
 // Media
 Route::view('/media', 'media.index')->middleware('auth')->name('media.index');
