@@ -22,6 +22,10 @@ a.flash:hover {
     @apply mt-2 font-medium text-sm text-gray-500;
 }
 
+.label-shared-first {
+    @apply mt-0 font-medium text-sm text-gray-500;
+}
+
 .input-shared {
     @apply w-full rounded-md shadow-sm border-gray-300;
 }

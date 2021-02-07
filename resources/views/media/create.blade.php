@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="title">
-        Create Post
+        Upload new file
     </x-slot>
 
     <div class="m-4">
@@ -18,13 +18,13 @@
         </div>
         @endif
 
-        <form action="{{ route('posts.store') }}" method="post" class="flex flex-col lg:m-2">
+        <form action="{{ route('media.store') }}" method="post" enctype="multipart/form-data" class="flex flex-col lg:m-2">
             @csrf
-            <label class="label-shared-first lg:text-lg" for="title">{{ __('Title') }} :</label>
-            <input class="input-shared" id="title" name="title" type="text" value="{{ old('title') }}">
-            <label class="label-shared lg:text-lg" for="content">{{ __('Article') }} :</label>
-            <textarea id="editor" class="input-shared h-96" name="content">{{ old('content') }}</textarea>
-            <input type="hidden" name="lang" value="fr">
+            <label class="label-shared-first lg:text-lg" for="name">{{ __('Name') }} :</label>
+            <input class="input-shared" id="name" name="name" type="text" value="{{ old('name') }}" >
+            <label class="label-shared lg:text-lg" for="file">File :</label>
+            <input class="input-shared mt-1" id="file" name="file" type="file">
+            <span class="text-gray-500">(JPG, PNG, GIF, Max 512 Ko)</span>
             <input class="button-shared md:px-4 md:self-end" type="submit">
         </form>
     </div>

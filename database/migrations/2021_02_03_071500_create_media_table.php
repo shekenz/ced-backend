@@ -17,6 +17,8 @@ class CreateMediaTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('post_id')->nullable();
+            $table->string('filename', 44);
+            $table->string('name', 64);
             $table->unsignedBigInteger('order')->nullable();
             $table->timestamp('created_at')->useCurrent();
             

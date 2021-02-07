@@ -1,6 +1,6 @@
 <x-app-layout>
 
-            <div class="flex flex-col sm:flex-row sm:items-center">
+            <div class="flex flex-col sm:flex-row sm:items-center m-4">
                 <div class="m-auto sm:m-0">
                     <img class="rounded-full shadow-md w-32 sm:w-16 my-2 sm:my-0 sm:mr-4" src="{{ asset('img/default-thumbnail.jpg') }}" alt="Test thumbnail">
                 </div>

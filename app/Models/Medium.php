@@ -9,6 +9,14 @@ class Medium extends Model
 {
     use HasFactory;
 
+    // We are only using the created_at timestamp here
+    const UPDATED_AT = null;
+
+    protected $fillable = [
+        'name',
+        'filename',
+    ];
+
     public function user() {
         return $this->belongsTo(User::class);
     }

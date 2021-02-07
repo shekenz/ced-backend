@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PostsController;
 
 /*
@@ -30,13 +31,17 @@ Route::get('/dashboard', function () {
 Route::get('/user/{id}', [UsersController::class, 'display'])->name('users.display');
 
 // Posts (Auth in controller)
-Route::view('/posts', 'posts.index')->name('posts.index');
+Route::view('/posts', 'posts/index')->name('posts.index');
 Route::post('/posts', [PostsController::class, 'store'])->name('posts.store');
 Route::get('/post/create', [PostsController::class, 'create'])->name('posts.create');
+Route::get('/post/{id}', [PostsController::class, 'display'])->name('posts.display');
 
 // Media
-Route::view('/media', 'media.index')->middleware('auth')->name('media.index');
-Route::get('/media/create', [MediaController::class, 'create'])->middleware('auth')->name('media.create');
+Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+Route::post('/media', [MediaController::class, 'store'])->name('media.store');
+Route::get('/media/create', [MediaController::class, 'create'])->name('media.create');
+Route::get('/media/{id}', [MediaController::class, 'display'])->name('media.display');
+
 
 // Profile
 Route::view('/profile', 'profile')->middleware('auth')->name('profile');
