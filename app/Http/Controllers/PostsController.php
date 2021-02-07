@@ -29,4 +29,9 @@ class PostsController extends Controller
 
         return redirect('/posts');
     }
+
+    public function display($id) {
+        $post = Post::findOrFail($id);
+        return view('posts/display')->with('post', $post);
+    }
 }
