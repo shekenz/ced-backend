@@ -37,9 +37,7 @@
                                 {{ $title }}
                             </h3>
                             @endif
-                            <div class="p-2 sm:p-4">
-                                {{ $slot ?? ''}}
-                            </div>
+                            {{ $slot ?? ''}}
                         </div>
                     </div>
                 </div>
