@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="p-4 border-b border-gray-200">
-    <a href="{{ route('posts.create') }}" class="default">{{ __('New') }}</a>
+    <a href="{{ route('posts.create') }}" class="button-shared">{{ __('New') }}</a>
     </div>
 
     <div class="flex flex-row py-1 px-4 border-b border-gray-200">

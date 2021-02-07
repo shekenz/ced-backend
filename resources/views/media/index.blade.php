@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="p-4 border-b border-gray-200">
-        <a class="default" href="{{ route('media.create') }}">New</a>
+        <a class="button-shared" href="{{ route('media.create') }}">{{ __('Upload') }}</a>
     </div>
     
     <div class="grid items-center text-gray-500

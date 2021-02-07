@@ -3,5 +3,5 @@
         Dashboard
     </x-slot>
 
-    <span class="text-gray-500">[ Analytics goes here ]</span>
+    <div class="text-gray-500 m-4">[ Analytics goes here ]</div>
 </x-app-layout>
