@@ -29,8 +29,8 @@ Route::get('/dashboard', function () {
 
 // Users (Auth in controller)
 
-Route::get('/user/{id}', [UsersController::class, 'display'])->name('users.display');
-Route::get('user/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
+Route::get('/user/{user}', [UsersController::class, 'display'])->name('users.display');
+Route::get('/user/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
 
 // Posts (Auth in controller)
 Route::view('/posts', 'posts/index')->name('posts.index');
@@ -42,6 +42,6 @@ Route::get('/post/{id}', [PostsController::class, 'display'])->name('posts.displ
 Route::get('/media', [MediaController::class, 'index'])->name('media.index');
 Route::post('/media', [MediaController::class, 'store'])->name('media.store');
 Route::get('/media/create', [MediaController::class, 'create'])->name('media.create');
-Route::get('/media/{id}', [MediaController::class, 'display'])->name('media.display');
+Route::get('/media/{medium}', [MediaController::class, 'display'])->name('media.display');
 
 require __DIR__.'/auth.php';

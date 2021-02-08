@@ -38,8 +38,7 @@ class MediaController extends Controller
         return redirect('/media');
     }
 
-    public function display($id) {
-        $medium = Medium::findOrFail($id);
+    public function display(Medium $medium) {
         return view('media/display', compact('medium'));
     }
 }

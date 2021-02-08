@@ -45,7 +45,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link href="{{ route('users.display', ['id'=> Auth::user()->id]) }}">
+                            <x-dropdown-link href="{{ route('users.display', Auth::user()->id) }}">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('logout')"
@@ -81,19 +81,19 @@
         </div>
 
         <div class="border-t border-gray-200">
-            <x-responsive-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
-                {{ __('Media') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <div class="border-t border-gray-200">
             <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
                 {{ __('Posts') }}
             </x-responsive-nav-link>
         </div>
 
         <div class="border-t border-gray-200">
-           <x-responsive-nav-link :href="route('users.display', ['id'=> Auth::user()->id])" :active="request()->routeIs('user.display')">
+            <x-responsive-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
+                {{ __('Media') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="border-t border-gray-200">
+           <x-responsive-nav-link :href="route('users.display', Auth::user()->id)" :active="request()->routeIs('user.display')">
                 {{ __('Profile') }}
             </x-responsive-nav-link> 
         </div>
