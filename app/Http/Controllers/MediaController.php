@@ -40,6 +40,6 @@ class MediaController extends Controller
 
     public function display($id) {
         $medium = Medium::findOrFail($id);
-        return view('media/display')->with('medium', $medium);
+        return view('media/display', compact('medium'));
     }
 }

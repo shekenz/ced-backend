@@ -1,9 +1,9 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ $post['title'] }}
+        {{ $post->title }}
     </x-slot>
 
     <div class="p-4 md:text-lg text-gray-500">
-        {{ $post['content'] }}
+        {{ $post->content }}
     </div>
 </x-app-layout>

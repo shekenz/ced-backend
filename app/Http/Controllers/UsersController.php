@@ -16,8 +16,6 @@ class UsersController extends Controller
 
     public function display($id) {
        $user = User::findOrFail($id);
-       return view('profile', [
-           'user' => $user,
-       ]);
+       return view('users/index', compact('user'));
     }
 }

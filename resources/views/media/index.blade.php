@@ -16,10 +16,10 @@
         lg:p-4
     ">
     @foreach(Auth::user()->media as $medium)
-        <a class="rounded-lg hover:bg-gray-200" href="{{ route('media.display', $medium['id']) }}">
+        <a class="rounded-lg hover:bg-gray-200" href="{{ route('media.display', $medium->id) }}">
             <div class="text-center truncate p-3 md:p-3 lg:p-4">
-                <img src="{{ asset('storage/uploads/'.$medium['filename']) }}">
-                <span class="text-sm">{{ $medium['name'] }}</span>
+                <img src="{{ asset('storage/uploads/'.$medium->filename) }}">
+                <span class="text-sm">{{ $medium->name }}</span>
             </div>
         </a>
     @endforeach

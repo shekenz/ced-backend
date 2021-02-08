@@ -32,6 +32,6 @@ class PostsController extends Controller
 
     public function display($id) {
         $post = Post::findOrFail($id);
-        return view('posts/display')->with('post', $post);
+        return view('posts/display', compact('post'));
     }
 }

@@ -28,7 +28,9 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 // Users (Auth in controller)
+
 Route::get('/user/{id}', [UsersController::class, 'display'])->name('users.display');
+Route::get('user/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
 
 // Posts (Auth in controller)
 Route::view('/posts', 'posts/index')->name('posts.index');
@@ -41,9 +43,5 @@ Route::get('/media', [MediaController::class, 'index'])->name('media.index');
 Route::post('/media', [MediaController::class, 'store'])->name('media.store');
 Route::get('/media/create', [MediaController::class, 'create'])->name('media.create');
 Route::get('/media/{id}', [MediaController::class, 'display'])->name('media.display');
-
-
-// Profile
-Route::view('/profile', 'profile')->middleware('auth')->name('profile');
 
 require __DIR__.'/auth.php';
