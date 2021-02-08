@@ -34,13 +34,13 @@ Route::get('/user/{user}', [UsersController::class, 'display'])->name('users.dis
 Route::get('/user/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
 
 // Posts (Auth in controller)
-Route::view('/posts', 'posts/index')->name('posts.index');
+Route::get('/posts', [PostsController::class, 'index'])->name('posts');
 Route::post('/posts', [PostsController::class, 'store'])->name('posts.store');
 Route::get('/post/create', [PostsController::class, 'create'])->name('posts.create');
 Route::get('/post/{id}', [PostsController::class, 'display'])->name('posts.display');
 
 // Media
-Route::get('/media', [MediaController::class, 'index'])->name('media.index');
+Route::get('/media', [MediaController::class, 'index'])->name('media');
 Route::post('/media', [MediaController::class, 'store'])->name('media.store');
 Route::get('/media/create', [MediaController::class, 'create'])->name('media.create');
 Route::get('/media/{medium}', [MediaController::class, 'display'])->name('media.display');

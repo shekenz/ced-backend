@@ -13,7 +13,7 @@
         <span class="flex-none">Created by</span>
     </div>
 
-    @foreach(Auth::user()->posts as $post)
+    @foreach($posts as $post)
         <div class="flex flex-row text-gray-500 py-1 px-4 border-b border-gray-200">
             <a href="{{ route('posts.display', $post->id) }}" class="flex-none default">{{ $post->title }}</a>
             <span class="flex-grow"></span>

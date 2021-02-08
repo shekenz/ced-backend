@@ -10,7 +10,11 @@ class PostsController extends Controller
     public function __contruct() {
         $this->middleware('auth');
     }
-    //
+
+    public function index() {
+        $posts = Post::orderBy('created_at', 'DESC')->get();
+        return view('posts/index', compact('posts'));
+    }
     public function create() {
         return view('posts.create');
     }
