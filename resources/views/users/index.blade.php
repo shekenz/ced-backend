@@ -1,16 +1,18 @@
 <x-app-layout>
-
-            <div class="flex flex-col sm:flex-row sm:items-center m-4">
-                <div class="flex-none m-auto sm:m-0">
-                    <img class="rounded-full shadow-md w-32 sm:w-16 my-2 sm:my-0 sm:mr-4" src="{{ asset('img/default-thumbnail.jpg') }}" alt="Test thumbnail">
+        @foreach($users as $user)
+            <div class="flex flex-row items-center py-2 px-4  border-b border-gray-200">
+                <div class="flex-none m-0">
+                    <img class="rounded-full border border-gray-400 shadow-md w-12 my-0 mr-4" src="{{ asset('img/default-thumbnail.jpg') }}" alt="Test thumbnail">
                 </div>
-                <div class="flex-grow mx-3 sm:mx-0 my-2 sm:my-0">
-                    <span class="text-xl">{{ $user->username }}</span><br>
+                <div class="flex-grow mx-3 sm:mx-0 my-0">
+                    <a href="{{ route('users.display', $user->id )}}" class="text-current hover:underline text-xl">{{ $user->username }}</a><br>
                     <span class="text-gray-500">{{ $user->email }}</span>
                 </div>
+                @if($user->username == Auth::user()->username)
                 <div class="flex-none">
                     <a href="{{ route('users.edit', $user->id ) }}" class="button-shared">{{ __('Edit') }}</a>
                 </div>
+                @endif
             </div>
-
+        @endforeach
 </x-app-layout>

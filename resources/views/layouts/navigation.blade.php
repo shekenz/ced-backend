@@ -22,6 +22,9 @@
                     <x-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
                         {{ __('Media') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                        {{ __('Users') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -89,6 +92,12 @@
         <div class="border-t border-gray-200">
             <x-responsive-nav-link :href="route('media.index')" :active="request()->routeIs('media.index')">
                 {{ __('Media') }}
+            </x-responsive-nav-link>
+        </div>
+
+        <div class="border-t border-gray-200">
+            <x-responsive-nav-link :href="route('users')" :active="request()->routeIs('users')">
+                {{ __('Users') }}
             </x-responsive-nav-link>
         </div>
 

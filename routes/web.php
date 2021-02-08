@@ -29,6 +29,7 @@ Route::get('/dashboard', function () {
 
 // Users (Auth in controller)
 
+Route::get('/users', [UsersController::class, 'index'])->name('users');
 Route::get('/user/{user}', [UsersController::class, 'display'])->name('users.display');
 Route::get('/user/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
 
