@@ -19,9 +19,9 @@ class PostsController extends Controller
         return view('posts.create');
     }
 
-    public function store() {
+    public function store(Request $request) {
 
-        $data = request()->validate([
+        $data = $request->validate([
             'title' => ['required', 'min:2'],
             'content' => 'required',
             'lang' => 'filled', // Default validation. Must be fillable in model.

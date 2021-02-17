@@ -18,7 +18,7 @@
         <div class="">
             <div class="flex bg-green-300 text-green-900 py-1 px-3 shadow border-b border-green-500">
                 @auth
-                    <a class="flex-none flash" href="#">{{ Auth::user()->username }}</a>, vous êtes connecté !
+                    <a class="flex-none flash" href="{{ route('users.display', Auth::user()->id)}}">{{ Auth::user()->username }}</a>, vous êtes connecté !
                 @endauth
                 <span class="flex-grow"></span>
             @if (Route::has('login'))

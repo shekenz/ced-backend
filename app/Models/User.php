@@ -44,6 +44,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
+
     // model relationship
     public function posts() {
         return $this->hasMany(Post::class)->orderBy('created_at', 'DESC');
