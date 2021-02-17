@@ -29,6 +29,7 @@ Route::get('/users', [UsersController::class, 'index'])->name('users');
 Route::get('/user/{user}', [UsersController::class, 'display'])->name('users.display');
 Route::get('/user/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
 Route::patch('/user/{user}', [UsersController::class, 'update'])->name('users.update');
+Route::post('/user/delete/{user}', [UsersController::class, 'delete'])->name('users.delete');
 
 // Posts (Auth in controller)
 Route::get('/posts', [PostsController::class, 'index'])->name('posts');

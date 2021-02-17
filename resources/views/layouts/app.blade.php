@@ -34,12 +34,12 @@
                         <div class="bg-white overflow-hidden shadow-sm rounded-md sm:rounded-lg">
                             @if(isset($title))
                             <div class="flex flex-row py-2 px-3 sm:py-4 sm:px-5 bg-white border-b border-gray-200">
-                                <h3 class="text-lg flex-none">
+                                <h3 class="text-lg flex-none font-bold">
                                     {{ $title }}
                                 </h3>
                                 <div class="flex-grow"></div>
                                 @if(isset($controls))
-                                <div id="controls" class="flex-none border">
+                                <div id="controls" class="flex-none">
                                     {{ $controls }}
                                 </div>
                                 @endisset
