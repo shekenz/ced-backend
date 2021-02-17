@@ -39,7 +39,7 @@ a.flash:hover {
 }
 
 .button-shared:hover {
-    @apply bg-transparent text-gray-800;
+    @apply bg-white text-gray-800;
 }
 
 .button-shared:active {
@@ -54,6 +54,14 @@ a.flash:hover {
     @apply opacity-25;
 }
 
+table th {
+    @apply border-b border-current text-left p-2;
+}
+
 table td {
-    @apply border border-black p-2;
+    @apply border-b p-2;
+}
+
+table tbody tr:nth-child(2n-1) {
+    @apply bg-gray-100;
 }
