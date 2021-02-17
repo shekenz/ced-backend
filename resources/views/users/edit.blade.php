@@ -1,5 +1,5 @@
 <x-app-layout>
-        @if($user->username == Auth::user()->username)
+        {{-- $user->username == Auth::user()->username --}}
             <x-slot name="title">
                 {{ __('Edit your profile') }}
             </x-slot>
@@ -44,11 +44,5 @@
                     </form>
                 </div>
             </div>
-        @else
-            <x-slot name="title">
-                You don't have access to this section
-            </x-slot>
-        @endif
-
 
 </x-app-layout>

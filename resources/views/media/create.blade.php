@@ -1,6 +1,10 @@
 <x-app-layout>
     <x-slot name="title">
-        Upload new file
+        {{ __('Upload new file') }}
+    </x-slot>
+    
+    <x-slot name="controls">
+       <a href="{{ route('media') }}" class="button-shared">{{ __('Cancel') }}</a> 
     </x-slot>
 
     <div class="m-4">

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ __('Create new post') }}
+        {{ __('Edit Post') }}
     </x-slot>
 
     <x-slot name="controls">
@@ -22,12 +22,13 @@
         </div>
         @endif
 
-        <form action="{{ route('posts.store') }}" method="post" class="flex flex-col lg:m-2">
+        <form action="{{ route('posts.update', $post->id) }}" method="post" class="flex flex-col lg:m-2">
             @csrf
+            @method('patch')
             <label class="label-shared-first lg:text-lg" for="title">{{ __('Title') }} :</label>
-            <input class="input-shared" id="title" name="title" type="text" value="{{ old('title') }}">
+            <input class="input-shared" id="title" name="title" type="text" value="{{ old('title') ?? $post->title}}">
             <label class="label-shared lg:text-lg" for="content">{{ __('Article') }} :</label>
-            <textarea id="editor" class="input-shared h-96" name="content">{{ old('content') }}</textarea>
+            <textarea id="editor" class="input-shared h-96" name="content">{{ old('content') ?? $post->content }}</textarea>
             <input type="hidden" name="lang" value="fr">
             <input class="button-shared md:px-4 md:self-end" type="submit">
         </form>

@@ -28,8 +28,8 @@ class PostsController extends Controller
     public function store(Request $request) {
 
         $data = $request->validate([
-            'title' => ['required', 'min:2'],
-            'content' => 'required',
+            'title' => ['required', 'string', 'min:2'],
+            'content' => 'required|string',
             'lang' => 'filled', // Default validation. Must be fillable in model.
         ]);
 
@@ -43,5 +43,19 @@ class PostsController extends Controller
     public function display($id) {
         $post = Post::findOrFail($id);
         return view('posts/display', compact('post'));
+    }
+
+    public function edit(Post $post) {
+        return view('posts/edit', compact('post'));
+    }
+
+    public function update(Post $post, Request $request) {
+        $data = $request->validate([
+            'title' => 'required|string|min:2',
+            'content' => 'required|string',
+        ]);
+        
+        $post->update($data);
+        return redirect(route('posts.display', $post->id));
     }
 }

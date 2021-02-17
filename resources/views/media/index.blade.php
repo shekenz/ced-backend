@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="title">
-        Media
+        {{ __('Media') }}
     </x-slot>
 
-    <div class="p-4 border-b border-gray-200">
-        <a class="button-shared" href="{{ route('media.create') }}">{{ __('Upload') }}</a>
-    </div>
-    
+    <x-slot name="controls">
+       <a href="{{ route('media.create') }}" class="button-shared">{{ __('Upload') }}</a> 
+    </x-slot>
+
     <div class="grid items-center text-gray-500
         grid-cols-2
         md:grid-cols-6

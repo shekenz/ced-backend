@@ -25,7 +25,6 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 // Users (Auth in controller)
-
 Route::get('/users', [UsersController::class, 'index'])->name('users');
 Route::get('/user/{user}', [UsersController::class, 'display'])->name('users.display');
 Route::get('/user/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
@@ -36,6 +35,8 @@ Route::get('/posts', [PostsController::class, 'index'])->name('posts');
 Route::post('/posts', [PostsController::class, 'store'])->name('posts.store');
 Route::get('/post/create', [PostsController::class, 'create'])->name('posts.create');
 Route::get('/post/{id}', [PostsController::class, 'display'])->name('posts.display');
+Route::get('/post/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
+Route::patch('/post/{post}', [PostsController::class, 'update'])->name('posts.update');
 
 // Media
 Route::get('/media', [MediaController::class, 'index'])->name('media');

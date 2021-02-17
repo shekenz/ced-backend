@@ -53,3 +53,7 @@ a.flash:hover {
 .button-shared:disabled {
     @apply opacity-25;
 }
+
+table td {
+    @apply border border-black p-2;
+}

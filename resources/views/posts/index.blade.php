@@ -1,23 +1,35 @@
 <x-app-layout>
     <x-slot name="title">
-        Posts
+        {{ __('Posts') }}
     </x-slot>
 
-    <div class="p-4 border-b border-gray-200">
-    <a href="{{ route('posts.create') }}" class="button-shared">{{ __('New') }}</a>
-    </div>
+    <x-slot name="controls">
+        <a href="{{ route('posts.create') }}" class="button-shared">{{ __('New') }}</a>
+    </x-slot>
 
-    <div class="flex flex-row py-1 px-4 border-b border-gray-200">
-        <span class="flex-none font-bold">Title</span>
-        <span class="flex-grow"></span>
-        <span class="flex-none">Created by</span>
+    <div class="m-4">
+        <table class="border-collapse table-auto box-border w-full">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Created at</th>
+                    <th>Author</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($posts as $post)
+                <tr>
+                    <td>{{ $post->id }}</td>
+                    <td><a href="{{ route('posts.display', $post->id) }}" class="default">{{ $post->title }}</a></td>
+                    <td>{{ $post->created_at }}</td>
+                    <td>{{ $post->user->username }}</td>
+                    <td><a class="button-shared" href="{{ route('posts.edit', $post->id) }}">{{ __('Edit') }}</a></td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-
-    @foreach($posts as $post)
-        <div class="flex flex-row text-gray-500 py-1 px-4 border-b border-gray-200">
-            <a href="{{ route('posts.display', $post->id) }}" class="flex-none default">{{ $post->title }}</a>
-            <span class="flex-grow"></span>
-            <span class="flex-none italic">{{ $post->created_at }} by  {{ $post->user->username }}</span>
-        </div>
-    @endforeach
+    
 </x-app-layout>
