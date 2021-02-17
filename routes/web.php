@@ -17,10 +17,7 @@ use App\Http\Controllers\PostsController;
 */
 
 // Main index route
-// Route::get('/', function () {
-//     return view('index');
-// })->name('home');
-Route::view('/', 'index')->name('home');
+Route::get('/', [PostsController::class, 'baseIndex'])->name('home');
 
 // Dashboard
 Route::get('/dashboard', function () {

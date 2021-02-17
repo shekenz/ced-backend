@@ -15,6 +15,12 @@ class PostsController extends Controller
         $posts = Post::orderBy('created_at', 'DESC')->get();
         return view('posts/index', compact('posts'));
     }
+
+    public function baseIndex() {
+        $posts = Post::orderBy('created_at', 'DESC')->get();
+        return view('index', compact('posts'));
+    }
+
     public function create() {
         return view('posts.create');
     }
