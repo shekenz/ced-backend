@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \App\Models\Post;
+use App\Models\Post;
 
 class PostsController extends Controller
 {
@@ -12,6 +12,7 @@ class PostsController extends Controller
     }
 
     public function index() {
+
         $posts = Post::orderBy('created_at', 'DESC')->get();
         return view('posts/index', compact('posts'));
     }

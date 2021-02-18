@@ -13,7 +13,7 @@
                 <tr>
                     <th class="hidden md:table-cell">ID</th>
                     <th>Title</th>
-                    <th class="hidden md:table-cell">Created at</th>
+                    <th class="hidden md:table-cell">Created</th>
                     <th class="hidden md:table-cell">Author</th>
                     <th class="text-right">Action</th>
                 </tr>
@@ -23,7 +23,7 @@
                 <tr>
                     <td class="hidden md:table-cell">{{ $post->id }}</td>
                     <td><a href="{{ route('posts.display', $post->id) }}" class="default">{{ $post->title }}</a></td>
-                    <td class="hidden md:table-cell">{{ $post->created_at }}</td>
+                    <td class="hidden md:table-cell">{{ $post->created_at->diffForHumans() }}</td>
                     <td class="hidden md:table-cell"><a href="{{ route('users.display', $post->user->id) }}" class="default">{{ $post->user->username }}</a></td>
                     <td class="text-right"><a class="button-shared" href="{{ route('posts.edit', $post->id) }}">{{ __('Edit') }}</a></td>
                 </tr>
