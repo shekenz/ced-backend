@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\FrontController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +18,27 @@ use App\Http\Controllers\PostsController;
 */
 
 // Main index route
-Route::get('/', [PostsController::class, 'baseIndex'])->name('home');
+//Route::get('/', [FrontController::class, 'index'])->name('index');
+
+Route::get('/', function() {
+	return view('index.index', [
+		'title' => 'Title',
+		'artist' => 'Artist',
+		'size' => '297mm x 210mm',
+		'coverType' => 'Soft cover',
+		'pages' => '124',
+		'edition' => 'Edition',
+		'price' => '30',
+	]);
+})->name('index');
+Route::view('/cart', 'index/cart', [
+	'subTotal' => '240',
+	'artist' => 'Name',
+	'title' => 'Title',
+	'quantity' => '1',
+])->name('cart');
+Route::view('/about', 'index/about')->name('about');
+
 
 // Dashboard
 Route::get('/dashboard', function () {
@@ -25,24 +46,24 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 // Users (Auth in controller)
-Route::get('/users', [UsersController::class, 'index'])->name('users');
-Route::get('/user/{user}', [UsersController::class, 'display'])->name('users.display');
-Route::get('/user/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
-Route::patch('/user/{user}', [UsersController::class, 'update'])->name('users.update');
-Route::post('/user/delete/{user}', [UsersController::class, 'delete'])->name('users.delete');
+Route::get('/dashboard/users', [UsersController::class, 'index'])->name('users');
+Route::get('/dashboard/user/{user}', [UsersController::class, 'display'])->name('users.display');
+Route::get('/dashboard/user/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
+Route::patch('/dashboard/user/{user}', [UsersController::class, 'update'])->name('users.update');
+Route::post('/dashboard/user/delete/{user}', [UsersController::class, 'delete'])->name('users.delete');
 
 // Posts (Auth in controller)
-Route::get('/posts', [PostsController::class, 'index'])->name('posts');
-Route::post('/posts', [PostsController::class, 'store'])->name('posts.store');
-Route::get('/post/create', [PostsController::class, 'create'])->name('posts.create');
-Route::get('/post/{id}', [PostsController::class, 'display'])->name('posts.display');
-Route::get('/post/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
-Route::patch('/post/{post}', [PostsController::class, 'update'])->name('posts.update');
+Route::get('/dashboard/posts', [PostsController::class, 'index'])->name('posts');
+Route::post('/dashboard/posts', [PostsController::class, 'store'])->name('posts.store');
+Route::get('/dashboard/post/create', [PostsController::class, 'create'])->name('posts.create');
+Route::get('/dashboard/post/{id}', [PostsController::class, 'display'])->name('posts.display');
+Route::get('/dashboard/post/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
+Route::patch('/dashboard/post/{post}', [PostsController::class, 'update'])->name('posts.update');
 
 // Media
-Route::get('/media', [MediaController::class, 'index'])->name('media');
-Route::post('/media', [MediaController::class, 'store'])->name('media.store');
-Route::get('/media/create', [MediaController::class, 'create'])->name('media.create');
+Route::get('/dashboard/media', [MediaController::class, 'index'])->name('media');
+Route::post('/dashboard/media', [MediaController::class, 'store'])->name('media.store');
+Route::get('/dashboard/media/create', [MediaController::class, 'create'])->name('media.create');
 Route::get('/media/{medium}', [MediaController::class, 'display'])->name('media.display');
 
 require __DIR__.'/auth.php';

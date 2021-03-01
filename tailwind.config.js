@@ -6,7 +6,8 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Monument Grotesk', ...defaultTheme.fontFamily.sans],
+                sans: ['Monument Grotesk', 'Nunito', ...defaultTheme.fontFamily.sans],
+				dashboard: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
 			fontSize: {
 				custom: ['1.1em', '1.2em'],

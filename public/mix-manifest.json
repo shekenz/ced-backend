@@ -8,5 +8,8 @@
     "/fonts/MonumentGroteskTrial-Italic.woff": "/fonts/MonumentGroteskTrial-Italic.woff",
     "/fonts/MonumentGroteskTrial-Medium.woff": "/fonts/MonumentGroteskTrial-Medium.woff",
     "/fonts/MonumentGroteskTrial-MediumItalic.woff": "/fonts/MonumentGroteskTrial-MediumItalic.woff",
-    "/fonts/MonumentGroteskTrial-Regular.woff": "/fonts/MonumentGroteskTrial-Regular.woff"
+    "/fonts/MonumentGroteskTrial-Regular.woff": "/fonts/MonumentGroteskTrial-Regular.woff",
+    "/img/testimage_full.jpg": "/img/testimage_full.jpg",
+    "/img/testimage_thumb_1.jpg": "/img/testimage_thumb_1.jpg",
+    "/img/testimage_thumb_2.jpg": "/img/testimage_thumb_2.jpg"
 }
