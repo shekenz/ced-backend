@@ -7,7 +7,7 @@
                 <div class="flex-shrink-0 flex items-center">
                     <a href="{{ route('index') }}">
                         <!-- <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /> -->
-                        CE.D
+                        {{ config('app.name') }}
                     </a>
                 </div>
 

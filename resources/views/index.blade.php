@@ -1,8 +1,7 @@
-@extends('layouts/index', [
-    'title' => 'index',
-])
+<x-index-layout lang="FR_fr">
 
-@section('content')
+	<x-slot name="title">Index</x-slot>
+
 	<?php $randMax = rand(3,10) ?>
 	@for ($i = 0; $i < $randMax; $i++)
 	<article class="grid grid-cols-9 mx-20">
@@ -26,4 +25,4 @@
 		<div class="col-span-9 mt-8 mb-12">1/12.</div>
 	</article>
 	@endfor
-@stop
+</x-index-layout>

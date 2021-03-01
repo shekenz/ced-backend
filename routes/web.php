@@ -21,7 +21,7 @@ use App\Http\Controllers\FrontController;
 //Route::get('/', [FrontController::class, 'index'])->name('index');
 
 Route::get('/', function() {
-	return view('index.index', [
+	return view('index', [
 		'title' => 'Title',
 		'artist' => 'Artist',
 		'size' => '297mm x 210mm',
@@ -38,6 +38,7 @@ Route::view('/cart', 'index/cart', [
 	'quantity' => '1',
 ])->name('cart');
 Route::view('/about', 'index/about')->name('about');
+Route::view('/guest', 'guest')->name('guest');
 
 
 // Dashboard
