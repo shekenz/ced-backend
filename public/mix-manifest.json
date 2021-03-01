@@ -1,5 +1,12 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
-    "/img/default-thumbnail.jpg": "/img/default-thumbnail.jpg"
+    "/img/default-thumbnail.jpg": "/img/default-thumbnail.jpg",
+    "/img/test.png": "/img/test.png",
+    "/fonts/MonumentGroteskTrial-Bold.woff": "/fonts/MonumentGroteskTrial-Bold.woff",
+    "/fonts/MonumentGroteskTrial-BoldItalic.woff": "/fonts/MonumentGroteskTrial-BoldItalic.woff",
+    "/fonts/MonumentGroteskTrial-Italic.woff": "/fonts/MonumentGroteskTrial-Italic.woff",
+    "/fonts/MonumentGroteskTrial-Medium.woff": "/fonts/MonumentGroteskTrial-Medium.woff",
+    "/fonts/MonumentGroteskTrial-MediumItalic.woff": "/fonts/MonumentGroteskTrial-MediumItalic.woff",
+    "/fonts/MonumentGroteskTrial-Regular.woff": "/fonts/MonumentGroteskTrial-Regular.woff"
 }

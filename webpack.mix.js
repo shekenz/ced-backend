@@ -15,7 +15,7 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),
-]).copyDirectory('resources/img', 'public/img');
+]).copyDirectory('resources/img', 'public/img').copyDirectory('resources/fonts', 'public/fonts');
 
 // Cache bustin'
 if (mix.inProduction()) {
