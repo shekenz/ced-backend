@@ -6,7 +6,7 @@
 	@for ($i = 0; $i < $randMax; $i++)
 	<article class="grid grid-cols-9 mx-20">
 		<div class="slider col-span-7 mr-12">
-			<img src="img/test.png" alt="test image">
+			<img src="{{ asset('img/testimage_full.jpg') }}" alt="test image">
 		</div>
 		<div id="info" class="col-start-8 col-span-2">
 			<p class="mb-6">
