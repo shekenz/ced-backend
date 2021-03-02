@@ -1,0 +1,65 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer base {
+
+	@font-face {
+		font-family: "Monument Grotesk";
+		font-weight: 400;
+		src: url(/fonts/MonumentGroteskTrial-Regular.woff) format("woff");
+	}
+
+	@font-face {
+		font-family: "Monument Grotesk";
+		font-weight: 500;
+		src: url(/fonts/MonumentGroteskTrial-Medium.woff) format("woff");
+	}
+
+	@font-face {
+		font-family: "Monument Grotesk";
+		font-weight: 700;
+		src: url(/fonts/MonumentGroteskTrial-Bold.woff) format("woff");
+	}
+
+	@font-face {
+		font-family: "Monument Grotesk";
+		font-weight: 400;
+		font-style: italic;
+		src: url(/fonts/MonumentGroteskTrial-Italic.woff) format("woff");
+	}
+
+	@font-face {
+		font-family: "Monument Grotesk";
+		font-weight: 500;
+		font-style: italic;
+		src: url(/fonts/MonumentGroteskTrial-MediumItalic.woff) format("woff");
+	}
+
+	@font-face {
+		font-family: "Monument Grotesk";
+		font-weight: 700;
+		font-style: italic;
+		src: url(/fonts/MonumentGroteskTrial-BoldItalic.woff) format("woff");
+	}
+
+	.base-link {
+		@apply hover:bg-black hover:text-white underline;
+	}
+
+	.base-menu-link {
+		@apply hover:bg-black hover:text-white;
+	}
+
+	.base-menu-link-active {
+		@apply bg-black text-white;
+	}
+
+	.base-con-link {
+		@apply underline text-green-700 transition-colors duration-300;
+	}
+
+	.base-con-link:hover {
+		@apply text-green-900;
+	}
+}

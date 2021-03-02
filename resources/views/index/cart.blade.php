@@ -12,14 +12,14 @@
 		@endfor
 		</div>
 		<div>
-			<a href="#" class="hover:bg-black hover:text-white underline">update cart</a>
+			<a href="#" class="base-link">update cart</a>
 		</div>
 		<div id="info" class=" col-start-8 col-span-2">
 			<p class="mb-6 mr-6">
 				subtotal : {{ $subTotal }}
 			</p>
 			<p class="mb-6 mr-6">
-				<a href="#" class="hover:bg-black hover:text-white underline">check out</a>
+				<a href="#" class="base-link">check out</a>
 			</p>
 		</div>
 	</div>

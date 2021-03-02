@@ -17,9 +17,9 @@
 				e.p.g. means edition production graphic but also energy post google, economy pdf global, and a lot of other things.
 			</p>
 			<p class="mb-6">
-				<a href="#" class="hover:bg-black hover:text-white  underline">insta</a><br>
-				<a href="#" class="hover:bg-black hover:text-white  underline">telegram</a><br>
-				<a href="#" class="hover:bg-black hover:text-white  underline">fb</a>
+				<a href="#" class="base-link">insta</a><br>
+				<a href="#" class="base-link">telegram</a><br>
+				<a href="#" class="base-link">fb</a>
 			</p>
 		</div>
 		<div class=" col-start-6 col-span-3">
@@ -36,6 +36,6 @@
 				Bisous
 			</p>
 		</div>
-		<div class="col-start-2 my-8"><a href="#" class="hover:bg-black hover:text-white underline">terms and condition</a></div>
+		<div class="col-start-2 col-span-7 my-8"><a href="#" class="base-link">terms and condition</a></div>
 	</div>
 </x-index-layout>

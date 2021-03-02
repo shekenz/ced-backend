@@ -11,11 +11,20 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'public/css', [
+mix.js('resources/js/app.js', 'public/js');
+mix.js('resources/js/index.js', 'public/js');
+mix.postCss('resources/css/app.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),
-]).copyDirectory('resources/img', 'public/img').copyDirectory('resources/fonts', 'public/fonts');
+]);
+mix.postCss('resources/css/index.css', 'public/css', [
+    require('postcss-import'),
+    require('tailwindcss'),
+    require('autoprefixer'),
+]);
+mix.copyDirectory('resources/img', 'public/img');
+mix.copyDirectory('resources/fonts', 'public/fonts');
 
 // Cache bustin'
 if (mix.inProduction()) {

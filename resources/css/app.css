@@ -4,107 +4,60 @@
 
 @layer base {
 
-@font-face {
-    font-family: "Monument Grotesk";
-    font-weight: 400;
-    src: url(/fonts/MonumentGroteskTrial-Regular.woff) format("woff");
-}
+	a.default, .base-link {
+		@apply text-gray-500 underline transition-colors duration-300;
+	}
 
-@font-face {
-    font-family: "Monument Grotesk";
-    font-weight: 500;
-    src: url(/fonts/MonumentGroteskTrial-Medium.woff) format("woff");
-}
+	a.default:hover, .base-link:hover {
+		@apply text-gray-700;
+	}
 
-@font-face {
-    font-family: "Monument Grotesk";
-    font-weight: 700;
-    src: url(/fonts/MonumentGroteskTrial-Bold.woff) format("woff");
-}
+	.label-shared {
+		@apply mt-2 font-medium text-sm text-gray-500;
+	}
 
-@font-face {
-    font-family: "Monument Grotesk";
-    font-weight: 400;
-	font-style: italic;
-    src: url(/fonts/MonumentGroteskTrial-Italic.woff) format("woff");
-}
+	.label-shared-first {
+		@apply mt-0 font-medium text-sm text-gray-500;
+	}
 
-@font-face {
-    font-family: "Monument Grotesk";
-    font-weight: 500;
-	font-style: italic;
-    src: url(/fonts/MonumentGroteskTrial-MediumItalic.woff) format("woff");
-}
+	.input-shared {
+		@apply w-full rounded-md shadow-sm border-gray-300;
+	}
 
-@font-face {
-    font-family: "Monument Grotesk";
-    font-weight: 700;
-	font-style: italic;
-    src: url(/fonts/MonumentGroteskTrial-BoldItalic.woff) format("woff");
-}
+	.input-shared:focus {
+		@apply border-indigo-300 ring ring-indigo-200 ring-opacity-50;
+	}
 
-a.default {
-    @apply text-gray-500 underline transition-colors duration-300;
-}
+	.button-shared {
+		@apply mt-4 p-2 bg-gray-800 border border-gray-800 rounded-md font-semibold text-xs text-white uppercase tracking-widest transition ease-in-out duration-300
+	}
 
-a.default:hover {
-    @apply text-gray-700;
-}
+	.button-shared:hover {
+		@apply bg-white text-gray-800;
+	}
 
-a.flash {
-    @apply underline text-green-700 transition-colors duration-300;
-}
+	.button-shared:active {
+		@apply bg-gray-900;
+	}
 
-a.flash:hover {
-    @apply text-green-900;
-}
+	.button-shared:focus {
+		@apply outline-none border-gray-900 ring ring-gray-300;
+	}
 
-.label-shared {
-    @apply mt-2 font-medium text-sm text-gray-500;
-}
+	.button-shared:disabled {
+		@apply opacity-25;
+	}
 
-.label-shared-first {
-    @apply mt-0 font-medium text-sm text-gray-500;
-}
+	table th {
+		@apply border-b border-current text-left p-2;
+	}
 
-.input-shared {
-    @apply w-full rounded-md shadow-sm border-gray-300;
-}
+	table td {
+		@apply border-b p-2;
+	}
 
-.input-shared:focus {
-    @apply border-indigo-300 ring ring-indigo-200 ring-opacity-50;
-}
-
-.button-shared {
-    @apply mt-4 p-2 bg-gray-800 border border-gray-800 rounded-md font-semibold text-xs text-white uppercase tracking-widest transition ease-in-out duration-300
-}
-
-.button-shared:hover {
-    @apply bg-white text-gray-800;
-}
-
-.button-shared:active {
-    @apply bg-gray-900;
-}
-
-.button-shared:focus {
-    @apply outline-none border-gray-900 ring ring-gray-300;
-}
-
-.button-shared:disabled {
-    @apply opacity-25;
-}
-
-table th {
-    @apply border-b border-current text-left p-2;
-}
-
-table td {
-    @apply border-b p-2;
-}
-
-table tbody tr:nth-child(2n-1) {
-    @apply bg-gray-100;
-}
+	table tbody tr:nth-child(2n-1) {
+		@apply bg-gray-100;
+	}
 
 }
