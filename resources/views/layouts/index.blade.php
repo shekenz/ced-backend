@@ -8,6 +8,9 @@
         </title>
         <meta charset=UTF-8>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<link rel="icon" type="image/png" href="{{ asset('img/favicon32.png') }}">
+
         @if(config('app.env') == 'local')
             <link rel="stylesheet" href="{{ asset('css/index.css') }}">
         @else {{-- Cache bustin in production --}}
