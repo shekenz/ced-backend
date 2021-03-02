@@ -19,7 +19,8 @@ load(() => {
 
 	menu.parentNode.insertBefore(blackSquare, menu.nextSibling);
 
-	let links = arrayByClass('base-menu-link');
+	let links = arrayByClass('base-menu-animated');
+	console.log(links);
 	links.map((item) => {
 		item.addEventListener('click', (e) => {
 			e.preventDefault();

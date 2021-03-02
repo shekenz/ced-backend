@@ -16,7 +16,7 @@
 			<script src="{{ asset('js/index.js') }}" defer></script>
         @else {{-- Cache bustin in production --}}
             <link rel="stylesheet" href="{{ asset(mix('css/index.css'), true) }}">
-			<script src="{{ asset(mix('js/index.js'),true) }}" defer></script>
+			<script src="{{ asset(mix('js/index.js'), true) }}" defer></script>
         @endif
         
     </head>
