@@ -20,7 +20,6 @@ load(() => {
 	menu.parentNode.insertBefore(blackSquare, menu.nextSibling);
 
 	let links = arrayByClass('base-menu-animated');
-	console.log(links);
 	links.map((item) => {
 		item.addEventListener('click', (e) => {
 			e.preventDefault();
@@ -37,5 +36,32 @@ load(() => {
 			, 500);
 		});
 	});
+
+	function anim(el) {
+		console.log(el.scrollLeft + el.offsetWidth >= el.offsetWidth*2);
+		el.scrollBy(10, 0);
+		if(el.scrollLeft + el.offsetWidth >= el.offsetWidth *2) {
+			cancelAnimationFrame(animId);
+		} else {
+			
+			animId = requestAnimationFrame(function() {
+				anim(el);
+			});
+		}
+	}
+
+	let sliders = arrayByClass('base-slider');
+	if(sliders.length > 0) {
+		sliders.map((item) => {
+			item.addEventListener('click', (e) => {
+				e.stopPropagation();
+				
+				console.log();
+
+				anim(e.currentTarget);
+
+			});
+		});
+	}
 
 });

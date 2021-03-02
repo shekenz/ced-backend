@@ -65,6 +65,16 @@
 		@apply text-green-900;
 	}
 
+	/*----- Slider -----*/
+
+	.base-slider {
+		overflow-x: hidden;
+		white-space: nowrap;
+	}
+	.base-slider img {
+		display: inline;
+	}
+
 	/*----- BlackSquare -----*/
 
 	#menu-wrapper {
@@ -85,4 +95,6 @@
 		transition: all 500ms;
 		z-index:10;
 	}
+
+
 }

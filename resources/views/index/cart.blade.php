@@ -8,7 +8,7 @@
 		<div class="cart-list col-span-5 mr-6 grid grid-cols-2 gap-6">
 		
 		@for ($i = 0; $i < $randMax; $i++)
-			@include('index.cartArticle')
+			@include('index.cart-article')
 		@endfor
 		</div>
 		<div>
