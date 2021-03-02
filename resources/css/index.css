@@ -43,16 +43,18 @@
 		src: url(/fonts/MonumentGroteskTrial-BoldItalic.woff) format("woff");
 	}
 
+	/*----- Links -----*/
+
 	.base-link {
 		@apply hover:bg-black hover:text-white underline;
 	}
 
 	.base-menu-link {
-		@apply hover:bg-black hover:text-white;
+		@apply hover:text-black hover:underline;
 	}
 
 	.base-menu-link-active {
-		@apply bg-black text-white;
+		@apply text-white hover:text-white hover:no-underline;
 	}
 
 	.base-con-link {
@@ -61,5 +63,26 @@
 
 	.base-con-link:hover {
 		@apply text-green-900;
+	}
+
+	/*----- BlackSquare -----*/
+
+	#menu-wrapper {
+		z-index: 20;
+	}
+
+	#content {
+		z-index: -10;
+	}
+
+	#black-square {
+		background-color: rgba(0,0,0,1);
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		width: 120px;
+		height: 24px;
+		transition: all 500ms;
+		z-index:10;
 	}
 }
