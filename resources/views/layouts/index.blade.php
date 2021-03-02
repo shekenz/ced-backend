@@ -13,11 +13,12 @@
 
         @if(config('app.env') == 'local')
             <link rel="stylesheet" href="{{ asset('css/index.css') }}">
+			<script src="{{ asset('js/index.js') }}" defer></script>
         @else {{-- Cache bustin in production --}}
             <link rel="stylesheet" href="{{ asset(mix('css/index.css'), true) }}">
+			<script src="{{ asset(mix('js/index.js'),true) }}" defer></script>
         @endif
-		<!-- Scripts -->
-        <script src="{{ asset('js/index.js') }}" defer></script>
+        
     </head>
     <body class="text-custom text-gray-800">
 		<div id="menu-wrapper" class="fixed w-full top-0">

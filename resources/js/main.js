@@ -23,9 +23,9 @@ load(() => {
 	links.map((item) => {
 		item.addEventListener('click', (e) => {
 			e.preventDefault();
-			blackSquare.style.top = e.currentTarget.offsetTop + 'px';
-			blackSquare.style.left = (e.currentTarget.offsetLeft - (widthOffset/2)) + 'px';
-			blackSquare.style.width = (e.currentTarget.offsetWidth + widthOffset) + 'px';
+			blackSquare.style.top = e.target.offsetTop + 'px';
+			blackSquare.style.left = (e.target.offsetLeft - (widthOffset/2)) + 'px';
+			blackSquare.style.width = (e.target.offsetWidth + widthOffset) + 'px';
 			e.target.classList.add('base-menu-link-active');
 			activeEl.classList.remove('base-menu-link-active');
 
