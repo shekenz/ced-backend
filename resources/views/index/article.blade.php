@@ -18,7 +18,7 @@
 				<button class="glide__arrow glide__arrow--left" data-glide-dir="<">&larr;</button>
 				<button class="glide__arrow glide__arrow--right" data-glide-dir=">">&rarr;</button>
 			</div>
-			<div class="glide__bullets" data-glide-el="controls[nav]">
+			<div class="glide__bullets xl:hidden" data-glide-el="controls[nav]">
 				<button class="glide__bullet" data-glide-dir="=0"></button>
 				<button class="glide__bullet" data-glide-dir="=1"></button>
 				<button class="glide__bullet" data-glide-dir="=2"></button>
@@ -26,13 +26,14 @@
 					
 
 		</div>
-		<div id="counter-{{ $i }}" class="text-right mt-2 mb-1 xl:text-left xl:mt-8 xl:mb-12"><span class="counter-index">1</span>/<span class="counter-total">3</span>.</div>
+		<div id="counter-{{ $i }}" class="hidden xl:block xl:mt-8 xl:mb-12"><span class="counter-index">1</span>/<span class="counter-total">3</span>.</div>
 	</div>
 	<div id="info" class="
 		grid
 		grid-cols-3
 		col-span-9
 		pb-16
+		pt-4
 		xl:pt-0
 		xl:block
 		xl:col-start-8
