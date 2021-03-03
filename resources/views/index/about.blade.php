@@ -2,8 +2,18 @@
 
 	<x-slot name="title">About</x-slot>
 
-	<div class="grid grid-cols-9 mx-20">
-		<div class="slider col-start-2 col-span-3 mr-12">
+	<div class="
+		mx-4
+		md:grid
+		md:grid-cols-9
+		md:mx-0
+	">
+		<div class="slider
+			md:col-span-4
+			xl:col-start-2
+			xl:col-span-3
+			xl:mr-12
+		">
 			<p class="mb-6">
 				e.p.g. is a publishing house for books who deserve to be alive and the other ones.
 			</p>
@@ -22,7 +32,12 @@
 				<a href="#" class="base-link">fb</a>
 			</p>
 		</div>
-		<div class=" col-start-6 col-span-3">
+		<div class="
+			md:col-start-6
+			md:col-span-4
+			xl:col-start-6
+			xl:col-span-3
+		">
 			<p class="mb-6">
 				Design by Shekenz
 			</p>
@@ -36,6 +51,6 @@
 				Bisous
 			</p>
 		</div>
-		<div class="col-start-2 col-span-7 my-8"><a href="#" class="base-link">terms and condition</a></div>
+		<div class="col-span-9 xl:col-start-2 xl:col-span-7 my-8"><a href="#" class="base-link">terms and condition</a></div>
 	</div>
 </x-index-layout>

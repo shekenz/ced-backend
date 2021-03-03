@@ -8,18 +8,27 @@ import Glide from '@glidejs/glide';
 load(() => {
 	console.log('Loaded !');
 
+	let blackSquare;
 	let widthOffset = 20;
 	let activeEl = arrayByClass('base-menu-link-active')[0];
-
 	let menu = document.getElementById('menu-wrapper');
-	let blackSquare = document.createElement('div');
-	blackSquare.setAttribute('id', 'black-square');
-	blackSquare.style.top = activeEl.offsetTop + 'px';
-	blackSquare.style.left = (activeEl.offsetLeft - (widthOffset/2)) + 'px';
-	blackSquare.style.width = (activeEl.offsetWidth + widthOffset) + 'px';
-	blackSquare.style.height = (activeEl.offsetHeight + 3) + 'px';
 
-	menu.parentNode.insertBefore(blackSquare, menu.nextSibling);
+	let init = () => {
+		blackSquare = document.createElement('div');
+		blackSquare.setAttribute('id', 'black-square');
+		blackSquare.style.top = activeEl.offsetTop + 'px';
+		blackSquare.style.left = (activeEl.offsetLeft - (widthOffset/2)) + 'px';
+		blackSquare.style.width = (activeEl.offsetWidth + widthOffset) + 'px';
+		blackSquare.style.height = (activeEl.offsetHeight + 3) + 'px';
+		menu.parentNode.insertBefore(blackSquare, menu.nextSibling);
+	}
+
+	init();
+
+	window.addEventListener('resize', () => {
+		document.getElementById('black-square').remove();
+		init();
+	});
 
 	let links = arrayByClass('base-menu-animated');
 	links.map((item) => {
@@ -41,7 +50,10 @@ load(() => {
 
 	arrayByClass('glide').map(item => {
 		new Glide(item, {
+			type: 'carousel',
 			keyboard: false,
+			animationDuration: 1000,
+			rewind: true,
 		}).mount();
 
 	});

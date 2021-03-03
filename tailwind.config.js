@@ -16,6 +16,7 @@ module.exports = {
             },
 			fontSize: {
 				custom: ['1.1em', '1.2em'],
+				'custom-md': ['0.8em', '1.1em'],
 			}
         },
     },

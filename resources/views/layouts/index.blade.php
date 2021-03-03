@@ -20,7 +20,7 @@
         @endif
 		
     </head>
-    <body class="text-custom text-gray-800">
+    <body class="text-custom-md xl:text-custom text-gray-800">
 		<div id="menu-wrapper" class="fixed w-full top-0">
 			@auth
 			<div class="fixed right-0 bg-green-300 text-green-900 px-1 shadow border border-green-500 text-sm">
@@ -33,7 +33,7 @@
 			@endauth
 			@include('index.menu')
 		</div>
-		<div id="content" class="mt-40">
+		<div id="content" class="mx-4 mt-16 md:mt-24 xl:mt-40 md:mx-12 xl:mx-20">
 			{{ $slot }}
 		</div>
     </body>

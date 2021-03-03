@@ -4,22 +4,22 @@
 
 	<x-slot name="title">Cart ({{ $randMax }})</x-slot>
 
-	<div class="grid grid-cols-9 mx-20">
-		<div class="cart-list col-span-5 mr-6 grid grid-cols-2 gap-6">
+	<div class="md:grid md:grid-cols-9 md:items-start">
+		<div class="cart-list md:col-span-5 md:mr-6 md:grid md:grid-cols-2 md:gap-6">
 		
 		@for ($i = 0; $i < $randMax; $i++)
 			@include('index.cart-article')
 		@endfor
 		</div>
-		<div>
-			<a href="#" class="base-link">update cart</a>
-		</div>
-		<div id="info" class=" col-start-8 col-span-2">
-			<p class="mb-6 mr-6">
-				subtotal : {{ $subTotal }}
+		<div id="info" class="grid grid-cols-2 mb-6 mt-6 md:col-start-6 md:col-span-4 md:mb-0 md:mt-0">
+			<p class="row-start-2 md:row-start-1 md:col-start-1">
+				<a href="#" class="base-link">Update cart</a>
 			</p>
-			<p class="mb-6 mr-6">
-				<a href="#" class="base-link">check out</a>
+			<p class="col-start-2 text-right mb-6 md:row-start-1 md:col-start-2 md:text-left md:mr-6">
+				Subtotal : {{ $subTotal }}€
+			</p>
+			<p class="row-start-2 col-start-2 text-right md:text-left mb-6 md:mr-6">
+				<a href="#" class="base-link">Check out</a>
 			</p>
 		</div>
 	</div>
