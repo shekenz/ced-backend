@@ -3,6 +3,8 @@ function arrayByClass(className) {
 	return(Array.from(document.getElementsByClassName(className)));
 }
 
+import Glide from '@glidejs/glide';
+
 load(() => {
 	console.log('Loaded !');
 
@@ -35,33 +37,14 @@ load(() => {
 			}
 			, 500);
 		});
+	});	
+
+	arrayByClass('glide').map(item => {
+		new Glide(item, {
+			keyboard: false,
+		}).mount();
+
 	});
 
-	function anim(el) {
-		console.log(el.scrollLeft + el.offsetWidth >= el.offsetWidth*2);
-		el.scrollBy(10, 0);
-		if(el.scrollLeft + el.offsetWidth >= el.offsetWidth *2) {
-			cancelAnimationFrame(animId);
-		} else {
-			
-			animId = requestAnimationFrame(function() {
-				anim(el);
-			});
-		}
-	}
-
-	let sliders = arrayByClass('base-slider');
-	if(sliders.length > 0) {
-		sliders.map((item) => {
-			item.addEventListener('click', (e) => {
-				e.stopPropagation();
-				
-				console.log();
-
-				anim(e.currentTarget);
-
-			});
-		});
-	}
-
+	
 });

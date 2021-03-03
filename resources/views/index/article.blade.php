@@ -1,8 +1,20 @@
 <article class="grid grid-cols-9 mx-20">
-	<div class="base-slider col-span-7 mr-12">
+	<div class="base-slider col-span-7 mr-12" data-slick='{"slidesToShow": 1, "slidesToScroll": 4}'>
 		{{-- <div class="base-slider-wrapper"> --}}
-			<img src="{{ asset('img/testimage_full.jpg') }}" alt="test image"><img src="{{ asset('img/testimage_full.jpg') }}" alt="test image"><img src="{{ asset('img/testimage_full.jpg') }}" alt="test image">
-		{{-- </div> --}}
+			<div class="glide">
+				<div data-glide-el="track" class="glide__track">
+					<ul class="glide__slides">
+						<li class="glide__slide"><img src="{{ asset('img/testimage_full.jpg') }}" alt="test image"></li>
+						<li class="glide__slide"><img src="{{ asset('img/testimage_full.jpg') }}" alt="test image"></li>
+						<li class="glide__slide"><img src="{{ asset('img/testimage_full.jpg') }}" alt="test image"></li>
+					</ul>
+				</div>
+				<div class="glide__arrows" data-glide-el="controls">
+					<button class="glide__arrow glide__arrow--left" data-glide-dir="<">prev</button>
+					<button class="glide__arrow glide__arrow--right" data-glide-dir=">">next</button>
+				</div>
+			</div>
+
 	</div>
 	<div id="info" class="col-start-8 col-span-2">
 		<p class="mb-6">

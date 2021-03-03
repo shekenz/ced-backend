@@ -18,7 +18,7 @@
             <link rel="stylesheet" href="{{ asset(mix('css/index.css'), true) }}">
 			<script src="{{ asset(mix('js/index.js'), true) }}" defer></script>
         @endif
-        
+		
     </head>
     <body class="text-custom text-gray-800">
 		<div id="menu-wrapper" class="fixed w-full top-0">
