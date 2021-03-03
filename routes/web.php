@@ -38,7 +38,7 @@ Route::view('/cart', 'index/cart', [
 	'quantity' => '1',
 ])->name('cart');
 Route::view('/about', 'index/about')->name('about');
-Route::view('/guest', 'guest')->name('guest');
+Route::view('/contact', 'index/contact')->name('contact');
 
 
 // Dashboard

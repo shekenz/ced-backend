@@ -54,8 +54,9 @@ load(() => {
 		glides[index] = new Glide(item, {
 			type: 'carousel',
 			keyboard: false,
-			animationDuration: 1000,
+			animationDuration: 700,
 			rewind: true,
+			swipeThreshold: 50,
 		}).mount();
 	});
 

@@ -20,7 +20,7 @@
         @endif
 		
     </head>
-    <body class="text-custom-md xl:text-custom text-gray-800">
+    <body class="text-custom-md lg:text-custom text-gray-800">
 		<div id="menu-wrapper" class="fixed w-full top-0">
 			@auth
 			<div class="fixed right-0 bg-green-300 text-green-900 px-1 shadow border border-green-500 text-sm">
