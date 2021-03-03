@@ -21,7 +21,7 @@
 					<button class="glide__arrow glide__arrow--right" data-glide-dir=">">&rarr;</button>
 				</div>
 			</div>
-			<div class="hidden lg:block mt-8 mb-12">1/12.</div>
+			<div id="counter-{{ $i }}" class="hidden lg:block mt-8 mb-12"><span class="counter-index">1</span>/<span class="counter-total">3</span>.</div>
 	</div>
 	<div id="info" class="
 		grid

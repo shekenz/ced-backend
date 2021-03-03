@@ -48,14 +48,21 @@ load(() => {
 		});
 	});	
 
-	arrayByClass('glide').map(item => {
-		new Glide(item, {
+	let glides = new Array;
+
+	arrayByClass('glide').map((item,index) => {
+		glides[index] = new Glide(item, {
 			type: 'carousel',
 			keyboard: false,
 			animationDuration: 1000,
 			rewind: true,
 		}).mount();
+	});
 
+	glides.map((item, index) => {
+		item.on('move.after', () => {
+			document.getElementById('counter-'+index).firstChild.firstChild.nodeValue = item.index + 1;
+		});
 	});
 
 	
