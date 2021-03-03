@@ -3,36 +3,38 @@
 		base-slider
 		col-span-9
 		mr-0
-		lg:col-span-7
 		xl:col-span-7
-		lg:mr-12
+		xl:mr-12
 	" data-slick='{"slidesToShow": 1, "slidesToScroll": 4}'>
-		{{-- <div class="base-slider-wrapper"> --}}
-			<div class="glide">
-				<div data-glide-el="track" class="glide__track">
-					<ul class="glide__slides">
-						<li class="glide__slide"><img src="{{ asset('img/testimage_full.jpg') }}" alt="test image"></li>
-						<li class="glide__slide"><img src="{{ asset('img/testimage_full_2.jpg') }}" alt="test image"></li>
-						<li class="glide__slide"><img src="{{ asset('img/testimage_full_3.jpg') }}" alt="test image"></li>
-					</ul>
-				</div>
-				<div class="glide__arrows" data-glide-el="controls">
-					<button class="glide__arrow glide__arrow--left" data-glide-dir="<">&larr;</button>
-					<button class="glide__arrow glide__arrow--right" data-glide-dir=">">&rarr;</button>
-				</div>
+		<div class="glide">
+			<div data-glide-el="track" class="glide__track">
+				<ul class="glide__slides">
+					<li class="glide__slide"><img src="{{ asset('img/testimage_full.jpg') }}" alt="test image"></li>
+					<li class="glide__slide"><img src="{{ asset('img/testimage_full_2.jpg') }}" alt="test image"></li>
+					<li class="glide__slide"><img src="{{ asset('img/testimage_full_3.jpg') }}" alt="test image"></li>
+				</ul>
 			</div>
-			<div id="counter-{{ $i }}" class="hidden lg:block mt-8 mb-12"><span class="counter-index">1</span>/<span class="counter-total">3</span>.</div>
+			<div class="glide__arrows hidden xl:block" data-glide-el="controls">
+				<button class="glide__arrow glide__arrow--left" data-glide-dir="<">&larr;</button>
+				<button class="glide__arrow glide__arrow--right" data-glide-dir=">">&rarr;</button>
+			</div>
+			<div class="glide__bullets" data-glide-el="controls[nav]">
+				<button class="glide__bullet" data-glide-dir="=0"></button>
+				<button class="glide__bullet" data-glide-dir="=1"></button>
+				<button class="glide__bullet" data-glide-dir="=2"></button>
+			</div>
+					
+
+		</div>
+		<div id="counter-{{ $i }}" class="text-right mt-2 mb-1 xl:text-left xl:mt-8 xl:mb-12"><span class="counter-index">1</span>/<span class="counter-total">3</span>.</div>
 	</div>
 	<div id="info" class="
 		grid
 		grid-cols-3
 		col-span-9
-		pt-6
-		pb-10
-		lg:pt-0
-		lg:block
-		lg:col-start-8
-		lg:col-span-2
+		pb-16
+		xl:pt-0
+		xl:block
 		xl:col-start-8
 		xl:col-span-2
 	">

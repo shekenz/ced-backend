@@ -28,12 +28,11 @@
 .glide__arrow--disabled {
 }
 
-/*
 
 .glide__bullets {
 	position: absolute;
 	z-index: 2;
-	bottom: 2em;
+	bottom: 1em;
 	left: 50%;
 	display: inline-flex;
 	list-style: none;
@@ -62,16 +61,16 @@
 	background-color: white;
 }
 
+/*
 .glide--swipeable {
 	cursor: grab;
 	cursor: -moz-grab;
 	cursor: -webkit-grab;
 }
+*/
 
 .glide--dragging {
 	cursor: grabbing;
 	cursor: -moz-grabbing;
 	cursor: -webkit-grabbing;
 }
-
-*/
