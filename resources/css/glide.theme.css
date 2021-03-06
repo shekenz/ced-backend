@@ -14,11 +14,31 @@
 	position: absolute;
 	display: block;
 	top: 50%;
-	z-index: 2;
+	z-index: 9;
 	cursor: pointer;
 	transform: translateY(-50%);
 	line-height: 0.95;
 }
+
+.glide__arrow2 {
+	@apply focus:outline-none;
+	position: absolute;
+	top: 50%;
+	height: 100%;
+	transform: translateY(-50%);
+	cursor:e-resize;
+	width: 50%;
+}
+
+.glide__arrow2--left {
+	cursor: url(/img/cursors/left.png), w-resize;
+}
+
+.glide__arrow2--right {
+	cursor: url(/img/cursors/right.png), e-resize;
+	right: 0;
+}
+
 .glide__arrow--left {
 	left: 1em;
 }

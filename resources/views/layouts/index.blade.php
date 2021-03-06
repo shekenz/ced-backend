@@ -9,7 +9,7 @@
         <meta charset=UTF-8>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="icon" type="image/png" href="{{ asset('img/favicon32.png') }}">
+		<link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
 
         @if(config('app.env') == 'local')
             <link rel="stylesheet" href="{{ asset('css/index.css') }}">
@@ -35,6 +35,9 @@
 		</div>
 		<div id="content" class="mx-4 mt-16 md:mt-24 xl:mt-40 md:mx-12 xl:mx-20">
 			{{ $slot }}
+		</div>
+		<div id="footer" class="fixed bottom-4 right-4 md:bottom-8 md:right-12 xl:bottom-12 xl:right-20">
+			<img  class="" src="{{ asset('img/logo.png') }}" alt="epg logo">
 		</div>
     </body>
 </html>

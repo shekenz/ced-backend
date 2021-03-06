@@ -15,8 +15,8 @@
 				</ul>
 			</div>
 			<div class="glide__arrows hidden xl:block" data-glide-el="controls">
-				<button class="glide__arrow glide__arrow--left" data-glide-dir="<">&larr;</button>
-				<button class="glide__arrow glide__arrow--right" data-glide-dir=">">&rarr;</button>
+				<button class="glide__arrow2 glide__arrow2--left" data-glide-dir="<"></button>
+				<button class="glide__arrow2 glide__arrow2--right" data-glide-dir=">"></button>
 			</div>
 			<div class="glide__bullets xl:hidden" data-glide-el="controls[nav]">
 				<button class="glide__bullet" data-glide-dir="=0"></button>
@@ -39,16 +39,10 @@
 		xl:col-start-8
 		xl:col-span-2
 	">
-		<div class="">
-			<p class="mb-6">
-				{{ $title }}<br>{{ $artist }}
-			</p>
-			<p class="mb-6">
-				{{ $size }}<br>{{ $coverType }}<br>{{ $pages }} pages<br>{{ $edition }}
-			</p>
-			<p class="mb-6">
+		<div class="mb-6">
+				{{ $title }}<br>{{ $artist }}<br><br>
+				{{ $size }}<br>{{ $coverType }}<br>{{ $pages }} pages<br>{{ $edition }}<br><br>
 				{{ $price }} €<br><a href="#" class="underline hover:bg-black hover:text-white">Add to cart</a>
-			</p>
 		</div>
 		<div class="col-span-2">
 		<p class="mb-6 mr-6">
