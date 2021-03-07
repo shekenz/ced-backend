@@ -11,7 +11,7 @@
 			@include('index.cart-article')
 		@endfor
 		</div>
-		<div id="info" class="grid grid-cols-2 mb-16 mt-6 md:col-start-6 md:col-span-4 md:mb-0 md:mt-0">
+		<div id="info" class="grid grid-cols-2 mt-6 md:col-start-6 md:col-span-4 md:mt-0">
 			<p class="row-start-2 md:row-start-1 md:col-start-1">
 				<a href="#" class="base-link">Update cart</a>
 			</p>

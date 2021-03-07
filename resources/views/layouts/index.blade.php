@@ -33,11 +33,11 @@
 			@endauth
 			@include('index.menu')
 		</div>
-		<div id="content" class="mx-4 mt-16 md:mt-24 xl:mt-40 md:mx-12 xl:mx-20">
+		<div id="content" class="mx-4 pb-16 mt-16 md:pb-12 md:mt-24 xl:mt-40 md:mx-12 xl:mx-20">
 			{{ $slot }}
 		</div>
 		<div id="footer" class="fixed bottom-4 right-4  md:bottom-8 md:right-12 xl:bottom-12 xl:right-20">
-			<a href="{{ route('about') }}"><img  class="w-10 md:w-auto" srcset="{{ asset('img/logo.png') }} 1x, {{ asset('img/logo@2x.png') }} 2x" src="{{ asset('img/logo.png') }}" alt="epg logo"></a>
+			<a href="{{ route('about') }}"><img  class="w-10 md:w-14 xl:w-auto" srcset="{{ asset('img/logo.png') }} 1x, {{ asset('img/logo@2x.png') }} 2x" src="{{ asset('img/logo.png') }}" alt="epg logo"></a>
 		</div>
     </body>
 </html>
