@@ -36,8 +36,8 @@
 		<div id="content" class="mx-4 mt-16 md:mt-24 xl:mt-40 md:mx-12 xl:mx-20">
 			{{ $slot }}
 		</div>
-		<div id="footer" class="fixed bottom-4 right-4 md:bottom-8 md:right-12 xl:bottom-12 xl:right-20">
-			<img  class="" src="{{ asset('img/logo.png') }}" alt="epg logo">
+		<div id="footer" class="fixed bottom-4 right-4  md:bottom-8 md:right-12 xl:bottom-12 xl:right-20">
+			<img  class="w-10 md:w-auto" srcset="{{ asset('img/logo.png') }} 1x, {{ asset('img/logo@2x.png') }} 2x" src="{{ asset('img/logo.png') }}" alt="epg logo">
 		</div>
     </body>
 </html>
