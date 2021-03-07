@@ -1,6 +1,8 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 module.exports = {
+	darkMode: 'media',
     purge: {
 		content: ['./storage/framework/views/*.php', './resources/views/**/*.blade.php'],
 		options: {
@@ -17,7 +19,10 @@ module.exports = {
 			fontSize: {
 				custom: ['1.1em', '1.2em'],
 				'custom-md': ['0.8em', '1.1em'],
-			}
+			},
+			colors: {
+				dark: colors.gray,
+			},
         },
     },
 
