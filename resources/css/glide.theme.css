@@ -31,11 +31,11 @@
 }
 
 .glide__arrow2--left {
-	cursor: url(/img/cursors/left.png), w-resize;
+	cursor: url(/img/cursors/left.png) 0 24, w-resize;
 }
 
 .glide__arrow2--right {
-	cursor: url(/img/cursors/right.png), e-resize;
+	cursor: url(/img/cursors/right.png) 14 24, e-resize;
 	right: 0;
 }
 

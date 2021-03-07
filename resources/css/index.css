@@ -68,16 +68,13 @@
 		@apply text-green-900;
 	}
 
-	/*----- Slider -----*/
-
-	/* .base-slider {
-		overflow-x: scroll;
-		white-space: nowrap;
-		background-color: yellow;
+	.base-button {
+		@apply text-white bg-black py-1 px-2.5 border border-black transition-colors duration-300;
 	}
-	.base-slider img {
-		display: inline;
-	} */
+
+	.base-button:hover {
+		@apply bg-white text-black;
+	}
 
 	/*----- BlackSquare -----*/
 
