@@ -6,7 +6,7 @@ module.exports = {
     purge: {
 		content: ['./storage/framework/views/*.php', './resources/views/**/*.blade.php'],
 		options: {
-			safelist: ['black-square'],
+			safelist: ['black-square', 'dark'],
 		},
 	},
 
