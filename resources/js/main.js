@@ -66,13 +66,13 @@ load(() => {
 		});
 	});
 
-	document.getElementById('fun').addEventListener('click', (e) => {
-		e.preventDefault();
-		if(document.documentElement.classList.contains('dark')) {
-			document.documentElement.classList.remove('dark');
-		} else {
-			document.documentElement.classList.add('dark');
-		}
-	});
+	// document.getElementById('fun').addEventListener('click', (e) => {
+	// 	e.preventDefault();
+	// 	if(document.documentElement.classList.contains('dark')) {
+	// 		document.documentElement.classList.remove('dark');
+	// 	} else {
+	// 		document.documentElement.classList.add('dark');
+	// 	}
+	// });
 	
 });

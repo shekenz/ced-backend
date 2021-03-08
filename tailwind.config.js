@@ -2,11 +2,11 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-	darkMode: 'class',
+	darkMode: 'media',
     purge: {
 		content: ['./storage/framework/views/*.php', './resources/views/**/*.blade.php'],
 		options: {
-			safelist: ['black-square', 'dark'],
+			safelist: ['black-square'],
 		},
 	},
 
