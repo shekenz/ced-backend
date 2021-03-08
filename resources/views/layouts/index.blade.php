@@ -20,7 +20,7 @@
         @endif
 		
     </head>
-    <body class="text-custom-md lg:text-custom text-gray-800 dark:bg-dark-800 dark:text-dark-200">
+    <body class="text-custom-md lg:text-custom text-gray-800 dark:bg-black dark:text-dark-200">
 		<div id="menu-wrapper" class="fixed w-full top-0">
 			@auth
 			<div class="fixed right-0 bg-green-300 text-green-900 px-1 shadow border border-green-500 text-sm">
@@ -37,7 +37,7 @@
 			{{ $slot }}
 		</div>
 		<div id="footer" class="fixed bottom-4 right-4  md:bottom-8 md:right-12 xl:bottom-12 xl:right-20">
-			<a href="{{ route('about') }}"><img  class="w-10 md:w-14 xl:w-auto" srcset="{{ asset('img/logo.png') }} 1x, {{ asset('img/logo@2x.png') }} 2x" src="{{ asset('img/logo.png') }}" alt="epg logo"></a>
+			<a id="fun" href="{{ route('about') }}"><img  class="w-10 md:w-14 xl:w-auto" srcset="{{ asset('img/logo.png') }} 1x, {{ asset('img/logo@2x.png') }} 2x" src="{{ asset('img/logo.png') }}" alt="epg logo"></a>
 		</div>
     </body>
 </html>
