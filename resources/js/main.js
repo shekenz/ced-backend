@@ -6,7 +6,6 @@ function arrayByClass(className) {
 import Glide from '@glidejs/glide';
 
 load(() => {
-	console.log('Loaded !');
 
 	let blackSquare;
 	let widthOffset = 20;
@@ -66,13 +65,17 @@ load(() => {
 		});
 	});
 
-	// document.getElementById('fun').addEventListener('click', (e) => {
-	// 	e.preventDefault();
-	// 	if(document.documentElement.classList.contains('dark')) {
-	// 		document.documentElement.classList.remove('dark');
-	// 	} else {
-	// 		document.documentElement.classList.add('dark');
-	// 	}
-	// });
+	document.getElementById('fun').addEventListener('click', (e) => {
+		e.preventDefault();
+		if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+			document.documentElement.classList.add('dark');
+			localStorage.theme = 'dark';
+			console.log(localStorage.theme);
+		} else {
+			document.documentElement.classList.remove('dark');
+			localStorage.theme = 'light';
+			console.log(localStorage.theme);
+		}
+	});
 	
 });
