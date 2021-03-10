@@ -67,14 +67,12 @@ load(() => {
 
 	document.getElementById('fun').addEventListener('click', (e) => {
 		e.preventDefault();
-		if (localStorage.theme === 'light' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+		if (!document.documentElement.classList.contains('dark')) {
 			document.documentElement.classList.add('dark');
 			localStorage.theme = 'dark';
-			console.log(localStorage.theme);
 		} else {
 			document.documentElement.classList.remove('dark');
 			localStorage.theme = 'light';
-			console.log(localStorage.theme);
 		}
 	});
 	
