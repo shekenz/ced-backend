@@ -15,4 +15,9 @@ class BooksController extends Controller
 		$books = Book::orderBy('created_at', 'DESC')->get();
         return view('books/front', compact('books'));
 	}
+
+	public function index() {
+		$books = Book::orderBy('created_at', 'DESC')->get();
+        return view('books/index', compact('books'));
+	}
 }

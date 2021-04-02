@@ -52,6 +52,9 @@ Route::get('/dashboard/post/{id}', [PostsController::class, 'display'])->name('p
 Route::get('/dashboard/post/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
 Route::patch('/dashboard/post/{post}', [PostsController::class, 'update'])->name('posts.update');
 
+// Boks (Auth in controller)
+Route::get('/dashboard/books', [BooksController::class, 'index'])->name('books');
+
 // Media
 Route::get('/dashboard/media', [MediaController::class, 'index'])->name('media');
 Route::post('/dashboard/media', [MediaController::class, 'store'])->name('media.store');
