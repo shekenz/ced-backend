@@ -26,7 +26,7 @@
 					
 
 		</div>
-		<div id="counter-{{ $i }}" class="hidden xl:block xl:mt-8 xl:mb-12"><span class="counter-index">1</span>/<span class="counter-total">3</span>.</div>
+		<div id="counter-{{ $book->id }}" class="hidden xl:block xl:mt-8 xl:mb-12"><span class="counter-index">1</span>/<span class="counter-total">3</span>.</div>
 	</div>
 	<div id="info" class="
 		grid
@@ -40,13 +40,13 @@
 		xl:col-span-2
 	">
 		<div class="mb-6">
-				{{ $title }}<br>{{ $artist }}<br><br>
-				{{ $size }}<br>{{ $coverType }}<br>{{ $pages }} pages<br>{{ $edition }}<br><br>
-				{{ $price }} €<br><a href="#" class="underline hover:bg-black hover:text-white">Add to cart</a>
+				{{ $book->title }}<br>{{ $book->author }}<br><br>
+				{{ $book->height }}mm x {{ $book->width }}mm<br>{{ $book->cover }}<br>{{ $book->pages }} pages<br>{{ $book->edition }}<br><br>
+				{{ $book->price }} €<br><a href="#" class="underline hover:bg-black hover:text-white">Add to cart</a>
 		</div>
 		<div class="col-span-2">
 		<p class="mb-6 mr-6">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh.
+			{{ $book->description }}
 		</p>
 		</div>
 	</div>

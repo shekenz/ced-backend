@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BooksController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MediaController;
@@ -20,17 +21,7 @@ use App\Http\Controllers\FrontController;
 // Main index route
 //Route::get('/', [FrontController::class, 'index'])->name('index');
 
-Route::get('/', function() {
-	return view('index', [
-		'title' => 'Title',
-		'artist' => 'Artist',
-		'size' => '297mm x 210mm',
-		'coverType' => 'Soft cover',
-		'pages' => '124',
-		'edition' => 'Edition',
-		'price' => '30',
-	]);
-})->name('index');
+Route::get('/', [BooksController::class, 'front'])->name('index');
 Route::view('/cart', 'index/cart', [
 	'subTotal' => '240',
 	'artist' => 'Name',
