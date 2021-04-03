@@ -33,7 +33,7 @@
 	}
 
 	.button-shared {
-		@apply p-2 bg-gray-800 border border-gray-800 rounded-md font-semibold text-xs text-white uppercase tracking-widest transition ease-in-out duration-300
+		@apply p-2 bg-gray-800 border border-gray-800 rounded-md font-semibold text-xs text-white uppercase tracking-widest transition ease-in-out duration-300;
 	}
 
 	.button-shared:hover {
@@ -50,6 +50,14 @@
 
 	.button-shared:disabled {
 		@apply opacity-25;
+	}
+
+	.button-warning {
+		@apply bg-red-500 border-red-500;
+	}
+
+	.button-warning:hover {
+		@apply text-red-500;
 	}
 
 	table th {

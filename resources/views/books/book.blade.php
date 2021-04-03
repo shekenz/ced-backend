@@ -60,6 +60,7 @@
 				@endif
 				@auth
 					<a href="{{ route('books.edit', $book->id) }}" class="base-con-edit">{{ __('Edit in Dashboard') }}</a><br><br>
+					<a href="{{ route('books.archive', $book->id) }}" class="base-con-edit">{{ __('Archive') }}</a><br><br>
 				@endauth
 		</div>
 		<div class="col-span-2">
