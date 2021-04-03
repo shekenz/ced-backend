@@ -60,12 +60,24 @@
 		@apply text-white hover:text-white hover:no-underline dark:text-black dark:hover:text-black;
 	}
 
+	.base-connected {
+		@apply bg-green-300 text-green-900 border border-green-500 px-2 py-1 text-sm shadow;
+	}
+
 	.base-con-link {
 		@apply underline text-green-700 transition-colors duration-300;
 	}
 
 	.base-con-link:hover {
 		@apply text-green-900;
+	}
+
+	.base-con-edit {
+		@apply base-connected base-con-link;
+	}
+
+	.base-con-edit:hover {
+		@apply bg-green-200 border-green-900;
 	}
 
 	.base-button {

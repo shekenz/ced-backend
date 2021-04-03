@@ -22,7 +22,7 @@
         </div>
         @endif
 
-        <form action="{{ route('books.create') }}" method="post" class="flex flex-col gap-y-2 md:grid md:grid-cols-4 lg:m-2 md:gap-x-4">
+        <form action="{{ route('books.store') }}" method="post" class="flex flex-col gap-y-2 md:grid md:grid-cols-4 lg:m-2 md:gap-x-4">
             @csrf
 			<div>
             	<label class="label-shared-first lg:text-lg" for="title">{{ __('Title') }} :</label>

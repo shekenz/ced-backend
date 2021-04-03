@@ -3,6 +3,6 @@
 	<x-slot name="title">Index</x-slot>
 
 	@foreach ($books as $book)
-		@include('index.article')
+		@include('books.book')
 	@endforeach
 </x-index-layout>

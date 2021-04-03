@@ -39,15 +39,32 @@
 		xl:col-start-8
 		xl:col-span-2
 	">
-		<div class="mb-6">
-				{{ $book->title }}<br>{{ $book->author }}<br><br>
-				{{ $book->height }}mm x {{ $book->width }}mm<br>{{ $book->cover }}<br>{{ $book->pages }} pages<br>{{ $book->edition }}<br><br>
-				{{ $book->price }} €<br><a href="#" class="underline hover:bg-black hover:text-white">Add to cart</a>
+		<div class="">
+				{{ $book->title }}<br>
+				{{ $book->author }}<br><br>
+				@if ( !(empty($book->height) || empty($book->width)) )
+				{{ $book->height }}mm x {{ $book->width }}mm<br>
+				@endif
+				@if ( !empty($book->cover) )
+				{{ $book->cover }}<br>
+				@endif
+				@if ( !empty($book->pages) )
+					{{ $book->pages }} pages<br>
+				@endif
+				@if ( !empty($book->price) )
+					{{ $book->edition }}<br><br>
+				@endif
+				@if ( !empty($book->price) )
+					{{ $book->price }} €<br><a href="#" class="underline hover:bg-black hover:text-white">Add to cart</a><br><br>
+				@endif
+				@auth
+					<a href="{{ route('books') }}" class="base-con-edit">{{ __('Edit in Dashboard') }}</a><br><br>
+				@endauth
 		</div>
 		<div class="col-span-2">
-		<p class="mb-6 mr-6">
-			{{ $book->description }}
-		</p>
+			<p class="mb-6 mr-6">
+				{{ $book->description }}
+			</p>
 		</div>
 	</div>
 </article>

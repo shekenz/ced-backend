@@ -54,4 +54,8 @@ class User extends Authenticatable
     public function media() {
         return $this->hasMany(Medium::class)->orderBy('created_at', 'DESC');
     }
+
+	public function books() {
+        return $this->hasMany(Book::class)->orderBy('created_at', 'DESC');
+    }
 }

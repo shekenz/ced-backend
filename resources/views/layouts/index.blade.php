@@ -32,12 +32,16 @@
     <body class="text-custom-md lg:text-custom text-gray-800 dark:bg-black dark:text-dark-200">
 		<div id="menu-wrapper" class="fixed w-full top-0">
 			@auth
-			<div class="fixed right-0 bg-green-300 text-green-900 px-1 shadow border border-green-500 text-sm">
-				Connecté (<a class="flex-none base-con-link" href="{{ route('users.display', Auth::user()->id)}}">{{ Auth::user()->username }}</a>)
+			<div class="fixed w-full base-connected">
+				<a class="flex-none base-con-link" href="{{ route('users.display', Auth::user()->id)}}">{{ Auth::user()->username }}</a>
 				&middot;
-				<a class="base-con-link" href="{{ url('/dashboard') }}">Dashboard</a>
-					&middot;
-					<a class="base-con-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">Logout</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
+				<a class="base-con-link" href="{{ url('/dashboard') }}">{{ __('Dashboard') }}</a>
+				&middot;
+				<a class="base-con-link" href="{{ url('/dashboard') }}">{{ __('Messages') }}</a>
+				&middot;
+				<a class="base-con-link" href="{{ url('/dashboard') }}">{{ __('Orders') }}</a>
+				&middot;
+				<a class="base-con-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">{{ __('Logout') }}</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
 			</div>
 			@endauth
 			@include('index.menu')
