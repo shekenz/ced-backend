@@ -40,7 +40,7 @@ Route::get('/dashboard', function () {
 // Users (Auth in controller)
 Route::get('/dashboard/users', [UsersController::class, 'index'])->name('users');
 Route::get('/dashboard/user/{user}', [UsersController::class, 'display'])->name('users.display');
-Route::get('/dashboard/user/{user}/edit', [UsersController::class, 'edit'])->name('users.edit');
+Route::get('/dashboard/user/edit/{user}', [UsersController::class, 'edit'])->name('users.edit');
 Route::patch('/dashboard/user/{user}', [UsersController::class, 'update'])->name('users.update');
 Route::post('/dashboard/user/delete/{user}', [UsersController::class, 'delete'])->name('users.delete');
 
@@ -56,6 +56,10 @@ Route::patch('/dashboard/post/{post}', [PostsController::class, 'update'])->name
 Route::get('/dashboard/books', [BooksController::class, 'index'])->name('books');
 Route::get('/dashboard/book/create', [BooksController::class, function() { return view('books.create'); }])->middleware('auth')->name('books.create');
 Route::post('/dashboard/books', [BooksController::class, 'store'])->name('books.store');
+Route::get('/dashboard/book/edit/{book}', [BooksController::class, 'edit'])->name('books.edit');
+Route::patch('/dashboard/book/{book}', [BooksController::class, 'update'])->name('books.update');
+Route::get('/dashboard/book/{id}', [BooksController::class, 'display'])->name('books.display');
+Route::get('/dashboard/book/delete/{book}', [BooksController::class, 'delete'])->name('books.delete');
 
 // Media
 Route::get('/dashboard/media', [MediaController::class, 'index'])->name('media');

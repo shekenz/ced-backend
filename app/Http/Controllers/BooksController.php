@@ -7,6 +7,19 @@ use App\Models\Book;
 
 class BooksController extends Controller
 {
+
+	protected $validation = [
+		'title' => ['required', 'string', 'max:128'],
+		'author' => ['required', 'string', 'max:64'],
+		'width' => ['nullable', 'integer'],
+		'height' => ['nullable', 'integer'],
+		'pages' => ['nullable', 'integer'],
+		'cover' => ['nullable', 'string', 'max:32'],
+		'edition' => ['nullable', 'max:64'],
+		'price' => ['nullable', 'numeric'],
+		'description' => ['required', 'string'],
+	];
+
 	public function __contruct() {
         $this->middleware('auth');
     }
@@ -22,22 +35,28 @@ class BooksController extends Controller
 	}
 
 	public function store(Request $request) {
+		$data = $request->validate($this->validation);
+		$id = auth()->user()->books()->create($data)->id;
+		return redirect(route('books.display', $id));
+	}
 
-		$data = $request->validate([
-			'title' => ['required', 'string', 'max:128'],
-			'author' => ['required', 'string', 'max:64'],
-			'width' => ['nullable', 'integer'],
-			'height' => ['nullable', 'integer'],
-			'pages' => ['nullable', 'integer'],
-			'cover' => ['nullable', 'string', 'max:32'],
-			'edition' => ['nullable', 'max:64'],
-			'price' => ['nullable', 'numeric'],
-			'description' => ['required', 'string'],
-		]);
+	public function edit(Book $book) {
+		return view('books/edit', compact('book'));
+	}
 
-		auth()->user()->books()->create($data);
+	public function update(Book $book, Request $request) {
+		$data = $request->validate($this->validation);
+		$book->update($data);
+		return redirect(route('books.display', $book->id));
+	}
 
-		return redirect('/dashboard/books');
+	public function display($id) {
+		$book = Book::findOrFail($id);
+		return view('books.display', compact('book'));
+	}
 
+	public function delete(Book $book) {
+		$book->delete();
+		return redirect(route('books'));
 	}
 }
