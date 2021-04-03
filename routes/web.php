@@ -59,7 +59,11 @@ Route::post('/dashboard/books', [BooksController::class, 'store'])->name('books.
 Route::get('/dashboard/book/edit/{book}', [BooksController::class, 'edit'])->name('books.edit');
 Route::patch('/dashboard/book/{book}', [BooksController::class, 'update'])->name('books.update');
 Route::get('/dashboard/book/{id}', [BooksController::class, 'display'])->name('books.display');
-Route::get('/dashboard/book/delete/{book}', [BooksController::class, 'delete'])->name('books.delete');
+Route::get('/dashboard/book/archive/{book}', [BooksController::class, 'archive'])->name('books.archive');
+Route::post('/dashboard/book/delete/{id}', [BooksController::class, 'delete'])->name('books.delete');
+Route::post('/dashboard/books/archived/delete/', [BooksController::class, 'deleteAll'])->name('books.deleteAll');
+Route::get('/dashboard/book/restore/{id}', [BooksController::class, 'restore'])->name('books.restore');
+Route::get('/dashboard/books/archived', [BooksController::class, 'archived'])->name('books.archived');
 
 // Media
 Route::get('/dashboard/media', [MediaController::class, 'index'])->name('media');

@@ -31,7 +31,8 @@ class BooksController extends Controller
 
 	public function index() {
 		$books = Book::orderBy('created_at', 'DESC')->get();
-        return view('books/index', compact('books'));
+		$archived = Book::onlyTrashed()->count();
+        return view('books/index', compact('books', 'archived'));
 	}
 
 	public function store(Request $request) {
@@ -55,8 +56,31 @@ class BooksController extends Controller
 		return view('books.display', compact('book'));
 	}
 
-	public function delete(Book $book) {
+	public function archive(Book $book) {
 		$book->delete();
 		return redirect(route('books'));
+	}
+
+	public function delete($id) {
+		// Can't bind a deleted model, will throw a 404
+		Book::onlyTrashed()->findOrFail($id)->forceDelete();
+		return redirect(route('books'));
+	}
+
+	public function deleteAll() {
+		Book::onlyTrashed()->forceDelete();
+		return redirect(route('books'));
+	}
+
+	public function restore($id) {
+		// Can't bind a deleted model, will throw a 404
+		Book::onlyTrashed()->findOrFail($id)->restore();
+		return  redirect(route('books'));
+	}
+
+	public function archived() {
+		$books = Book::onlyTrashed()->get();
+		$archived = Book::onlyTrashed()->count();
+		return view('books/archived', compact('books', 'archived'));
 	}
 }
