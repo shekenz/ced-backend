@@ -54,6 +54,7 @@ Route::patch('/dashboard/post/{post}', [PostsController::class, 'update'])->name
 
 // Boks (Auth in controller)
 Route::get('/dashboard/books', [BooksController::class, 'index'])->name('books');
+Route::get('/dashboard/book/create', [BooksController::class, function() { return view('books.create'); }])->middleware('auth')->name('books.create');
 
 // Media
 Route::get('/dashboard/media', [MediaController::class, 'index'])->name('media');

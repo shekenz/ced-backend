@@ -28,8 +28,12 @@
 		@apply border-indigo-300 ring ring-indigo-200 ring-opacity-50;
 	}
 
+	.input-mimic {
+		@apply input-shared rounded-md border border-gray-300 p-3;
+	}
+
 	.button-shared {
-		@apply mt-4 p-2 bg-gray-800 border border-gray-800 rounded-md font-semibold text-xs text-white uppercase tracking-widest transition ease-in-out duration-300
+		@apply p-2 bg-gray-800 border border-gray-800 rounded-md font-semibold text-xs text-white uppercase tracking-widest transition ease-in-out duration-300
 	}
 
 	.button-shared:hover {
