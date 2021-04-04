@@ -22,52 +22,61 @@
         </div>
         @endif
 
-        <form action="{{ route('books.store') }}" method="post" class="flex flex-col gap-y-2 md:grid md:grid-cols-4 lg:m-2 md:gap-x-4">
+        <form action="{{ route('books.store') }}" method="post" enctype="multipart/form-data" class="flex flex-col gap-y-2 md:grid md:grid-cols-4 lg:m-2 md:gap-x-4">
             @csrf
 			<div>
-            	<label class="label-shared-first lg:text-lg" for="title">{{ __('Title') }} :</label>
-            	<input class="input-shared" id="title" name="title" type="text" value="{{ old('title') }}">
+				<label class="label-shared-first lg:text-lg" for="title">{{ __('Title') }} :</label>
+				<input class="input-shared" id="title" name="title" type="text" value="{{ old('title') }}">
 			</div>
 			<div class="md:row-start-2">
-            	<label class="label-shared-first lg:text-lg" for="author">{{ __('Author') }} :</label>
-            	<input class="input-shared" id="author" name="author" type="text" value="{{ old('author') }}">
+				<label class="label-shared-first lg:text-lg" for="author">{{ __('Author') }} :</label>
+				<input class="input-shared" id="author" name="author" type="text" value="{{ old('author') }}">
 			</div>
 			<div>
-            	<label class="label-shared-first lg:text-lg" for="width">{{ __('Width (mm)') }} :</label>
-            	<input class="input-shared" id="width" name="width" type="text" value="{{ old('width') }}">
+				<label class="label-shared-first lg:text-lg" for="width">{{ __('Width (mm)') }} :</label>
+				<input class="input-shared" id="width" name="width" type="text" value="{{ old('width') }}">
 			</div>
 			<div class="md:row-start-2">
-            	<label class="label-shared-first lg:text-lg" for="height">{{ __('Height (mm)') }} :</label>
-            	<input class="input-shared" id="height" name="height" type="text" value="{{ old('height') }}">
+				<label class="label-shared-first lg:text-lg" for="height">{{ __('Height (mm)') }} :</label>
+				<input class="input-shared" id="height" name="height" type="text" value="{{ old('height') }}">
 			</div>
 			<div>
-            	<label class="label-shared-first lg:text-lg" for="cover">{{ __('Cover') }} :</label>
-            	<input class="input-shared" id="cover" name="cover" type="text" value="{{ old('cover') }}">
+				<label class="label-shared-first lg:text-lg" for="cover">{{ __('Cover') }} :</label>
+				<input class="input-shared" id="cover" name="cover" type="text" value="{{ old('cover') }}">
 			</div>
 			<div class="md:row-start-2">
-            	<label class="label-shared-first lg:text-lg" for="pages">{{ __('Pages') }} :</label>
-            	<input class="input-shared" id="pages" name="pages" type="text" value="{{ old('pages') }}">
+				<label class="label-shared-first lg:text-lg" for="pages">{{ __('Pages') }} :</label>
+				<input class="input-shared" id="pages" name="pages" type="text" value="{{ old('pages') }}">
 			</div>
 			<div>
-            	<label class="label-shared-first lg:text-lg" for="edition">{{ __('Edition') }} :</label>
-            	<input class="input-shared" id="edition" name="edition" type="text" value="{{ old('edition') }}">
+				<label class="label-shared-first lg:text-lg" for="edition">{{ __('Edition') }} :</label>
+				<input class="input-shared" id="edition" name="edition" type="text" value="{{ old('edition') }}">
 			</div>
 			<div class="md:row-start-2">
-            	<label class="label-shared-first lg:text-lg" for="price">{{ __('Price') }} :</label>
-            	<input class="input-shared" id="price" name="price" type="text" value="{{ old('price') }}">
+				<label class="label-shared-first lg:text-lg" for="price">{{ __('Price') }} :</label>
+				<input class="input-shared" id="price" name="price" type="text" value="{{ old('price') }}">
 			</div>
 			<div class="col-span-4">
-            	<label class="label-shared lg:text-lg" for="description">{{ __('Description') }} :</label>
-            	<textarea id="description" class="input-shared h-96" name="description">{{ old('description') }}</textarea>
+				<label class="label-shared lg:text-lg" for="description">{{ __('Description') }} :</label>
+				<textarea id="description" class="input-shared h-96" name="description">{{ old('description') }}</textarea>
 			</div>
 			<input type="hidden" name="lang" value="fr">
+			
+
 			<div class="col-span-4">
-				<label class="label-shared lg:text-lg">{{ __('Images') }} :</label>
+				<label class="label-shared lg:text-lg">{{ __('Upload new media') }} :</label>
+				<div class="input-mimic">
+				{{-- <div class="input-mimic grid grid-cols-3 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-12 gap-4"> --}}
+					<input type="file" name="files[]" accept=".jpg,.jpeg,.png,.gif" multiple>
+				</div>
+			</div>
+
+			<div class="col-span-4">
+				<label class="label-shared lg:text-lg">{{ __('Attach media from the library') }} :</label>
 				<div class="input-mimic grid grid-cols-3 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-12 gap-4">
-					<? $imax = rand(1, 12); ?>
-					@for ($i = 0; $i < $imax; $i++)
+					@foreach($media as $medium)
 						@include('books.form-image')
-					@endfor
+					@endforeach
 				</div>
 			</div>
 			<div class="col-span-4 mt-2 lg:text-right">

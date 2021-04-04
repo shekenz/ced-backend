@@ -1,3 +1,7 @@
+.glide__track {
+	background-image: url('/img/transparent.png');
+}
+
 .glide__arrow {
 	@apply 
 		text-white
@@ -31,11 +35,11 @@
 }
 
 .glide__arrow2--left {
-	cursor: url(/img/cursors/left.png) 0 24, url(/img/cursors/left.cur), w-resize;
+	cursor: url('/img/cursors/left.png') 0 24, url('/img/cursors/left.cur'), w-resize;
 }
 
 .glide__arrow2--right {
-	cursor: url(/img/cursors/right.png) 14 24, url(/img/cursors/right.cur), e-resize;
+	cursor: url('/img/cursors/right.png') 14 24, url('/img/cursors/right.cur'), e-resize;
 	right: 0;
 }
 

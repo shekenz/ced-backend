@@ -19,6 +19,8 @@ class BooksController extends Controller
 		'edition' => ['nullable', 'max:64'],
 		'price' => ['nullable', 'numeric'],
 		'description' => ['required', 'string'],
+		'files.*' => ['nullable', 'file', 'mimes:jpg,gif,png', 'max:512'],
+		'media' => ['nullable', 'array'],
 	];
 
 	public function __contruct() {
@@ -36,10 +38,49 @@ class BooksController extends Controller
         return view('books/index', compact('books', 'archived'));
 	}
 
+	public function create() {
+		$media = Medium::all();
+		return view('books.create', compact('media'));
+	}
+
 	public function store(Request $request) {
+
 		$data = $request->validate($this->validation);
-		$id = auth()->user()->books()->create($data)->id;
-		return redirect(route('books.display', $id));
+
+		// Array containing all media ids to attach to the new book
+		$mediaIDs = array();
+
+		// Extracting files from $data if it exists
+		if(array_key_exists('files', $data)) {
+			$files = $data['files'];
+			unset($data['files']);
+			// Uploaded files treatment
+			foreach($files as $i => $file) {
+				// New filename
+				$filename = $file->hashName();
+				// Saving file
+				$file->storeAs('uploads', $filename, 'public');
+				// Database entry
+				$medium = auth()->user()->media()->create([
+					'filename' => $filename,
+					'name' => $file->getClientOriginalName(),
+				]);
+				// Pushing new files ids for attachment
+				array_push($mediaIDs, $medium->getAttribute('id'));
+			}
+		}
+
+		if(array_key_exists('media', $data)) {
+			$mediaIDs = array_merge($mediaIDs, $data['media']);
+			unset($data['media']);
+		}
+
+		$book = auth()->user()->books()->create($data);
+		if(!empty($mediaIDs)) {
+			$book->media()->attach($mediaIDs);
+		}
+
+		return redirect(route('books.display', $book));
 	}
 
 	public function edit(Book $book) {

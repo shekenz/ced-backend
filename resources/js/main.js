@@ -56,6 +56,7 @@ load(() => {
 			animationDuration: 700,
 			rewind: true,
 			swipeThreshold: 50,
+			gap: 0,
 		}).mount();
 	});
 

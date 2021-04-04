@@ -12,6 +12,18 @@
 		@apply text-gray-700;
 	}
 
+	h4 {
+		@apply font-bold py-2;
+	}
+
+	.icon svg {
+		@apply w-6 inline transition-colors duration-300 hover:text-indigo-500;
+	}
+
+	.warning svg {
+		@apply text-red-500 hover:text-red-300;
+	}
+
 	.label-shared {
 		@apply mt-2 font-medium text-sm text-gray-500;
 	}
@@ -58,6 +70,14 @@
 
 	.button-warning:hover {
 		@apply text-red-500;
+	}
+
+	.app-table {
+		@apply border-collapse table-auto box-border border border-gray-200;
+	}
+
+	.app-table-small td {
+		@apply p-0 px-1;
 	}
 
 	table th {

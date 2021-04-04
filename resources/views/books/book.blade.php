@@ -10,7 +10,7 @@
 			<div data-glide-el="track" class="glide__track">
 				<ul class="glide__slides">
 					@foreach ($book->media as $medium)
-						<li class="glide__slide"><img src="{{ asset('storage/uploads/'.$medium->filename) }}"></li>
+						<li class="glide__slide text-center"><img class="m-auto" src="{{ asset('storage/uploads/'.$medium->filename) }}"></li>
 					@endforeach
 				</ul>
 			</div>

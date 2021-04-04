@@ -67,7 +67,7 @@
 				<div class="input-mimic grid grid-cols-3 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-12 gap-4">
 					<? $imax = rand(1, 12); ?>
 					@for ($i = 0; $i < $imax; $i++)
-						@include('books.form-image')
+						@include('books.form-image-empty')
 					@endfor
 				</div>
 			</div>

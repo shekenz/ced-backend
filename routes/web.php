@@ -54,7 +54,7 @@ Route::patch('/dashboard/post/{post}', [PostsController::class, 'update'])->name
 
 // Boks (Auth in controller)
 Route::get('/dashboard/books', [BooksController::class, 'index'])->name('books');
-Route::get('/dashboard/book/create', [BooksController::class, function() { return view('books.create'); }])->middleware('auth')->name('books.create');
+Route::get('/dashboard/book/create', [BooksController::class, 'create'])->middleware('auth')->name('books.create');
 Route::post('/dashboard/books', [BooksController::class, 'store'])->name('books.store');
 Route::get('/dashboard/book/edit/{book}', [BooksController::class, 'edit'])->name('books.edit');
 Route::patch('/dashboard/book/{book}', [BooksController::class, 'update'])->name('books.update');

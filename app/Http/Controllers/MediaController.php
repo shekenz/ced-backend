@@ -28,7 +28,7 @@ class MediaController extends Controller
         
         // if name is empty, use original filename;
         if(!$data['name']) {
-            $data['name'] = $data['file']->getClientOriginalName();;
+            $data['name'] = $data['file']->getClientOriginalName();
         }
 
         $data['filename'] = request('file')->hashName();
