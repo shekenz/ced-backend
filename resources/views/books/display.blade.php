@@ -8,6 +8,7 @@
     </x-slot>
 
 	<p class="mb-4">
+	{{ __('ID') }} : {{ $book->id }}<br>
 	{{ __('Title') }} : {{ $book->title }}<br>
 	{{ __('Author') }} : {{ $book->author }}<br>
 	{{ __('Width') }} :
@@ -58,11 +59,15 @@
 		{{ __('Last updated') }} : {{ $book->updated_at }}<br>
 	</p>
 	<p class="mb-4">{{ $book->description }}</p>
-	<h4>Attached media :</h4>
-	<p class="grid grid-cols-8 gap-4">
-		@foreach ($book->media as $medium)
-			<a href="{{ route('media.display', $medium->id )}}"><img src="{{ asset('storage/uploads/'.$medium->filename) }}"></a>
-		@endforeach
-	</p>
+	@if( $book->media->isEmpty() )
+		<h4 class="text-red-500">{{ __('No media linked ! Book will not be displayed on front page.') }}</h4>
+	@else
+		<h4>Attached media :</h4>
+		<p class="grid grid-cols-8 gap-4">
+			@foreach ($book->media as $medium)
+				<a href="{{ route('media.display', $medium->id )}}"><img src="{{ asset('storage/uploads/'.$medium->filename) }}"></a>
+			@endforeach
+		</p>
+	@endif
 	    
 </x-app-layout>

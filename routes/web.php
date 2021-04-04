@@ -79,6 +79,7 @@ Route::get('/dashboard/attach', function() {
 Route::get('/dashboard/media', [MediaController::class, 'index'])->name('media');
 Route::post('/dashboard/media', [MediaController::class, 'store'])->name('media.store');
 Route::get('/dashboard/media/create', [MediaController::class, 'create'])->name('media.create');
-Route::get('/media/{medium}', [MediaController::class, 'display'])->name('media.display');
+Route::get('/dashboard/media/{medium}', [MediaController::class, 'display'])->name('media.display');
+Route::get('/dashboard/media/{medium}/break/{book}', [MediaController::class, 'breakLink'])->name('media.break');
 
 require __DIR__.'/auth.php';

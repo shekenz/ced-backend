@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Medium;
+use App\Models\Book;
 
 class MediaController extends Controller
 {
@@ -42,4 +43,9 @@ class MediaController extends Controller
     public function display(Medium $medium) {
         return view('media/display', compact('medium'));
     }
+
+	public function breakLink(Medium $medium, Book $book) {
+		$medium->books()->detach($book);
+		return redirect(route('books.display', $book));
+	}
 }
