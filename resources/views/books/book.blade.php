@@ -9,9 +9,9 @@
 		<div class="glide">
 			<div data-glide-el="track" class="glide__track">
 				<ul class="glide__slides">
-					<li class="glide__slide"><img src="{{ asset('img/testimage_full.jpg') }}" alt="test image"></li>
-					<li class="glide__slide"><img src="{{ asset('img/testimage_full_2.jpg') }}" alt="test image"></li>
-					<li class="glide__slide"><img src="{{ asset('img/testimage_full_3.jpg') }}" alt="test image"></li>
+					@foreach ($book->media as $medium)
+						<li class="glide__slide"><img src="{{ asset('storage/uploads/'.$medium->filename) }}"></li>
+					@endforeach
 				</ul>
 			</div>
 			<div class="glide__arrows hidden xl:block" data-glide-el="controls">

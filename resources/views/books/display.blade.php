@@ -58,8 +58,13 @@
 			{{ __('Created at') }} : {{ $book->created_at }}<br>
 			{{ __('Last updated') }} : {{ $book->updated_at }}<br>
 		</p>
-		<p>{{ $book->description }}</p>
-		
+		<p class="mb-4">{{ $book->description }}</p>
+		<p>Attached media :</p>
+		<p class="grid grid-cols-8 gap-4">
+			@foreach ($book->media as $medium)
+				<a href="{{ route('media.display', $medium->id )}}"><img src="{{ asset('storage/uploads/'.$medium->filename) }}"></a>
+			@endforeach
+		</p>
     </div>
     
 </x-app-layout>

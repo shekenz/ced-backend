@@ -36,7 +36,7 @@ class MediaController extends Controller
         
         auth()->user()->media()->create($data);
 
-        return redirect('/media');
+        return redirect(route('media'));
     }
 
     public function display(Medium $medium) {

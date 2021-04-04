@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Medium;
 
 class BooksController extends Controller
 {
@@ -25,7 +26,7 @@ class BooksController extends Controller
     }
 
     public function front() {
-		$books = Book::orderBy('created_at', 'DESC')->get();
+		$books = Book::with('media')->orderBy('created_at', 'DESC')->get();
         return view('books/front', compact('books'));
 	}
 
@@ -52,7 +53,7 @@ class BooksController extends Controller
 	}
 
 	public function display($id) {
-		$book = Book::findOrFail($id);
+		$book = Book::with('media')->findOrFail($id);
 		return view('books.display', compact('book'));
 	}
 

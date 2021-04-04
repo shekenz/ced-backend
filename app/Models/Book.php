@@ -27,6 +27,7 @@ class Book extends Model
         return $this->belongsTo(User::class);
     }
 
+	// Books relation with media
 	public function media() {
 		return $this->belongsToMany(Medium::class, 'book_medium', 'book_id', 'medium_id');
 	}

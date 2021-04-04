@@ -61,9 +61,19 @@ Route::patch('/dashboard/book/{book}', [BooksController::class, 'update'])->name
 Route::get('/dashboard/book/{id}', [BooksController::class, 'display'])->name('books.display');
 Route::get('/dashboard/book/archive/{book}', [BooksController::class, 'archive'])->name('books.archive');
 Route::post('/dashboard/book/delete/{id}', [BooksController::class, 'delete'])->name('books.delete');
-Route::post('/dashboard/books/archived/delete/', [BooksController::class, 'deleteAll'])->name('books.deleteAll');
+Route::post('/dashboard/books/archived/delete', [BooksController::class, 'deleteAll'])->name('books.deleteAll');
 Route::get('/dashboard/book/restore/{id}', [BooksController::class, 'restore'])->name('books.restore');
 Route::get('/dashboard/books/archived', [BooksController::class, 'archived'])->name('books.archived');
+
+Route::get('/dashboard/attach', function() {
+	$book = \App\Models\Book::with('media')->first();
+	$medium = \App\Models\Medium::with('books')->first();
+	//$book->media()->attach('2');
+	//$medium->books()->attach('2');
+	//\App\Models\Book::findOrFail('18')->media()->attach('1');
+	dump($medium);
+	dd(\App\Models\Book::with('media')->findOrFail('18'));
+})->middleware('auth');
 
 // Media
 Route::get('/dashboard/media', [MediaController::class, 'index'])->name('media');
