@@ -71,5 +71,6 @@ Route::post('/dashboard/media', [MediaController::class, 'store'])->name('media.
 Route::get('/dashboard/media/create', [MediaController::class, 'create'])->name('media.create');
 Route::get('/dashboard/media/{medium}', [MediaController::class, 'display'])->name('media.display');
 Route::get('/dashboard/media/{medium}/break/{book}', [MediaController::class, 'breakLink'])->name('media.break');
+Route::post('/dashboard/media/delete/{id}', [MediaController::class, 'delete'])->name('media.delete');
 
 require __DIR__.'/auth.php';

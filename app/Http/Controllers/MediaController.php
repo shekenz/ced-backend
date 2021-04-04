@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Medium;
 use App\Models\Book;
+use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
 {
@@ -48,5 +49,16 @@ class MediaController extends Controller
 	public function breakLink(Medium $medium, Book $book) {
 		$medium->books()->detach($book);
 		return redirect(route('books.display', $book));
+	}
+
+	public function delete($id) {
+		$medium = Medium::with('books')->findOrFail($id);
+		foreach($medium->books as $book) {
+			$medium->books()->detach($book);
+		}
+		Storage::disk('public')->delete('uploads/'.$medium->filename);
+		$medium->delete();
+
+		return redirect(route('media'));
 	}
 }

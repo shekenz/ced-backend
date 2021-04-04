@@ -3,6 +3,13 @@
         {{ $medium->name }} (ID:{{ $medium->id}})
     </x-slot>
 
+	<x-slot name="controls">
+		<form method="POST" action="{{ route('media.delete', $medium->id) }}" class="inline">
+			@csrf
+			<input type="submit" class="button-shared button-warning cursor-pointer" value="Delete" onclick="return confirm('{{ __('Are you sure you want to permanently delete '.$medium->id.' ? This action is not reversible.')}}');">
+		</form>
+	</x-slot>
+
     <img class="m-auto" src="{{ asset('storage/uploads/'.$medium->filename) }}">
 
 	<div>
