@@ -21,6 +21,7 @@ class BooksController extends Controller
 		'description' => ['required', 'string'],
 		'files.*' => ['nullable', 'file', 'mimes:jpg,gif,png', 'max:512'],
 		'media' => ['nullable', 'array'],
+		'detach' => ['nullable', 'array'],
 	];
 
 	public function __contruct() {
@@ -55,7 +56,7 @@ class BooksController extends Controller
 			$files = $data['files'];
 			unset($data['files']);
 			// Uploaded files treatment
-			foreach($files as $i => $file) {
+			foreach($files as $file) {
 				// New filename
 				$filename = $file->hashName();
 				// Saving file
@@ -76,6 +77,7 @@ class BooksController extends Controller
 		}
 
 		$book = auth()->user()->books()->create($data);
+
 		if(!empty($mediaIDs)) {
 			$book->media()->attach($mediaIDs);
 		}
@@ -83,13 +85,53 @@ class BooksController extends Controller
 		return redirect(route('books.display', $book));
 	}
 
-	public function edit(Book $book) {
-		return view('books/edit', compact('book'));
+	public function edit($id) {
+		$media = Medium::all();
+		$book = Book::with('media')->findOrFail($id);
+		return view('books/edit', compact('book', 'media'));
 	}
 
 	public function update(Book $book, Request $request) {
 		$data = $request->validate($this->validation);
+
+		// Array containing all media ids to attach to the new book
+		$mediaIDs = array();
+		
+		if(array_key_exists('files', $data)) {
+			$files = $data['files'];
+			unset($data['files']);
+			// Uploaded files treatment
+			foreach($files as $file) {
+				// New filename
+				$filename = $file->hashName();
+				// Saving file
+				$file->storeAs('uploads', $filename, 'public');
+				// Database entry
+				$medium = auth()->user()->media()->create([
+					'filename' => $filename,
+					'name' => $file->getClientOriginalName(),
+				]);
+				// Pushing new files ids for attachment
+				array_push($mediaIDs, $medium->getAttribute('id'));
+			}
+		}
+
+		if(array_key_exists('media', $data)) {
+			$mediaIDs = array_merge($mediaIDs, $data['media']);
+			unset($data['media']);
+		}
+
+		if(array_key_exists('detach', $data)) {
+			$book->media()->detach($data['detach']);
+			unset($data['detach']);
+		}
+
+		if(!empty($mediaIDs)) {
+			$book->media()->attach($mediaIDs);
+		}
+
 		$book->update($data);
+
 		return redirect(route('books.display', $book->id));
 	}
 

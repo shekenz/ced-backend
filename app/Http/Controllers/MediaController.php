@@ -34,7 +34,8 @@ class MediaController extends Controller
 
         $data['filename'] = request('file')->hashName();
         request('file')->store('uploads', 'public');
-        
+
+// @ts-ignore
         auth()->user()->media()->create($data);
 
         return redirect(route('media'));

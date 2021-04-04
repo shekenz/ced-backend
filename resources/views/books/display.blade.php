@@ -5,6 +5,7 @@
 
     <x-slot name="controls">
         <a href="{{ route('books.archive', $book->id ) }}" class="button-shared">{{ __('Archive') }}</a>
+		<a href="{{ route('books.edit', $book->id ) }}" class="button-shared">{{ __('Edit') }}</a>
     </x-slot>
 
 	<p class="mb-4">

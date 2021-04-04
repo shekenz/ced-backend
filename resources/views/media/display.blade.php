@@ -1,17 +1,16 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ $medium->name }}
+        {{ $medium->name }} (ID:{{ $medium->id}})
     </x-slot>
 
     <img class="m-auto" src="{{ asset('storage/uploads/'.$medium->filename) }}">
 
 	<div>
-		<h4>{{ __('Image info') }} :</h4>
-		{{ __('ID') }} : {{ $medium->id}}
-	</div>
-
-	<div>
-		<h4>{{ __('Linked to') }} :</h4>
+		@if( $medium->books->isEmpty() )
+		<h4>{{ __('No linked books') }}.</h4>
+		@else
+			<h4>{{ __('Linked to') }} :</h4>
+		@endif
 		<table class="w-full app-table app-table-small">
 		@foreach ($medium->books as $book)
 			<tr>

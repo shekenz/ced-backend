@@ -61,24 +61,24 @@
 				<textarea id="description" class="input-shared h-96" name="description">{{ old('description') }}</textarea>
 			</div>
 			<input type="hidden" name="lang" value="fr">
-			
 
 			<div class="col-span-4">
-				<label class="label-shared lg:text-lg">{{ __('Upload new media') }} :</label>
-				<div class="input-mimic">
-				{{-- <div class="input-mimic grid grid-cols-3 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-12 gap-4"> --}}
-					<input type="file" name="files[]" accept=".jpg,.jpeg,.png,.gif" multiple>
-				</div>
-			</div>
-
-			<div class="col-span-4">
-				<label class="label-shared lg:text-lg">{{ __('Attach media from the library') }} :</label>
+				<label class="label-shared lg:text-lg">{{ __('Link media from the library') }} :</label>
 				<div class="input-mimic grid grid-cols-3 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-12 gap-4">
 					@foreach($media as $medium)
 						@include('books.form-image')
 					@endforeach
 				</div>
 			</div>
+
+			<div class="col-span-4">
+				<label class="label-shared lg:text-lg">{{ __('Upload and link new media') }} :</label>
+				<div class="input-mimic">
+				{{-- <div class="input-mimic grid grid-cols-3 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-12 gap-4"> --}}
+					<input type="file" name="files[]" accept=".jpg,.jpeg,.png,.gif" multiple>
+				</div>
+			</div>
+
 			<div class="col-span-4 mt-2 lg:text-right">
             	<input class="button-shared w-full lg:w-auto" type="submit">
 			</div>
