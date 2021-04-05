@@ -66,7 +66,7 @@
 		<h4>Attached media :</h4>
 		<p class="grid grid-cols-8 gap-4">
 			@foreach ($book->media as $medium)
-				<a href="{{ route('media.display', $medium->id )}}"><img src="{{ asset('storage/uploads/'.$medium->filename) }}"></a>
+				<a href="{{ route('media.display', $medium->id )}}"><img src="{{ asset('storage/uploads/'.$medium->thumb) }}" srcset="{{ asset('storage/uploads/'.$medium->thumb) }} 1x, {{ asset('storage/uploads/'.$medium->thumb2x) }} 2x"></a>
 			@endforeach
 		</p>
 	@endif

@@ -151,15 +151,19 @@ class BooksController extends Controller
 	}
 
 	public function delete($id) {
-		// MUST ALSO DETACH LINKED MEDIAS
 		// Can't bind a deleted model, will throw a 404
-		Book::onlyTrashed()->findOrFail($id)->forceDelete();
-		return redirect(route('books'));
+		$book = Book::with('media')->onlyTrashed()->findOrFail($id);
+		$book->media()->detach();
+		$book->forceDelete();
+		return redirect(route('books.archived'));
 	}
 
 	public function deleteAll() {
-		// MUST ALSO DETACH LINKED MEDIAS
-		Book::onlyTrashed()->forceDelete();
+		$books = Book::with('media')->onlyTrashed()->get();
+		foreach($books as $book) {
+			$book->media()->detach();
+		}
+		Book::with('media')->onlyTrashed()->forceDelete();
 		return redirect(route('books'));
 	}
 
