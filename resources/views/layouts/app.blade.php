@@ -45,7 +45,7 @@
                                 @endisset
                             </div>
                             @endif
-							<div class="m-4">
+							<div class="m-1/2 md:m-2 xl:m-4">
                             	{{ $slot ?? ''}}
 							</div>
                         </div>

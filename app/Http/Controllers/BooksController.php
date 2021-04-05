@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Medium;
+use App\Http\Controllers\MediaController;
 
 class BooksController extends Controller
 {
@@ -57,13 +58,15 @@ class BooksController extends Controller
 			unset($data['files']);
 			// Uploaded files treatment
 			foreach($files as $file) {
-				// New filename
-				$filename = $file->hashName();
+				// Create a hash name and extension
+				$basename = explode('.', $file->hashName());
 				// Saving file
-				$file->storeAs('uploads', $filename, 'public');
+				$filepath = $file->storeAs('uploads', $basename[0].'.'.$basename[1], 'public');
+				MediaController::generateOptimized($filepath);
 				// Database entry
 				$medium = auth()->user()->media()->create([
-					'filename' => $filename,
+					'filehash' => $basename[0],
+					'extension' => $basename[1],
 					'name' => $file->getClientOriginalName(),
 				]);
 				// Pushing new files ids for attachment
@@ -82,7 +85,7 @@ class BooksController extends Controller
 			$book->media()->attach($mediaIDs);
 		}
 
-		return redirect(route('books.display', $book));
+		return redirect(route('books'));
 	}
 
 	public function edit($id) {
@@ -103,12 +106,14 @@ class BooksController extends Controller
 			// Uploaded files treatment
 			foreach($files as $file) {
 				// New filename
-				$filename = $file->hashName();
+				$basename = explode('.', $file->hashName());
 				// Saving file
-				$file->storeAs('uploads', $filename, 'public');
+				$filepath = $file->storeAs('uploads', $basename[0].'.'.$basename[1], 'public');
+				MediaController::generateOptimized($filepath);
 				// Database entry
 				$medium = auth()->user()->media()->create([
-					'filename' => $filename,
+					'filehash' => $basename[0],
+					'extension' => $basename[1],
 					'name' => $file->getClientOriginalName(),
 				]);
 				// Pushing new files ids for attachment
@@ -132,7 +137,7 @@ class BooksController extends Controller
 
 		$book->update($data);
 
-		return redirect(route('books.display', $book->id));
+		return redirect(route('books'));
 	}
 
 	public function display($id) {
@@ -161,7 +166,7 @@ class BooksController extends Controller
 	public function restore($id) {
 		// Can't bind a deleted model, will throw a 404
 		Book::onlyTrashed()->findOrFail($id)->restore();
-		return  redirect(route('books'));
+		return  redirect(route('books.archived'));
 	}
 
 	public function archived() {

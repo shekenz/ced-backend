@@ -14,7 +14,8 @@ class Medium extends Model
 
     protected $fillable = [
         'name',
-        'filename',
+		'filehash',
+		'extension',
     ];
 
     public function user() {
@@ -29,4 +30,40 @@ class Medium extends Model
 	public function books() {
 		return $this->belongsToMany(Book::class, 'book_medium', 'medium_id', 'book_id');
 	}
+
+	// Accessor
+	public function getFilenameAttribute()
+    {
+        return $this->attributes['filehash'].'.'.$this->attributes['extension'];
+    }
+
+	public function getThumbAttribute()
+    {
+        return $this->attributes['filehash'].'_thumb.'.$this->attributes['extension'];
+    }
+
+	public function getThumb2xAttribute()
+    {
+        return $this->attributes['filehash'].'_thumb@2x.'.$this->attributes['extension'];
+    }
+
+	public function getHdAttribute()
+    {
+        return $this->attributes['filehash'].'_hd.'.$this->attributes['extension'];
+    }
+
+	public function getLgAttribute()
+    {
+        return $this->attributes['filehash'].'_lg.'.$this->attributes['extension'];
+    }
+
+	public function getMdAttribute()
+    {
+        return $this->attributes['filehash'].'_md.'.$this->attributes['extension'];
+    }
+
+	public function getSmAttribute()
+    {
+        return $this->attributes['filehash'].'_sm.'.$this->attributes['extension'];
+    }
 }

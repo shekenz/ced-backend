@@ -6,9 +6,30 @@ use Illuminate\Http\Request;
 use App\Models\Medium;
 use App\Models\Book;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
 
 class MediaController extends Controller
 {
+	public static function generateOptimized(string $filePath) {
+
+		$fileInfo = pathinfo($filePath);
+		$file = Storage::disk('public')->get($filePath);
+	
+		// Image modification
+		$imgManager = new ImageManager();
+
+		// Thumb
+		if (!Storage::disk('public')->exists('uploads/'.$fileInfo['filename'].'_thumb.'.$fileInfo['extension'])) {
+			$img_thumb = $imgManager->make($file)->fit(100, 100)->encode($fileInfo['extension'], 50);
+			Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_thumb.'.$fileInfo['extension'], (string) $img_thumb);
+		}
+		
+		if (!Storage::disk('public')->exists('uploads/'.$fileInfo['filename'].'_thumb@2x.'.$fileInfo['extension'])) {
+			$img_thumb_2x = $imgManager->make($file)->fit(200, 200)->encode($fileInfo['extension'], 50);
+			Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_thumb@2x.'.$fileInfo['extension'], (string) $img_thumb_2x);
+		}
+	}
+
     public function __contruct() {
         $this->middleware('auth');
     }
@@ -23,20 +44,30 @@ class MediaController extends Controller
     }
 
     public function store() {
+
+		// Fields validation
         $data = request()->validate([
             'name' => ['max:64'],
             'file' => ['required', 'file', 'mimes:jpg,gif,png', 'max:512'],
         ]);
         
-        // if name is empty, use original filename;
+        // If name is empty, use original filename;
         if(!$data['name']) {
             $data['name'] = $data['file']->getClientOriginalName();
         }
 
-        $data['filename'] = request('file')->hashName();
-        request('file')->store('uploads', 'public');
+		// Create a hash name and extension
+        $basename = explode('.', request('file')->hashName());
+		$data['filehash'] = $basename[0];
+		$data['extension'] = $basename[1];
+		
+		// Store in public/storage (public disk)
+        $filePath = request('file')->store('uploads', 'public');
+		
+		// Genrating optimized copies and thumbnails
+		self::generateOptimized($filePath);
 
-// @ts-ignore
+		// Database entry
         auth()->user()->media()->create($data);
 
         return redirect(route('media'));
@@ -57,7 +88,33 @@ class MediaController extends Controller
 			$medium->books()->detach($book);
 		}
 		Storage::disk('public')->delete('uploads/'.$medium->filename);
+		Storage::disk('public')->delete('uploads/'.$medium->thumb);
+		Storage::disk('public')->delete('uploads/'.$medium->thumb2x);
+		Storage::disk('public')->delete('uploads/'.$medium->hd);
+		Storage::disk('public')->delete('uploads/'.$medium->lg);
+		Storage::disk('public')->delete('uploads/'.$medium->md);
+		Storage::disk('public')->delete('uploads/'.$medium->sm);
 		$medium->delete();
+
+		return redirect(route('media'));
+	}
+
+	public function rebuild(Medium $medium) {
+		self::generateOptimized('uploads/'.$medium->filename);
+		return redirect(route('media'));
+	}
+
+	public function rebuildAll() {
+		$files = Storage::disk('public')->files('uploads/');
+		
+		// Filtering out other files than original
+		$originals = array_filter($files, function($item) {
+			return preg_match('/^uploads\/([A-Za-z0-9]{40})\.(jpg|gif|jpeg|png)$/', $item);
+		});
+
+		foreach($originals as $path) {
+			self::generateOptimized($path);
+		}
 
 		return redirect(route('media'));
 	}

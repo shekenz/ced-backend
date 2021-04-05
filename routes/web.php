@@ -69,8 +69,12 @@ Route::get('/dashboard/books/archived', [BooksController::class, 'archived'])->n
 Route::get('/dashboard/media', [MediaController::class, 'index'])->name('media');
 Route::post('/dashboard/media', [MediaController::class, 'store'])->name('media.store');
 Route::get('/dashboard/media/create', [MediaController::class, 'create'])->name('media.create');
+Route::get('/dashboard/media/rebuild', [MediaController::class, 'rebuildAll'])->name('media.rebuildAll');
 Route::get('/dashboard/media/{medium}', [MediaController::class, 'display'])->name('media.display');
 Route::get('/dashboard/media/{medium}/break/{book}', [MediaController::class, 'breakLink'])->name('media.break');
 Route::post('/dashboard/media/delete/{id}', [MediaController::class, 'delete'])->name('media.delete');
+Route::get('/dashboard/media/rebuild/{medium}', [MediaController::class, 'rebuild'])->name('media.rebuild');
+
+
 
 require __DIR__.'/auth.php';

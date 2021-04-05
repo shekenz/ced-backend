@@ -15,7 +15,7 @@
     @foreach($media as $medium)
         <a class="rounded-lg hover:bg-gray-200" href="{{ route('media.display', $medium->id) }}">
             <div class="text-center truncate p-3 md:p-3 lg:p-4">
-                <img src="{{ asset('storage/uploads/'.$medium->filename) }}">
+                <img class="m-auto" src="{{ asset('storage/uploads/'.$medium->thumb) }}" srcset="{{ asset('storage/uploads/'.$medium->thumb) }} 1x, {{ asset('storage/uploads/'.$medium->filehash.'_thumb@2x.'.$medium->extension) }} 2x">
                 <span class="text-sm">{{ $medium->name }}</span>
             </div>
         </a>
