@@ -77,6 +77,14 @@ class MediaController extends Controller
         return view('media/display', compact('medium'));
     }
 
+	public function update(Medium $medium, Request $request) {
+		$data = $request->validate([
+			'name' => ['required', 'string', 'max:64'],
+		]);
+		$medium->update($data);
+		return redirect(route('media.display', $medium));
+	}
+
 	public function breakLink(Medium $medium, Book $book) {
 		$medium->books()->detach($book);
 		return redirect(route('books.display', $book));

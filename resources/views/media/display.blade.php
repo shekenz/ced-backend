@@ -10,12 +10,35 @@
 		</form>
 	</x-slot>
 
+	@if ($errors->any())
+        <div class="mb-4" :errors="$errors">
+            <div class="font-medium text-red-600">
+                {{ __('Whoops! Something went wrong.') }}
+            </div>
+
+            <ul class="mt-3 list-disc list-inside text-sm text-red-600">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+	<form action="{{ route('media.update', $medium->id) }}" method="POST" class="flex flex-row gap-x-4 mb-4 items-center">
+		@csrf
+		@method('patch')
+		<label for="name" class="label-shared whitespace-nowrap">{{ __('New name') }} : </label>
+		<input class="input-shared" id="name" name="name" type="text" value="{{ old('name') ?? $medium->name }}">
+		<input class="button-shared" type="submit" value="{{ __('Rename') }}">
+	</form>
+
     <img class="m-auto" src="{{ asset('storage/uploads/'.$medium->filename) }}">
 
+	@env('local')
 	<div>
 		<h4>File info</h4>
-		ID : {{ $medium->id}}<br>
-		Hash : {{ $medium->filehash}}<br>
+		ID : {{ $medium->id }}<br>
+		Hash : {{ $medium->filehash }}<br>
+		Format : <span class="bg-gray-400 rounded px-2 py-0.5 font-bold uppercase text-white text-sm">{{ $medium->extension }}</span><br>
 		@if(Storage::disk('public')->exists('uploads/'.$medium->thumb))
 		<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 inline" viewBox="0 0 20 20" fill="currentColor">
 			<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
@@ -36,6 +59,8 @@
 		</svg>
 		@endif
 		Thumbnail &commat;2x<br>
+	</div>
+	@endenv
 
 	<div>
 		@if( $medium->books->isEmpty() )
