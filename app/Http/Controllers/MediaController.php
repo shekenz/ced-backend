@@ -6,29 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Medium;
 use App\Models\Book;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
+use App\Traits\MediaManager;
 
 class MediaController extends Controller
 {
-	public static function generateOptimized(string $filePath) {
-
-		$fileInfo = pathinfo($filePath);
-		$file = Storage::disk('public')->get($filePath);
-	
-		// Image modification
-		$imgManager = new ImageManager();
-
-		// Thumb
-		if (!Storage::disk('public')->exists('uploads/'.$fileInfo['filename'].'_thumb.'.$fileInfo['extension'])) {
-			$img_thumb = $imgManager->make($file)->fit(100, 100)->encode($fileInfo['extension'], 50);
-			Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_thumb.'.$fileInfo['extension'], (string) $img_thumb);
-		}
-		
-		if (!Storage::disk('public')->exists('uploads/'.$fileInfo['filename'].'_thumb@2x.'.$fileInfo['extension'])) {
-			$img_thumb_2x = $imgManager->make($file)->fit(200, 200)->encode($fileInfo['extension'], 50);
-			Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_thumb@2x.'.$fileInfo['extension'], (string) $img_thumb_2x);
-		}
-	}
+	use MediaManager;
 
     public function __contruct() {
         $this->middleware('auth');
@@ -44,31 +26,13 @@ class MediaController extends Controller
     }
 
     public function store() {
-
 		// Fields validation
         $data = request()->validate([
             'name' => ['max:64'],
             'file' => ['required', 'file', 'mimes:jpg,gif,png', 'max:512'],
         ]);
-        
-        // If name is empty, use original filename;
-        if(!$data['name']) {
-            $data['name'] = $data['file']->getClientOriginalName();
-        }
 
-		// Create a hash name and extension
-        $basename = explode('.', request('file')->hashName());
-		$data['filehash'] = $basename[0];
-		$data['extension'] = $basename[1];
-		
-		// Store in public/storage (public disk)
-        $filePath = request('file')->store('uploads', 'public');
-		
-		// Genrating optimized copies and thumbnails
-		self::generateOptimized($filePath);
-
-		// Database entry
-        auth()->user()->media()->create($data);
+		self::storeMedia($data['file'], $data['name']);
 
         return redirect(route('media'));
     }

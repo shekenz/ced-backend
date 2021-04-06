@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Medium;
-use App\Http\Controllers\MediaController;
+use App\Traits\MediaManager;
 
 class BooksController extends Controller
 {
+	use MediaManager;
 
 	protected $validation = [
 		'title' => ['required', 'string', 'max:128'],
@@ -54,45 +55,29 @@ class BooksController extends Controller
 	}
 
 	public function store(Request $request) {
-
 		$data = $request->validate($this->validation);
+		$mediaIDs = array(); // Array containing all media ids to attach to the new book
 
-		// Array containing all media ids to attach to the new book
-		$mediaIDs = array();
-
-		// Extracting files from $data if it exists
+		// Storing all uploaded images
 		if(array_key_exists('files', $data)) {
-			$files = $data['files'];
-			unset($data['files']);
-			// Uploaded files treatment
-			foreach($files as $file) {
-				// Create a hash name and extension
-				$basename = explode('.', $file->hashName());
-				// Saving file
-				$filepath = $file->storeAs('uploads', $basename[0].'.'.$basename[1], 'public');
-				MediaController::generateOptimized($filepath);
-				// Database entry
-				$medium = auth()->user()->media()->create([
-					'filehash' => $basename[0],
-					'extension' => $basename[1],
-					'name' => $file->getClientOriginalName(),
-				]);
+			foreach($data['files'] as $file) {
 				// Pushing new files ids for attachment
-				array_push($mediaIDs, $medium->getAttribute('id'));
+				array_push($mediaIDs, self::storeMedia($file));
 			}
 		}
 
+		// Merging files uploaded and files from library together for attachment
 		if(array_key_exists('media', $data)) {
 			$mediaIDs = array_merge($mediaIDs, $data['media']);
-			unset($data['media']);
 		}
 
-		$book = auth()->user()->books()->create($data);
-
+		// Attach
 		if(!empty($mediaIDs)) {
 			$book->media()->attach($mediaIDs);
 		}
 
+		// Saving book
+		$book = auth()->user()->books()->create($data);
 		return redirect(route('books'));
 	}
 
@@ -104,47 +89,33 @@ class BooksController extends Controller
 
 	public function update(Book $book, Request $request) {
 		$data = $request->validate($this->validation);
+		$mediaIDs = array(); // Array containing all media ids to attach to the new book
 
-		// Array containing all media ids to attach to the new book
-		$mediaIDs = array();
-		
+		// Storing all uploaded images
 		if(array_key_exists('files', $data)) {
-			$files = $data['files'];
-			unset($data['files']);
-			// Uploaded files treatment
-			foreach($files as $file) {
-				// New filename
-				$basename = explode('.', $file->hashName());
-				// Saving file
-				$filepath = $file->storeAs('uploads', $basename[0].'.'.$basename[1], 'public');
-				MediaController::generateOptimized($filepath);
-				// Database entry
-				$medium = auth()->user()->media()->create([
-					'filehash' => $basename[0],
-					'extension' => $basename[1],
-					'name' => $file->getClientOriginalName(),
-				]);
+			foreach($data['files'] as $file) {
 				// Pushing new files ids for attachment
-				array_push($mediaIDs, $medium->getAttribute('id'));
+				array_push($mediaIDs, self::storeMedia($file));
 			}
 		}
 
+		// Merging uploaded and from library IDs to attach
 		if(array_key_exists('media', $data)) {
 			$mediaIDs = array_merge($mediaIDs, $data['media']);
-			unset($data['media']);
 		}
 
-		if(array_key_exists('detach', $data)) {
-			$book->media()->detach($data['detach']);
-			unset($data['detach']);
-		}
-
+		// Attaching
 		if(!empty($mediaIDs)) {
 			$book->media()->attach($mediaIDs);
 		}
 
-		$book->update($data);
+		// Detaching
+		if(array_key_exists('detach', $data)) {
+			$book->media()->detach($data['detach']);
+		}
 
+		// Updating book
+		$book->update($data);
 		return redirect(route('books'));
 	}
 
@@ -153,9 +124,22 @@ class BooksController extends Controller
 		return view('books.display', compact('book'));
 	}
 
+
+	public function archived() {
+		$books = Book::onlyTrashed()->get();
+		$archived = Book::onlyTrashed()->count();
+		return view('books/archived', compact('books', 'archived'));
+	}
+
 	public function archive(Book $book) {
 		$book->delete();
 		return redirect(route('books'));
+	}
+
+	public function restore($id) {
+		// Can't bind a deleted model, will throw a 404
+		Book::onlyTrashed()->findOrFail($id)->restore();
+		return  redirect(route('books.archived'));
 	}
 
 	public function delete($id) {
@@ -173,17 +157,5 @@ class BooksController extends Controller
 		}
 		Book::with('media')->onlyTrashed()->forceDelete();
 		return redirect(route('books'));
-	}
-
-	public function restore($id) {
-		// Can't bind a deleted model, will throw a 404
-		Book::onlyTrashed()->findOrFail($id)->restore();
-		return  redirect(route('books.archived'));
-	}
-
-	public function archived() {
-		$books = Book::onlyTrashed()->get();
-		$archived = Book::onlyTrashed()->count();
-		return view('books/archived', compact('books', 'archived'));
 	}
 }
