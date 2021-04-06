@@ -17,7 +17,7 @@ class MediaController extends Controller
     }
     //
     public function list(){
-        $media = Medium::orderBy('created_at', 'DESC')->get();
+        $media = Medium::orderBy('id', 'DESC')->get();
         return view('media/list', compact('media'));
     }
 
@@ -45,7 +45,6 @@ class MediaController extends Controller
     }
 
     public function display(Medium $medium) {
-		$medium = $medium->orderBy('id', 'DESC')->get();
         return view('media/display', compact('medium'));
     }
 
