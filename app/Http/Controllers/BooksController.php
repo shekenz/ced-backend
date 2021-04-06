@@ -29,20 +29,20 @@ class BooksController extends Controller
         $this->middleware('auth');
     }
 
-    public function front() {
+    public function index() {
 		$books = Book::with('media')->orderBy('created_at', 'DESC')->get();
-        return view('books/front', compact('books'));
+        return view('books/index', compact('books'));
 	}
 
-	public function index() {
+	public function list() {
 		$books = Book::orderBy('created_at', 'DESC')->get();
 		$archived = Book::onlyTrashed()->count();
-        return view('books/index', compact('books', 'archived'));
+        return view('books/list', compact('books', 'archived'));
 	}
 
 	public function create() {
 		$media = Medium::all();
-		return view('books.create', compact('media'));
+		return view('books/create', compact('media'));
 	}
 
 	public function store(Request $request) {

@@ -34,9 +34,9 @@ class MediaController extends Controller
         $this->middleware('auth');
     }
     //
-    public function index(){
+    public function list(){
         $media = Medium::orderBy('created_at', 'DESC')->get();
-        return view('media/index', compact('media'));
+        return view('media/list', compact('media'));
     }
 
     public function create() {

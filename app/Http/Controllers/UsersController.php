@@ -16,9 +16,9 @@ class UsersController extends Controller
     public function __contruct() {
         $this->middleware('auth');
     }
-    public function index() {
+    public function list() {
         $users = User::all();
-        return view('users/index')->with('users', $users);
+        return view('users/list')->with('users', $users);
     }
     public function display(User $user) {
        return view('users/display', compact('user'));
