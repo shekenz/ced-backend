@@ -27,7 +27,7 @@
 		@csrf
 		@method('patch')
 		<label for="name" class="label-shared whitespace-nowrap">{{ __('New name') }} : </label>
-		<input class="input-shared" id="name" name="name" type="text" value="{{ old('name') ?? $medium->name }}">
+		<input class="input-shared" id="name" name="name" type="text" value="{{ old('name') ?? $medium->name }}" maxlength="64">
 		<input class="button-shared" type="submit" value="{{ __('Rename') }}">
 	</form>
 

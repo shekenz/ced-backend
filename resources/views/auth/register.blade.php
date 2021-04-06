@@ -28,12 +28,12 @@
             <!-- Email Address -->
             <div class="mt-4">
                 <x-label for="email" :value="__('Email')" :required="true" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" maxlength="256" :value="old('email')" required />
             </div>
 
             <!-- Password -->
             <div class="mt-4">
-                <x-label for="password" :value="__('Password')" :required="true" />
+                <x-label for="password" :value="__('Password')" :required="true" minlength="8"/>
                 <x-input id="password" class="block mt-1 w-full"
                                 type="password"
                                 name="password"
@@ -42,7 +42,7 @@
 
             <!-- Confirm Password -->
             <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" :required="true" />
+                <x-label for="password_confirmation" :value="__('Confirm Password')" :required="true" minlength="8"/>
                 <x-input id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
                                 name="password_confirmation" required />

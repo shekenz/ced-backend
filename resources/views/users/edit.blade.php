@@ -32,17 +32,17 @@
                         @csrf
                         @method('PATCH')
                         <label for="username" class="label-shared">{{ __('Username') }}</label>
-                        <input id="username" name="username" type="text" class="input-shared" value="{{ old('username') ?? $user->username }}">
+                        <input id="username" name="username" type="text" class="input-shared" value="{{ old('username') ?? $user->username }}" maxlength="64">
                         <label for="firstname" class="label-shared">{{ __('First name') }}</label>
-                        <input id="firstname" name="firstname" type="text" class="input-shared" value="{{ old('firstname') ?? $user->firstname }}">
+                        <input id="firstname" name="firstname" type="text" class="input-shared" value="{{ old('firstname') ?? $user->firstname }}" maxlength="64">
                         <label for="lastname" class="label-shared">{{ __('Last name') }}</label>
-                        <input id="lastname" name="lastname" type="text" class="input-shared" value="{{ old('lastname') ?? $user->lastname }}">
+                        <input id="lastname" name="lastname" type="text" class="input-shared" value="{{ old('lastname') ?? $user->lastname }}" maxlength="64">
                         <label for="email" class="label-shared">{{ __('Email') }}</label>
-                        <input id="email" name="email" type="text" class="input-shared" value="{{ old('email') ?? $user->email }}">
+                        <input id="email" name="email" type="text" class="input-shared" value="{{ old('email') ?? $user->email }}" maxlength="256">
                         <label for="password" class="label-shared">{{ __('New password') }}</label>
-                        <input id="password" name="password" type="password" class="input-shared">
+                        <input id="password" name="password" type="password" class="input-shared" minlength="8">
                         <label for="password_confirmation" class="label-shared">{{ __('Confirm password') }}</label>
-                        <input id="password_confirmation" name="password_confirmation" type="password" class="input-shared">
+                        <input id="password_confirmation" name="password_confirmation" type="password" class="input-shared" minlength="8">
                         <label for="birthdate" class="label-shared">{{ __('Birthdate') }}</label>
                         <input id="birthdate" name="birthdate" type="date" class="input-shared" value="{{ old('birthdate') ?? $user->birthdate }}">
                         <input class="button-shared" type="submit">

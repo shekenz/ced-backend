@@ -27,35 +27,35 @@
 			@method('patch')
 			<div>
             	<label class="label-shared-first lg:text-lg" for="title">{{ __('Title') }} :</label>
-            	<input class="input-shared" id="title" name="title" type="text" value="{{ old('title') ?? $book->title }}">
+            	<input class="input-shared" id="title" name="title" type="text" value="{{ old('title') ?? $book->title }}" maxlength="128">
 			</div>
 			<div class="md:row-start-2">
             	<label class="label-shared-first lg:text-lg" for="author">{{ __('Author') }} :</label>
-            	<input class="input-shared" id="author" name="author" type="text" value="{{ old('author') ?? $book->author }}">
+            	<input class="input-shared" id="author" name="author" type="text" value="{{ old('author') ?? $book->author }}" maxlength="64">
 			</div>
 			<div>
             	<label class="label-shared-first lg:text-lg" for="width">{{ __('Width (mm)') }} :</label>
-            	<input class="input-shared" id="width" name="width" type="text" value="{{ old('width') ?? $book->width }}">
+            	<input class="input-shared" id="width" name="width" type="number" value="{{ old('width') ?? $book->width }}">
 			</div>
 			<div class="md:row-start-2">
             	<label class="label-shared-first lg:text-lg" for="height">{{ __('Height (mm)') }} :</label>
-            	<input class="input-shared" id="height" name="height" type="text" value="{{ old('height') ?? $book->height }}">
+            	<input class="input-shared" id="height" name="height" type="number" value="{{ old('height') ?? $book->height }}">
 			</div>
 			<div>
             	<label class="label-shared-first lg:text-lg" for="cover">{{ __('Cover') }} :</label>
-            	<input class="input-shared" id="cover" name="cover" type="text" value="{{ old('cover') ?? $book->cover }}">
+            	<input class="input-shared" id="cover" name="cover" type="text" value="{{ old('cover') ?? $book->cover }}" maxlength="32">
 			</div>
 			<div class="md:row-start-2">
             	<label class="label-shared-first lg:text-lg" for="pages">{{ __('Pages') }} :</label>
-            	<input class="input-shared" id="pages" name="pages" type="text" value="{{ old('pages') ?? $book->pages }}">
+            	<input class="input-shared" id="pages" name="pages" type="number" value="{{ old('pages') ?? $book->pages }}">
 			</div>
 			<div>
             	<label class="label-shared-first lg:text-lg" for="edition">{{ __('Edition') }} :</label>
-            	<input class="input-shared" id="edition" name="edition" type="text" value="{{ old('edition') ?? $book->edition }}">
+            	<input class="input-shared" id="edition" name="edition" type="text" value="{{ old('edition') ?? $book->edition }}" maxlength="64">
 			</div>
 			<div class="md:row-start-2">
             	<label class="label-shared-first lg:text-lg" for="price">{{ __('Price') }} :</label>
-            	<input class="input-shared" id="price" name="price" type="text" value="{{ old('price') ?? $book->price }}">
+            	<input class="input-shared" id="price" name="price" type="text" value="{{ old('price') ?? $book->price }}" maxlength="10">
 			</div>
 			<div class="col-span-4">
             	<label class="label-shared lg:text-lg" for="description">{{ __('Description') }} :</label>
