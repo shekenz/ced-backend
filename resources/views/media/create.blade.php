@@ -26,8 +26,8 @@
             @csrf
             <label class="label-shared-first lg:text-lg" for="name">{{ __('Name') }} :</label>
             <input class="input-shared" id="name" name="name" type="text" value="{{ old('name') }}" >
-            <label class="label-shared lg:text-lg" for="file">File :</label>
-            <input class="input-shared mt-1" id="file" name="file" type="file">
+            <label class="label-shared lg:text-lg" for="files">{{ __('Files')}} : </label>
+            <input class="input-shared mt-1" id="files" name="files[]" type="file" multiple>
             <span class="text-gray-500">(JPG, PNG, GIF, Max 512 Ko)</span>
             <input class="button-shared md:px-4 md:self-end" type="submit">
         </form>

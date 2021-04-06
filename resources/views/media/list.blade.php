@@ -16,7 +16,7 @@
         <a class="rounded-lg hover:bg-gray-200" href="{{ route('media.display', $medium->id) }}">
             <div class="text-center truncate p-3 md:p-3 lg:p-4">
                 <img class="m-auto" src="{{ asset('storage/uploads/'.$medium->thumb) }}" srcset="{{ asset('storage/uploads/'.$medium->thumb) }} 1x, {{ asset('storage/uploads/'.$medium->thumb2x) }} 2x">
-                <span class="text-sm">{{ $medium->name }}</span>
+                <span class="text-sm">{{ $medium->name }}.{{ $medium->extension }}</span>
             </div>
         </a>
     @endforeach

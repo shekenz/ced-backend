@@ -29,10 +29,17 @@ class MediaController extends Controller
 		// Fields validation
         $data = request()->validate([
             'name' => ['max:64'],
-            'file' => ['required', 'file', 'mimes:jpg,gif,png', 'max:512'],
+			'files' => ['required', 'array'],
+            'files.*' => ['file', 'mimes:jpg,gif,png', 'max:512'],
         ]);
 
-		self::storeMedia($data['file'], $data['name']);
+		if(count($data['files']) <= 1) {
+			self::storeMedia($data['files'][0], $data['name']);
+		} else {
+			foreach($data['files'] as $key => $file) {
+				self::storeMedia($file, $data['name'].'_'.$key);
+			}
+		}
 
         return redirect(route('media'));
     }

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="title">
-        {{ $medium->name }}
+        {{ $medium->name }}.{{ $medium->extension }}
     </x-slot>
 
 	<x-slot name="controls">
