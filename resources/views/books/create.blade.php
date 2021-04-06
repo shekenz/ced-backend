@@ -62,6 +62,7 @@
 			</div>
 			<input type="hidden" name="lang" value="fr">
 
+			@if( $media->isNotEmpty() )
 			<div class="col-span-4">
 				<label class="label-shared lg:text-lg">{{ __('Link media from the library') }} :</label>
 				<div class="input-mimic grid grid-cols-3 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-12 gap-4">
@@ -71,6 +72,7 @@
 					@endforeach
 				</div>
 			</div>
+			@endif
 
 			<div class="col-span-4">
 				<label class="label-shared lg:text-lg">{{ __('Upload and link new media') }} :</label>
