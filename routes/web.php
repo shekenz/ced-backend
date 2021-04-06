@@ -44,14 +44,6 @@ Route::get('/dashboard/user/edit/{user}', [UsersController::class, 'edit'])->nam
 Route::patch('/dashboard/user/{user}', [UsersController::class, 'update'])->name('users.update');
 Route::post('/dashboard/user/delete/{user}', [UsersController::class, 'delete'])->name('users.delete');
 
-// Posts (Auth in controller)
-Route::get('/dashboard/posts', [PostsController::class, 'index'])->name('posts');
-Route::post('/dashboard/posts', [PostsController::class, 'store'])->name('posts.store');
-Route::get('/dashboard/post/create', [PostsController::class, 'create'])->name('posts.create');
-Route::get('/dashboard/post/{id}', [PostsController::class, 'display'])->name('posts.display');
-Route::get('/dashboard/post/{post}/edit', [PostsController::class, 'edit'])->name('posts.edit');
-Route::patch('/dashboard/post/{post}', [PostsController::class, 'update'])->name('posts.update');
-
 // Books (Auth in controller)
 Route::get('/dashboard/books', [BooksController::class, 'index'])->name('books');
 Route::get('/dashboard/book/create', [BooksController::class, 'create'])->middleware('auth')->name('books.create');

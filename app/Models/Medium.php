@@ -21,11 +21,7 @@ class Medium extends Model
     public function user() {
         return $this->belongsTo(User::class);
     }
-
-    public function posts() {
-        return $this->hasMany(Post::class);
-    }
-
+	
 	// Media relation with books
 	public function books() {
 		return $this->belongsToMany(Book::class, 'book_medium', 'medium_id', 'book_id');

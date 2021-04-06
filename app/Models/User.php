@@ -47,10 +47,6 @@ class User extends Authenticatable
 
 
     // model relationship
-    public function posts() {
-        return $this->hasMany(Post::class)->orderBy('created_at', 'DESC');
-    }
-
     public function media() {
         return $this->hasMany(Medium::class)->orderBy('created_at', 'DESC');
     }
