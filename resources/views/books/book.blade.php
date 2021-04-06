@@ -1,4 +1,4 @@
-<article id="glide-{{ $bookGlideIndex }}"class="grid grid-cols-9">
+<article id="glide-{{ $glideIndex }}"class="grid grid-cols-9">
 	<div class="
 		base-slider
 		col-span-9
@@ -25,7 +25,7 @@
 			</div>
 					
 		</div>
-		<div id="counter-{{ $bookGlideIndex }}" class="hidden xl:block xl:mt-8 xl:mb-12"><span class="counter-index">1</span>/<span class="counter-total">{{ $book->media->count() }}</span>.</div>
+		<div id="counter-{{ $glideIndex }}" class="hidden xl:block xl:mt-8 xl:mb-12"><span class="counter-index">1</span>/<span class="counter-total">{{ $book->media->count() }}</span>.</div>
 	</div>
 	<div id="info" class="
 		grid

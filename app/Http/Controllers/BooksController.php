@@ -30,7 +30,15 @@ class BooksController extends Controller
     }
 
     public function index() {
-		$books = Book::with('media')->orderBy('created_at', 'DESC')->get();
+		// We need to filter out the books without linked images because gilde.js hangs if it have no child elements.
+		// We also need a clean ordered index to link each glides to its corresponding counter.
+		$books = Book::with('media')
+			->orderBy('created_at', 'DESC')
+			->get()
+			->filter(function($value) {
+				return $value->media->isNotEmpty();
+			})
+			->values();
         return view('books/index', compact('books'));
 	}
 
