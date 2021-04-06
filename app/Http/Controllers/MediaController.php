@@ -45,6 +45,7 @@ class MediaController extends Controller
     }
 
     public function display(Medium $medium) {
+		$medium = $medium->orderBy('id', 'DESC')->get();
         return view('media/display', compact('medium'));
     }
 
