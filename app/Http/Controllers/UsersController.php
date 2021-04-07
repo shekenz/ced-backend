@@ -16,7 +16,6 @@ use App\Models\User;
 class UsersController extends Controller
 {
     public function __contruct() {
-        $this->middleware('auth');
     }
 
 	/** Lists all users. Index of users in backend. */

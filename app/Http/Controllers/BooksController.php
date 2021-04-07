@@ -31,7 +31,6 @@ class BooksController extends Controller
 	];
 
 	public function __contruct() {
-        $this->middleware('auth');
     }
 
 	/** Lists all books from the library for the frontend index. Filters out books with no linked media. */

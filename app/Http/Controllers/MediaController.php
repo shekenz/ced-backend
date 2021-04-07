@@ -16,7 +16,6 @@ class MediaController extends Controller
 	use MediaManager;
 
     public function __contruct() {
-        $this->middleware('auth');
     }
 
 	/** Lists all media from the library. Index of the media library in backend. */
