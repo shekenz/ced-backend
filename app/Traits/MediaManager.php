@@ -66,15 +66,11 @@ trait MediaManager {
 		// Image modification
 		$imgManager = new ImageManager();
 
-		// Thumb
-		if (!Storage::disk('public')->exists('uploads/'.$fileInfo['filename'].'_thumb.'.$fileInfo['extension'])) {
-			$img_thumb = $imgManager->make($file)->fit(100, 100)->encode($fileInfo['extension'], 50);
-			Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_thumb.'.$fileInfo['extension'], (string) $img_thumb);
-		}
-		
-		if (!Storage::disk('public')->exists('uploads/'.$fileInfo['filename'].'_thumb@2x.'.$fileInfo['extension'])) {
-			$img_thumb_2x = $imgManager->make($file)->fit(200, 200)->encode($fileInfo['extension'], 50);
-			Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_thumb@2x.'.$fileInfo['extension'], (string) $img_thumb_2x);
+		foreach(config('optimage') as $key => $item) {
+			if (!Storage::disk('public')->exists('uploads/'.$fileInfo['filename'].'_'.$key.'.'.$fileInfo['extension'])) {
+				$img = $imgManager->make($file)->fit($item['width'], $item['height'])->encode($fileInfo['extension'], $item['quality']);
+				Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_'.$key.'.'.$fileInfo['extension'], (string) $img);
+			}
 		}
 	}
 }

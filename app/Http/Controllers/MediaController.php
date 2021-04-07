@@ -49,7 +49,9 @@ class MediaController extends Controller
         ]);
 
 		if(count($data['files']) <= 1) {
-			self::storeMedia($data['files'][0], $data['name']);
+			self::storeMedia($data['files'][0], [
+				'name' => $data['name'],
+			]);
 		} else {
 			foreach($data['files'] as $key => $file) {
 				self::storeMedia($file, [
@@ -76,24 +78,19 @@ class MediaController extends Controller
 		return redirect(route('books.display', $book));
 	}
 
-	/** 
-	 * Permanently deletes media from the library, and deletes all its related stored files.
-	 * @todo Remove all suffixed files with a foreach.
-	*/
+	/**  Permanently deletes media from the library, and deletes all its related stored files. */
 	public function delete($id) {
 		$medium = Medium::with('books')->findOrFail($id);
 		foreach($medium->books as $book) {
 			$medium->books()->detach($book);
 		}
+		
 		Storage::disk('public')->delete('uploads/'.$medium->filename);
-		Storage::disk('public')->delete('uploads/'.$medium->thumb);
-		Storage::disk('public')->delete('uploads/'.$medium->thumb2x);
-		Storage::disk('public')->delete('uploads/'.$medium->hd);
-		Storage::disk('public')->delete('uploads/'.$medium->lg);
-		Storage::disk('public')->delete('uploads/'.$medium->md);
-		Storage::disk('public')->delete('uploads/'.$medium->sm);
+		foreach(config('optimage') as $key => $item) {
+			Storage::disk('public')->delete('uploads/'.$medium->filehash.'_'.$key.'.'.$medium->extension);
+		}
+		
 		$medium->delete();
-
 		return redirect(route('media'));
 	}
 

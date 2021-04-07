@@ -40,7 +40,7 @@ class Medium extends Model
 
 	public function getThumb2xAttribute()
     {
-        return $this->attributes['filehash'].'_thumb@2x.'.$this->attributes['extension'];
+        return $this->attributes['filehash'].'_thumb2x.'.$this->attributes['extension'];
     }
 
 	public function getHdAttribute()
