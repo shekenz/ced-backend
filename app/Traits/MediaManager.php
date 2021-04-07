@@ -7,12 +7,17 @@ use Intervention\Image\ImageManager;
 use Illuminate\Http\UploadedFile;
 trait MediaManager {
 
-	public static function storeMedia(UploadedFile $file, string $name = null) {
+	public static function storeMedia(UploadedFile $file, array $options = []) {
 
-		// Generate default name (not filename)
-		if(!$name) {
+		// Set default name (not filename) if not provided
+		if(!array_key_exists('name', $options)) {
 			// Removing everything after last dot, hence the extension
-			$name = implode('.', explode('.', $file->getClientOriginalName(), -1));
+			$options['name'] = implode('.', explode('.', $file->getClientOriginalName(), -1));
+		}
+
+		// Set default directory if not provided
+		if(!array_key_exists('dir', $options)) {
+			$options['dir'] = 'uploads';
 		}
 
 		// Get filename, hashname and extension
@@ -21,7 +26,7 @@ trait MediaManager {
 		$basename = explode('.', $filename);
 
 		// Store file
-		$filepath = $file->storeAs('uploads', $basename[0].'.'.$basename[1], 'public');
+		$filepath = $file->storeAs($options['dir'], $basename[0].'.'.$basename[1], 'public');
 		
 		// Generate optimized copies
 		self::generateOptimized($filepath);
@@ -30,7 +35,7 @@ trait MediaManager {
 		$medium = auth()->user()->media()->create([
 			'filehash' => $basename[0],
 			'extension' => $basename[1],
-			'name' => $name,
+			'name' => $options['name'],
 		]);
 
 		return $medium->getAttribute('id');

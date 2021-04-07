@@ -37,7 +37,9 @@ class MediaController extends Controller
 			self::storeMedia($data['files'][0], $data['name']);
 		} else {
 			foreach($data['files'] as $key => $file) {
-				self::storeMedia($file, $data['name'].'_'.$key);
+				self::storeMedia($file, [
+					'name' => $data['name'].'_'.$key
+				]);
 			}
 		}
 
