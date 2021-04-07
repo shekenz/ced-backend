@@ -1,6 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/js/index.js": "/js/index.js",
+    "/js/media.js": "/js/media.js",
     "/css/index.css": "/css/index.css",
     "/css/app.css": "/css/app.css",
     "/img/default-thumbnail.jpg": "/img/default-thumbnail.jpg",
@@ -10,6 +11,7 @@
     "/img/logo-dark@2x.png": "/img/logo-dark@2x.png",
     "/img/logo.png": "/img/logo.png",
     "/img/logo@2x.png": "/img/logo@2x.png",
+    "/img/testimage_16-9_hd.jpg": "/img/testimage_16-9_hd.jpg",
     "/img/testimage_full.jpg": "/img/testimage_full.jpg",
     "/img/testimage_full_2.jpg": "/img/testimage_full_2.jpg",
     "/img/testimage_full_3.jpg": "/img/testimage_full_3.jpg",

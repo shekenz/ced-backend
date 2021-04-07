@@ -15,6 +15,9 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
+		@if(isset($scripts))
+			{{ $scripts }}
+		@endif
     </head>
     <body class="font-dashboard antialiased">
         <div class="min-h-screen bg-gray-100">

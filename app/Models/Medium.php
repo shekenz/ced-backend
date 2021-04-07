@@ -27,6 +27,7 @@ class Medium extends Model
 		return $this->belongsToMany(Book::class, 'book_medium', 'medium_id', 'book_id');
 	}
 
+	// TODO Thoses accessors need to be generated depending on optimage config
 	// Accessor
 	public function getFilenameAttribute()
     {
