@@ -5,8 +5,20 @@ namespace App\Traits;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Illuminate\Http\UploadedFile;
+
+/**
+ * Helper for processing media uploads.
+ */
 trait MediaManager {
 
+	/**
+	 * Save uploaded file to disk and in media library. File is stored with an hashed name.
+	 * @param Illuminate\Http\UploadedFile $file File to save.
+	 * @param array $options Options for storing the file :
+	 * @param string $options['dir'] The sub directory in ressources/storage where the file is stored. Optional, default to uploads/.
+	 * @param string $options['name'] The new name of the file. Optional, default to original file name without the extension.
+	 * @return string The medium id that has been saved.
+	 */
 	public static function storeMedia(UploadedFile $file, array $options = []) {
 
 		// Set default name (not filename) if not provided
@@ -41,6 +53,11 @@ trait MediaManager {
 		return $medium->getAttribute('id');
 	}
 
+	/**
+	 * Generates resized copies of stored image and rename them with an appropriate suffix.
+	 * @param string $filePath The sub-path in ressources/storage of the original file.
+	 * @todo Generation rules should be defined in a configuration and generated according to defined options.
+	 */
 	public static function generateOptimized(string $filePath) {
 
 		$fileInfo = pathinfo($filePath);

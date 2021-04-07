@@ -7,10 +7,14 @@ use App\Models\Book;
 use App\Models\Medium;
 use App\Traits\MediaManager;
 
+/**
+ * Controller for the Books Library
+ */
 class BooksController extends Controller
 {
 	use MediaManager;
 
+	/** @var array $validation contains the validation rules for creating or updating a book */
 	protected $validation = [
 		'title' => ['required', 'string', 'max:128'],
 		'author' => ['required', 'string', 'max:64'],
@@ -30,6 +34,7 @@ class BooksController extends Controller
         $this->middleware('auth');
     }
 
+	/** Lists all books from the library for the frontend index. Filters out books with no linked media. */
     public function index() {
 		// We need to filter out the books without linked images because gilde.js hangs if it have no child elements.
 		// We also need a clean ordered index to link each glides to its corresponding counter.
@@ -43,17 +48,26 @@ class BooksController extends Controller
         return view('books/index', compact('books'));
 	}
 
+	/** Lists all books from the library. Index of the books library in backend. */
 	public function list() {
 		$books = Book::orderBy('created_at', 'DESC')->get();
 		$archived = Book::onlyTrashed()->count();
         return view('books/list', compact('books', 'archived'));
 	}
+	
+	/** Displays the book resume in backend. */
+	public function display($id) {
+		$book = Book::with('media')->findOrFail($id);
+		return view('books.display', compact('book'));
+	}
 
+	/** Displays new book creation page. */
 	public function create() {
 		$media = Medium::all();
 		return view('books/create', compact('media'));
 	}
 
+	/** Create a new book in the database and links it with provided media. */
 	public function store(Request $request) {
 		$data = $request->validate($this->validation);
 		$mediaIDs = array(); // Array containing all media ids to attach to the new book
@@ -81,12 +95,14 @@ class BooksController extends Controller
 		return redirect(route('books'));
 	}
 
+	/** Displays the book edition page. */
 	public function edit($id) {
 		$media = Medium::all();
 		$book = Book::with('media')->findOrFail($id);
 		return view('books/edit', compact('book', 'media'));
 	}
 
+	/** Updates the book's info and re-links media if necessary. */
 	public function update(Book $book, Request $request) {
 		$data = $request->validate($this->validation);
 		$mediaIDs = array(); // Array containing all media ids to attach to the new book
@@ -119,29 +135,27 @@ class BooksController extends Controller
 		return redirect(route('books'));
 	}
 
-	public function display($id) {
-		$book = Book::with('media')->findOrFail($id);
-		return view('books.display', compact('book'));
-	}
-
-
+	// Lists all archived books. Index of archives in backend.
 	public function archived() {
 		$books = Book::onlyTrashed()->get();
 		$archived = Book::onlyTrashed()->count();
 		return view('books/archived', compact('books', 'archived'));
 	}
 
+	// Archives a book (SoftDelete)
 	public function archive(Book $book) {
 		$book->delete();
 		return redirect(route('books'));
 	}
 
+	// Restore a book from archives to library.
 	public function restore($id) {
 		// Can't bind a deleted model, will throw a 404
 		Book::onlyTrashed()->findOrFail($id)->restore();
 		return  redirect(route('books.archived'));
 	}
 
+	// Permanently deletes a book from archives.
 	public function delete($id) {
 		// Can't bind a deleted model, will throw a 404
 		$book = Book::with('media')->onlyTrashed()->findOrFail($id);
@@ -150,6 +164,7 @@ class BooksController extends Controller
 		return redirect(route('books.archived'));
 	}
 
+	// Permanently deletes ALL books from archives.
 	public function deleteAll() {
 		$books = Book::with('media')->onlyTrashed()->get();
 		foreach($books as $book) {
