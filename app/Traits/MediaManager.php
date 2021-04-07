@@ -103,7 +103,7 @@ trait MediaManager {
 	/** Remove all optimized copies for a medium */
 	public static function clean(Medium $medium) {
 		Storage::disk('public')->delete('uploads/'.$medium->filename);
-		foreach(config('optimage') as $key) {
+		foreach(config('optimage') as $key => $item) {
 			Storage::disk('public')->delete('uploads/'.$medium->filehash.'_'.$key.'.'.$medium->extension);
 		}
 	}
