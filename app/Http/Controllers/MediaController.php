@@ -84,35 +84,10 @@ class MediaController extends Controller
 		foreach($medium->books as $book) {
 			$medium->books()->detach($book);
 		}
-		
-		Storage::disk('public')->delete('uploads/'.$medium->filename);
-		foreach(config('optimage') as $key => $item) {
-			Storage::disk('public')->delete('uploads/'.$medium->filehash.'_'.$key.'.'.$medium->extension);
-		}
+
+		self::clean($medium);
 		
 		$medium->delete();
-		return redirect(route('media'));
-	}
-
-	/** Re-generate missing resized copies of a specific medium */
-	public function rebuild(Medium $medium) {
-		self::generateOptimized('uploads/'.$medium->filename);
-		return redirect(route('media'));
-	}
-
-	/** Re-generate missing resized copies of a all media */
-	public function rebuildAll() {
-		$files = Storage::disk('public')->files('uploads/');
-		
-		// Filtering out other files than original
-		$originals = array_filter($files, function($item) {
-			return preg_match('/^uploads\/([A-Za-z0-9]{40})\.(jpg|gif|jpeg|png)$/', $item);
-		});
-
-		foreach($originals as $path) {
-			self::generateOptimized($path);
-		}
-
 		return redirect(route('media'));
 	}
 }

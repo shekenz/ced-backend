@@ -3,8 +3,10 @@
 namespace App\Traits;
 
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\ImageManager;
 use Illuminate\Http\UploadedFile;
+use Intervention\Image\ImageManager;
+use App\Models\Medium;
+
 
 /**
  * Helper for processing media uploads.
@@ -56,8 +58,8 @@ trait MediaManager {
 	/**
 	 * Generates resized copies of stored image and rename them with an appropriate suffix.
 	 * @param string $filePath The sub-path in ressources/storage of the original file.
-	 * @todo Generation rules should be defined in a configuration and generated according to defined options.
 	 */
+	// TODO make the optimage manager in his own class
 	public static function generateOptimized(string $filePath) {
 
 		$fileInfo = pathinfo($filePath);
@@ -74,5 +76,58 @@ trait MediaManager {
 				Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_'.$key.'.'.$fileInfo['extension'], (string) $img);
 			}
 		}
+	}
+
+	/** Re-generate missing resized copies of a specific medium */
+	public function rebuild(Medium $medium) {
+		self::generateOptimized('uploads/'.$medium->filename);
+		return redirect(route('media'));
+	}
+
+	/** Re-generate missing resized copies of a all media if they are absent */
+	public function rebuildAll() {
+		$files = Storage::disk('public')->files('uploads/');
+		
+		// Filtering out other files than original
+		$originals = array_filter($files, function($item) {
+			return preg_match('/^uploads\/([A-Za-z0-9]{40})\.(jpg|gif|jpeg|png)$/', $item);
+		});
+
+		foreach($originals as $path) {
+			self::generateOptimized($path);
+		}
+
+		return redirect(route('media'));
+	}
+
+	/** Remove all optimized copies for a medium */
+	public static function clean(Medium $medium) {
+		Storage::disk('public')->delete('uploads/'.$medium->filename);
+		foreach(config('optimage') as $key) {
+			Storage::disk('public')->delete('uploads/'.$medium->filehash.'_'.$key.'.'.$medium->extension);
+		}
+	}
+
+	/** Remove all optimized copies for ALL media */
+	public function cleanAll() {
+		$files = Storage::disk('public')->files('uploads/');
+		
+		// Filtering out original files
+		$originals = array_filter($files, function($item) {
+			return !preg_match('/^uploads\/([A-Za-z0-9]{40})\.(jpg|gif|jpeg|png)$/', $item);
+		});
+
+		foreach($originals as $path) {
+			Storage::disk('public')->delete($path);
+		}
+
+		return redirect(route('media'));
+	}
+
+	/** Remove all optimized copies and rebuild everything. Usefull when changing optimage config. */
+	public function forceRebuild() {
+		$this->cleanAll();
+		$this->rebuildAll();
+		return redirect(route('media'));
 	}
 }

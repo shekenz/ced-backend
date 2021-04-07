@@ -16,24 +16,10 @@ return [
 		'quality' => 50,
 	],
 
-	'sm' => [
-		'caption' => 'small',
-		'width' => 256,
-		'height' => 144,
-		'quality' => 50,
-	],
-
 	'md' => [
 		'caption' => 'medium',
 		'width' => 640,
 		'height' => 360,
-		'quality' => 75,
-	],
-
-	'lg' => [
-		'caption' => 'large',
-		'width' => 960,
-		'height' => 540,
 		'quality' => 75,
 	],
 
