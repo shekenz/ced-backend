@@ -28,7 +28,7 @@
             <input class="input-shared" id="name" name="name" type="text" value="{{ old('name') }}" >
             <label class="label-shared lg:text-lg" for="files">{{ __('Files')}} : </label>
             <input class="input-shared mt-1" id="files" name="files[]" type="file" multiple>
-            <span class="text-gray-500">(JPG, PNG, GIF, Max 512 Ko)</span>
+            <span class="text-gray-500">(JPG, PNG, GIF)</span>
             <input class="button-shared md:px-4 md:self-end" type="submit">
         </form>
     </div>

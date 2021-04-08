@@ -25,7 +25,7 @@ class BooksController extends Controller
 		'edition' => ['nullable', 'max:64'],
 		'price' => ['nullable', 'numeric'],
 		'description' => ['required', 'string'],
-		'files.*' => ['nullable', 'file', 'mimes:jpg,gif,png', 'max:512'],
+		'files.*' => ['nullable', 'file', 'mimes:jpg,gif,png'],
 		'media' => ['nullable', 'array'],
 		'detach' => ['nullable', 'array'],
 	];

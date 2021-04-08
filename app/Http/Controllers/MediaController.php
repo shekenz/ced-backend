@@ -44,7 +44,7 @@ class MediaController extends Controller
         $data = request()->validate([
             'name' => ['max:64'],
 			'files' => ['required', 'array'],
-            'files.*' => ['file', 'mimes:jpg,gif,png', 'max:512'],
+            'files.*' => ['file', 'mimes:jpg,gif,png'],
         ]);
 
 		if(count($data['files']) <= 1) {
