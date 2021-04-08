@@ -20,20 +20,20 @@ return [
 		'caption' => 'medium',
 		'width' => 640,
 		'height' => 360,
-		'quality' => 75,
+		'quality' => 80,
 	],
 
 	'hd' => [
 		'caption' => 'HD',
 		'width' => 1280,
 		'height' => 720,
-		'quality' => 75,
+		'quality' => 80,
 	],
 
 	'hdp' => [
 		'caption' => 'HD+',
 		'width' => 1600,
 		'height' => 900,
-		'quality' => 75,
+		'quality' => 80,
 	],
 ];
