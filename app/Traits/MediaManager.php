@@ -24,7 +24,7 @@ trait MediaManager {
 	public static function storeMedia(UploadedFile $file, array $options = []) {
 
 		// Set default name (not filename) if not provided
-		if(!array_key_exists('name', $options)) {
+		if(!array_key_exists('name', $options) || (array_key_exists('name', $options) && !$options['name'])) {
 			// Removing everything after last dot, hence the extension
 			$options['name'] = implode('.', explode('.', $file->getClientOriginalName(), -1));
 		}

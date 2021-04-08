@@ -48,14 +48,24 @@ class MediaController extends Controller
         ]);
 
 		if(count($data['files']) <= 1) {
-			self::storeMedia($data['files'][0], [
-				'name' => $data['name'],
-			]);
-		} else {
-			foreach($data['files'] as $key => $file) {
-				self::storeMedia($file, [
-					'name' => $data['name'].'_'.$key
+			if($data['name']) {
+				self::storeMedia($data['files'][0], [
+					'name' => $data['name'],
 				]);
+			} else {
+				self::storeMedia($data['files'][0]);
+			}
+		} else {
+			if($data['name']) {
+				foreach($data['files'] as $key => $file) {
+					self::storeMedia($file, [
+						'name' => $data['name'].'_'.$key
+					]);
+				}
+			} else {
+				foreach($data['files'] as $key => $file) {
+					self::storeMedia($file);
+				}
 			}
 		}
 
