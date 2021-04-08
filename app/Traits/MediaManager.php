@@ -57,26 +57,35 @@ trait MediaManager {
 
 	/**
 	 * Generates resized copies of stored image and rename them with an appropriate suffix.
-	 * @param string $filePath The sub-path in ressources/storage of the original file.
+	 * @param string $filePath The path of the original file (root is public/).
 	 */
-	// TODO make the optimage manager in his own class
+	// TODO make an optimage manager separate class
 	public static function generateOptimized(string $filePath) {
 
 		$fileInfo = pathinfo($filePath);
-		$file = Storage::disk('public')->get($filePath);
+		// Not in use since we have to make image from path to load EXIF data
+		//$file = Storage::disk('public')->get($filePath);
 	
 		// Image modification
 		$imgManager = new ImageManager(array('driver' => config('app.driver')));
 
-		// TODO optimage.familly in optimage config for generating optimized file in different controllers. generateOptimized needs a new param.
+		// TODO optimage.presset in optimage config for generating optimized file in different controllers. generateOptimized needs a new param.
 		foreach(config('optimage') as $key => $item) {
 			if (!Storage::disk('public')->exists('uploads/'.$fileInfo['filename'].'_'.$key.'.'.$fileInfo['extension'])) {
 				if($item['upscale']) {
-					$img = $imgManager->make($file)->fit($item['width'], $item['height'])->encode($fileInfo['extension'], $item['quality']);
+					$img = $imgManager
+						->make($filePath)
+						->orientate()
+						->fit($item['width'], $item['height'])
+						->encode($fileInfo['extension'], $item['quality']);
 				} else {
-					$img = $imgManager->make($file)->fit($item['width'], $item['height'], function ($constraint) {
-						$constraint->upsize();
-					})->encode($fileInfo['extension'], $item['quality']);
+					$img = $imgManager
+						->make($filePath)
+						->orientate()
+						->fit($item['width'], $item['height'], function ($constraint) {
+							$constraint->upsize();
+						})
+						->encode($fileInfo['extension'], $item['quality']);
 				}
 				Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_'.$key.'.'.$fileInfo['extension'], (string) $img);
 			}
@@ -85,7 +94,7 @@ trait MediaManager {
 
 	/** Re-generate missing resized copies of a specific medium */
 	public function rebuild(Medium $medium) {
-		self::generateOptimized('uploads/'.$medium->filename);
+		self::generateOptimized('storage/uploads/'.$medium->filename);
 		return redirect(route('media'));
 	}
 
@@ -99,7 +108,7 @@ trait MediaManager {
 		});
 
 		foreach($originals as $path) {
-			self::generateOptimized($path);
+			self::generateOptimized('storage/'.$path);
 		}
 
 		return redirect(route('media'));
