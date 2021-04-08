@@ -84,13 +84,14 @@ class BooksController extends Controller
 			$mediaIDs = array_merge($mediaIDs, $data['media']);
 		}
 
+		// Saving book ind database
+		$book = auth()->user()->books()->create($data);
+
 		// Attach
 		if(!empty($mediaIDs)) {
 			$book->media()->attach($mediaIDs);
 		}
 
-		// Saving book
-		$book = auth()->user()->books()->create($data);
 		return redirect(route('books'));
 	}
 
