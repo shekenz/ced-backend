@@ -43,7 +43,7 @@ trait MediaManager {
 		$filepath = $file->storeAs($options['dir'], $basename[0].'.'.$basename[1], 'public');
 		
 		// Generate optimized copies
-		self::generateOptimized($filepath);
+		self::generateOptimized('storage/'.$filepath);
 
 		// Save into database
 		$medium = auth()->user()->media()->create([
