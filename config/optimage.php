@@ -31,14 +31,6 @@ return [
 		'width' => 1280,
 		'height' => 720,
 		'quality' => 80,
-		'upscale' => true,
-	],
-
-	'hdp' => [
-		'caption' => 'HD+',
-		'width' => 1600,
-		'height' => 900,
-		'quality' => 80,
 		'upscale' => false,
 	],
 ];
