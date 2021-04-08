@@ -66,7 +66,7 @@ trait MediaManager {
 		$file = Storage::disk('public')->get($filePath);
 	
 		// Image modification
-		$imgManager = new ImageManager();
+		$imgManager = new ImageManager(array('driver' => config('app.driver')));
 
 		// TODO optimage.familly in optimage config for generating optimized file in different controllers. generateOptimized needs a new param.
 		foreach(config('optimage') as $key => $item) {

@@ -36,5 +36,4 @@ return [
 		'height' => 900,
 		'quality' => 75,
 	],
-
 ];

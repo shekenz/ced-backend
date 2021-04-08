@@ -37,17 +37,18 @@
 
     <img id="frame" class="m-auto" src="{{ asset('storage/uploads/'.$medium->filename) }}" data-hash="{{ $medium->filehash }}" data-ext="{{ $medium->extension }}">
 
-	<div class="mt-2">
+	<div class="m-1">
 		@foreach(config('optimage') as $key => $item)
 			@if(Storage::disk('public')->exists('uploads/'.$medium->filehash.'_'.$key.'.'.$medium->extension))
-			<a href="#" class="inline-block bg-green-200 rounded px-2 py-0.5 font-bold opti-button" data-opti="{{ $key }}">
+			<a href="#" class="inline-block bg-green-200 rounded m-1 px-2 py-0.5 font-bold opti-button" data-opti="{{ $key }}">
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500 inline" viewBox="0 0 20 20" fill="currentColor">
 					<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
 				</svg>
 				{{ ucfirst($item['caption']) }}
+				({{ round(Storage::disk('public')->size('uploads/'.$medium->filehash.'_'.$key.'.'.$medium->extension)/1024) }} KB)
 			</a>
 			@else
-			<span class="inline-block bg-red-200 rounded px-2 py-0.5 font-bold">
+			<span class="inline-block bg-red-200 rounded m-1 px-2 py-0.5 font-bold">
 				<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 inline" viewBox="0 0 20 20" fill="currentColor">
 					<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
 				</svg>
@@ -55,11 +56,12 @@
 			</span>
 			@endif
 		@endforeach
-		<a id="original" href="#" class="inline-block bg-gray-300 rounded px-2 py-0.5 font-bold" data-opti="{{ $key }}">
+		<a id="original" href="#" class="inline-block bg-gray-300 rounded m-1 px-2 py-0.5 font-bold" data-opti="{{ $key }}">
 			<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600 inline" viewBox="0 0 20 20" fill="currentColor">
 				<path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd" />
 			  </svg>
 			Original
+			({{ round(Storage::disk('public')->size('uploads/'.$medium->filehash.'.'.$medium->extension)/1024) }} KB)
 		</a>
 	</div>
 
