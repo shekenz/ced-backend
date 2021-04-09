@@ -64,7 +64,7 @@
 		</div>
 		<div class="col-span-2">
 			<p class="mb-6 mr-6">
-				{{ $book->description }}
+				{!! nl2br(e($book->description)) !!}
 			</p>
 		</div>
 	</div>

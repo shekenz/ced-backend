@@ -59,7 +59,7 @@
 		{{ __('Created at') }} : {{ $book->created_at }}<br>
 		{{ __('Last updated') }} : {{ $book->updated_at }}<br>
 	</p>
-	<p class="mb-4">{{ $book->description }}</p>
+	<p class="mb-4">{!! nl2br(e($book->description)) !!}</p>
 	@if( $book->media->isEmpty() )
 		<h4 class="text-red-500">{{ __('No media linked ! Book will not be displayed on front page.') }}</h4>
 	@else
