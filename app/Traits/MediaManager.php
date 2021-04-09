@@ -14,7 +14,7 @@ use App\Models\Medium;
 trait MediaManager {
 
 	/**
-	 * Save uploaded file to disk and in media library. File is stored with an hashed name.
+	 * Saves an uploaded file to disk and to media library and genrates optimized versions. Files are stored with an hashed name.
 	 * @param Illuminate\Http\UploadedFile $file File to save.
 	 * @param array $options Options for storing the file :
 	 * @param string $options['dir'] The sub directory in ressources/storage where the file is stored. Optional, default to uploads/.
