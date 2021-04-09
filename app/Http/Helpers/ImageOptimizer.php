@@ -2,7 +2,6 @@
 
 namespace App\Http\Helpers;
 
-use Exception;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 
@@ -67,7 +66,7 @@ class ImageOptimizer {
 	/** Run optimization for all media in family
 	 * @param string $family Family name, corresponding to the family key in config/imageoptimizer.php and file's parent directory.
 	 */
-	public function refresh(string $family) {
+	public static function runAll(string $family) {
 		$files = Storage::disk('public')->files($family);
 		
 		// Filtering out other files than original
@@ -84,7 +83,7 @@ class ImageOptimizer {
 	 * @param string $family Family name, corresponding to the family key in config/imageoptimizer.php and file's parent directory.
 	 * @param bool $original Weather or not we should delete the original file (Optional, default to false).
 	 */
-	public function cleanAll(string $family, $original = false) {
+	public static function cleanAll(string $family, $original = false) {
 		$files = Storage::disk('public')->files($family);
 		
 		// Filtering out original files
@@ -100,15 +99,6 @@ class ImageOptimizer {
 
 		return redirect(route('media'));
 	}
-
-	/** Deletes all optimized copies and rebuild everything. Usefull when changing imageoptimizer config.
-	 * @param string $family Family name, corresponding to the family key in config/imageoptimizer.php and file's parent directory.
-	 */
-	public function rebuild(string $family) {
-		$this->cleanAll($family);
-		$this->refresh($family);
-	}
-
 }
 
 ?>

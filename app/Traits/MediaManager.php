@@ -5,6 +5,7 @@ namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
 use App\Http\Helpers\ImageOptimizer;
+use App\Models\Medium;
 
 
 /**
@@ -52,5 +53,27 @@ trait MediaManager {
 		]);
 
 		return $medium->getAttribute('id');
+	}
+
+	public function refresh(Medium $medium) {
+		ImageOptimizer::run('uploads/'.$medium->filename);
+		return redirect(route('media.display', $medium));
+	}
+
+	public function refreshAll() {
+		ImageOptimizer::runAll('uploads');
+		return redirect(route('media'));
+	}
+
+	public function rebuild(Medium $medium) {
+		ImageOptimizer::clean('uploads/'.$medium->filename);
+		ImageOptimizer::run('uploads/'.$medium->filename);
+		return redirect(route('media.display', $medium));
+	}
+
+	public function rebuildAll() {
+		ImageOptimizer::cleanAll('uploads');
+		ImageOptimizer::runAll('uploads');
+		return redirect(route('media'));
 	}
 }
