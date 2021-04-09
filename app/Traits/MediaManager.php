@@ -2,10 +2,9 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\Facades\Storage;
+
 use Illuminate\Http\UploadedFile;
-use Intervention\Image\ImageManager;
-use App\Models\Medium;
+use App\Http\Helpers\ImageOptimizer;
 
 
 /**
@@ -17,7 +16,7 @@ trait MediaManager {
 	 * Saves an uploaded file to disk and to media library and genrates optimized versions. Files are stored with an hashed name.
 	 * @param Illuminate\Http\UploadedFile $file File to save.
 	 * @param array $options Options for storing the file :
-	 * @param string $options['dir'] The sub directory in ressources/storage where the file is stored. Optional, default to uploads/.
+	 * @param string $options['family'] The sub directory in storage/ where the file is stored. Optional, default to uploads/.
 	 * @param string $options['name'] The new name of the file. Optional, default to original file name without the extension.
 	 * @return string The medium id that has been saved.
 	 */
@@ -25,123 +24,33 @@ trait MediaManager {
 
 		// Set default name (not filename) if not provided
 		if(!array_key_exists('name', $options) || (array_key_exists('name', $options) && !$options['name'])) {
-			// Removing everything after last dot, hence the extension
+			// Strip away extension
 			$options['name'] = implode('.', explode('.', $file->getClientOriginalName(), -1));
 		}
 
 		// Set default directory if not provided
-		if(!array_key_exists('dir', $options)) {
-			$options['dir'] = 'uploads';
+		if(!array_key_exists('family', $options)) {
+			$options['family'] = 'uploads';
 		}
 
 		// Get filename, hashname and extension
-		// filename = hashname.extension
-		$filename = $file->hashName();
-		$basename = explode('.', $filename);
+		// filename = hashname.ext
+		$fileName = $file->hashName();
+		$fileInfo = explode('.', $fileName);
 
 		// Store file
-		$filepath = $file->storeAs($options['dir'], $basename[0].'.'.$basename[1], 'public');
+		$filePath = $file->storeAs($options['family'], $fileInfo[0].'.'.$fileInfo[1], 'public');
 		
 		// Generate optimized copies
-		self::generateOptimized('storage/'.$filepath);
+		ImageOptimizer::run($filePath);
 
 		// Save into database
 		$medium = auth()->user()->media()->create([
-			'filehash' => $basename[0],
-			'extension' => $basename[1],
+			'filehash' => $fileInfo[0],
+			'extension' => $fileInfo[1],
 			'name' => $options['name'],
 		]);
 
 		return $medium->getAttribute('id');
-	}
-
-	/**
-	 * Generates resized copies of stored image and rename them with an appropriate suffix.
-	 * @param string $filePath The path of the original file (root is public/).
-	 */
-	// TODO make an optimage manager separate class
-	public static function generateOptimized(string $filePath) {
-
-		$fileInfo = pathinfo($filePath);
-		// Not in use since we have to make image from path to load EXIF data
-		//$file = Storage::disk('public')->get($filePath);
-	
-		// Image modification
-		$imgManager = new ImageManager(array('driver' => config('app.driver')));
-
-		// TODO optimage.presset in optimage config for generating optimized file in different controllers. generateOptimized needs a new param.
-		foreach(config('optimage') as $key => $item) {
-			if (!Storage::disk('public')->exists('uploads/'.$fileInfo['filename'].'_'.$key.'.'.$fileInfo['extension'])) {
-				if($item['upscale']) {
-					$img = $imgManager
-						->make($filePath)
-						->orientate()
-						->fit($item['width'], $item['height'])
-						->encode($fileInfo['extension'], $item['quality']);
-				} else {
-					$img = $imgManager
-						->make($filePath)
-						->orientate()
-						->fit($item['width'], $item['height'], function ($constraint) {
-							$constraint->upsize();
-						})
-						->encode($fileInfo['extension'], $item['quality']);
-				}
-				Storage::disk('public')->put('uploads/'.$fileInfo['filename'].'_'.$key.'.'.$fileInfo['extension'], (string) $img);
-			}
-		}
-	}
-
-	/** Re-generate missing resized copies of a specific medium */
-	public function rebuild(Medium $medium) {
-		self::generateOptimized('storage/uploads/'.$medium->filename);
-		return redirect(route('media'));
-	}
-
-	/** Re-generate missing resized copies of a all media if they are absent */
-	public function rebuildAll() {
-		$files = Storage::disk('public')->files('uploads/');
-		
-		// Filtering out other files than original
-		$originals = array_filter($files, function($item) {
-			return preg_match('/^uploads\/([A-Za-z0-9]{40})\.(jpg|gif|jpeg|png)$/', $item);
-		});
-
-		foreach($originals as $path) {
-			self::generateOptimized('storage/'.$path);
-		}
-
-		return redirect(route('media'));
-	}
-
-	/** Remove all optimized copies for a medium */
-	public static function clean(Medium $medium) {
-		Storage::disk('public')->delete('uploads/'.$medium->filename);
-		foreach(config('optimage') as $key => $item) {
-			Storage::disk('public')->delete('uploads/'.$medium->filehash.'_'.$key.'.'.$medium->extension);
-		}
-	}
-
-	/** Remove all optimized copies for ALL media */
-	public function cleanAll() {
-		$files = Storage::disk('public')->files('uploads/');
-		
-		// Filtering out original files
-		$originals = array_filter($files, function($item) {
-			return !preg_match('/^uploads\/([A-Za-z0-9]{40})\.(jpg|gif|jpeg|png)$/', $item);
-		});
-
-		foreach($originals as $path) {
-			Storage::disk('public')->delete($path);
-		}
-
-		return redirect(route('media'));
-	}
-
-	/** Remove all optimized copies and rebuild everything. Usefull when changing optimage config. */
-	public function forceRebuild() {
-		$this->cleanAll();
-		$this->rebuildAll();
-		return redirect(route('media'));
 	}
 }

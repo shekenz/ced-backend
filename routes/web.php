@@ -63,15 +63,9 @@ Route::get('/dashboard/books/archived', [BooksController::class, 'archived'])->m
 Route::get('/dashboard/media', [MediaController::class, 'list'])->middleware('auth')->name('media');
 Route::post('/dashboard/media', [MediaController::class, 'store'])->middleware('auth')->name('media.store');
 Route::get('/dashboard/media/create', [MediaController::class, 'create'])->middleware('auth')->name('media.create');
-Route::get('/dashboard/media/rebuild', [MediaController::class, 'rebuildAll'])->middleware('auth')->name('media.rebuildAll');
-Route::get('/dashboard/media/cleanall', [MediaController::class, 'cleanAll'])->middleware('auth')->name('media.cleanAll');
-Route::get('/dashboard/media/forcerebuild', [MediaController::class, 'forceRebuild'])->middleware('auth')->name('media.forceRebuild');
 Route::get('/dashboard/media/{medium}', [MediaController::class, 'display'])->middleware('auth')->name('media.display');
 Route::patch('/dashboard/media/{medium}', [MediaController::class, 'update'])->middleware('auth')->name('media.update');
 Route::get('/dashboard/media/{medium}/break/{book}', [MediaController::class, 'breakLink'])->middleware('auth')->name('media.break');
 Route::post('/dashboard/media/delete/{id}', [MediaController::class, 'delete'])->middleware('auth')->name('media.delete');
-Route::get('/dashboard/media/rebuild/{medium}', [MediaController::class, 'rebuild'])->middleware('auth')->name('media.rebuild');
-
-
 
 require __DIR__.'/auth.php';

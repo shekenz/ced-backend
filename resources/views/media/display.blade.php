@@ -35,10 +35,12 @@
 		<input class="button-shared" type="submit" value="{{ __('Rename') }}">
 	</form>
 
-    <img id="frame" class="m-auto" src="{{ asset('storage/uploads/'.$medium->filename) }}" data-hash="{{ $medium->filehash }}" data-ext="{{ $medium->extension }}">
+	@if(Storage::disk('public')->exists('uploads/'.$medium->filename))
+		<img id="frame" class="m-auto" src="{{ asset('storage/uploads/'.$medium->filename) }}" data-hash="{{ $medium->filehash }}" data-ext="{{ $medium->extension }}">
+	@endif
 
 	<div class="m-1">
-		@foreach(config('optimage') as $key => $item)
+		@foreach(config('imageoptimizer.uploads') as $key => $item)
 			@if(Storage::disk('public')->exists('uploads/'.$medium->filehash.'_'.$key.'.'.$medium->extension))
 				<?php $imagesize = getimagesize('storage/uploads/'.$medium->filehash.'_'.$key.'.'.$medium->extension); ?>
 				@if($imagesize[0] < intval($item['width']) || $imagesize[1] < intval($item['height']))
@@ -61,11 +63,18 @@
 			</span>
 			@endif
 		@endforeach
-		<a id="original" href="#" class="inline-block bg-gray-300 rounded m-1 px-2 py-0.5 font-bold" data-opti="{{ $key }}">
-			<x-tabler-photo class="text-gray-600 inline-block" />
+		@if(Storage::disk('public')->exists('uploads/'.$medium->filename))
+			<a id="original" href="#" class="inline-block bg-gray-300 rounded m-1 px-2 py-0.5 font-bold" data-opti="{{ $key }}">
+				<x-tabler-photo class="text-gray-600 inline-block" />
+				Original
+				({{ round(Storage::disk('public')->size('uploads/'.$medium->filehash.'.'.$medium->extension)/1024) }} KB)
+			</a>
+		@else
+		<span class="inline-block bg-red-200 rounded m-1 px-2 py-0.5 font-bold" data-opti="{{ $key }}">
+			<x-tabler-circle-x class="text-red-500 inline-block" />
 			Original
-			({{ round(Storage::disk('public')->size('uploads/'.$medium->filehash.'.'.$medium->extension)/1024) }} KB)
-		</a>
+		</span>
+		@endif
 	</div>
 
 	@env('local')

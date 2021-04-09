@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Medium;
 use App\Models\Book;
 use App\Traits\MediaManager;
+use App\Http\Helpers\ImageOptimizer;
 
 /**
  * Controller for the Media Library.
@@ -94,7 +95,7 @@ class MediaController extends Controller
 			$medium->books()->detach($book);
 		}
 
-		self::clean($medium);
+		ImageOptimizer::clean('uploads/'.$medium->filename, true);
 		
 		$medium->delete();
 		return redirect(route('media'));
