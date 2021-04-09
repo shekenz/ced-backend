@@ -58,7 +58,7 @@
 					{{ $book->price }} €<br><a href="#" class="underline hover:bg-black hover:text-white">Add to cart</a><br><br>
 				@endif
 				@auth
-					<a href="{{ route('books.edit', $book->id) }}" class="base-con-edit">{{ __('Edit in Dashboard') }}</a><br><br>
+					<a href="{{ route('books.edit', $book->id) }}" class="base-con-edit">{{ __('Edit') }}</a><br><br>
 					<a href="{{ route('books.archive', $book->id) }}" class="base-con-edit">{{ __('Archive') }}</a><br><br>
 				@endauth
 		</div>
