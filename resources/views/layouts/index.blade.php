@@ -27,21 +27,21 @@
             <link rel="stylesheet" href="{{ asset(mix('css/index.css'), true) }}">
 			<script src="{{ asset(mix('js/index.js'), true) }}" defer></script>
         @endif
-		
+		@if(isset($scripts))
+			{{ $scripts }}
+		@endif
     </head>
     <body class="text-custom-md lg:text-custom text-gray-800 dark:bg-black dark:text-dark-200">
 		<div id="menu-wrapper" class="fixed w-full top-0">
 			@auth
-			<div class="fixed w-full base-connected">
-				<a class="flex-none base-con-link" href="{{ route('users.display', Auth::user()->id)}}">{{ Auth::user()->username }}</a>
-				&middot;
-				<a class="base-con-link" href="{{ url('/dashboard') }}">{{ __('Dashboard') }}</a>
-				&middot;
-				<a class="base-con-link" href="{{ url('/dashboard') }}">{{ __('Messages') }}</a>
-				&middot;
-				<a class="base-con-link" href="{{ url('/dashboard') }}">{{ __('Orders') }}</a>
-				&middot;
-				<a class="base-con-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">{{ __('Logout') }}</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
+			<div id="user-menu" class="fixed w-full base-connected">
+				<a id="hide-button" class="base-con-link hideable" title="Hide this menu" href="#"><x-tabler-eye-off class="pb-1 inline w-5 h-5" /></a>
+				<a id="unhide-button" class="base-con-link hideable hidden" title="Un-hide this menu" href="#"><x-tabler-eye class="pb-1 inline w-5 h-5" /></a>
+				<a class="flex-none base-con-link hideable" href="{{ route('users.display', Auth::user()->id)}}"><x-tabler-user class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ Auth::user()->username }}</a>
+				<a class="base-con-link hideable" href="{{ url('/dashboard') }}"><x-tabler-gauge class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Dashboard') }}</a>
+				<a class="base-con-link hideable" href="{{ url('/dashboard') }}"><x-tabler-mail class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Messages') }}</a>
+				<a class="base-con-link hideable" href="{{ url('/dashboard') }}"><x-tabler-receipt class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Orders') }}</a>
+				<a class="base-con-link hideable" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()"><x-tabler-logout class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Logout') }}</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
 			</div>
 			@endauth
 			@include('index.menu')
