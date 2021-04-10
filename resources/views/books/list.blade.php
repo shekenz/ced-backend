@@ -22,7 +22,7 @@
 				<td>{{ __('Price') }}</td>
 				<td>{{ __('Created') }}</td>
 				<td>{{ __('Published by') }}</td>
-				<td>{{ __('Action') }}</td>
+				<td>{{ __('Actions') }}</td>
 			</thead>
 			@foreach($books as $book)
 			<tr>
