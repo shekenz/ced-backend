@@ -41,8 +41,10 @@
                     <td class="text-right">
 						<form method="POST" action="{{ route('books.delete', $book->id) }}" class="inline">
 							@csrf
-							<input type="submit" class="button-shared button-warning cursor-pointer" value="Delete" onclick="return confirm('{{ __('Are you sure you want to permanently delete '.$book->title.' ? This action is not reversible.')}}');">
-							<a href="#" title="{{ __('Delete') }}" class="icon warning">
+							<a href="#" title="{{ __('Delete') }}" class="icon warning" onclick="
+								event.preventDefault();
+								this.closest('form').submit();
+							">
 								<x-tabler-trash />
 							</a>
 						</form>
