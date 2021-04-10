@@ -43,7 +43,9 @@
 							@csrf
 							<a href="#" title="{{ __('Delete') }}" class="icon warning" onclick="
 								event.preventDefault();
-								this.closest('form').submit();
+								if(confirm('{{ __('Are you sure you want to permanently delete the book '.$book->title.' ? This action is not reversible.')}}')) {
+									this.closest('form').submit();
+								}
 							">
 								<x-tabler-trash />
 							</a>
