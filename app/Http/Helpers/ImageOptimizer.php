@@ -36,7 +36,7 @@ class ImageOptimizer {
 					->orientate() // Re-orient images from phones (Orientation info is in EXIF data).
 					// Resizing image only if original is bigger than 
 					->fit($config['width'], $config['height'], function ($constraint) use($config) {
-						if($config['upsize']) {
+						if(!$config['upsize']) {
 							$constraint->upsize();
 						}
 					})
