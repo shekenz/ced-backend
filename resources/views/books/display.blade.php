@@ -8,67 +8,76 @@
 		<a href="{{ route('books.edit', $book->id ) }}" class="button-shared">{{ __('Edit') }}</a>
     </x-slot>
 
-	<p class="mb-4">
-	{{ __('ID') }} : {{ $book->id }}<br>
-	{{ __('Title') }} : {{ $book->title }}<br>
-	{{ __('Author') }} : {{ $book->author }}<br>
-	{{ __('Width') }} :
-	@if( !empty($book->width))
-		{{ $book->width }} mm
-	@else
-		{{ __('Empty') }}
-	@endif
-	<br>
-	{{ __('Height') }} :
-	@if( !empty($book->height))
-		{{ $book->height }} mm
-	@else
-		{{ __('Empty') }}
-	@endif
-	<br>
-	{{ __('Pages count') }} :
-	@if( !empty($book->pages))
-		{{ $book->pages }} pages
-	@else
-		{{ __('Empty') }}
-	@endif
-	<br>
-	{{ __('Cover type') }} :
-	@if( !empty($book->cover))
-		{{ $book->cover }}
-	@else
-		{{ __('Empty') }}
-	@endif
-	<br>
-	{{ __('Edition') }} :
-	@if( !empty($book->edition))
-		{{ $book->edition }}
-	@else
-		{{ __('Empty') }}
-	@endif
-	<br>
-	{{ __('Price') }} :
-	@if( !empty($book->price))
-		{{ $book->price }}€
-	@else
-		{{ __('Empty') }}
-	@endif
-	</p>
-	<p class="mb-4">
-		{{ __('Publisher') }} : {{ $book->user->username}}<br>
-		{{ __('Created at') }} : {{ $book->created_at }}<br>
-		{{ __('Last updated') }} : {{ $book->updated_at }}<br>
-	</p>
-	<p class="mb-4">{!! nl2br(e($book->description)) !!}</p>
+	<div class="grid grid-cols-4 gap-6">
+		<div class="col-start-4">
+			<p class="mb-4">
+			<span class="font-bold">{{ __('ID') }} : </span>{{ $book->id }}<br>
+			<span class="font-bold">{{ __('Title') }} : </span>{{ $book->title }}<br>
+			<span class="font-bold">{{ __('Author') }} : </span>{{ $book->author }}<br>
+			<span class="font-bold">{{ __('Width') }} : </span>
+			@if( !empty($book->width))
+				{{ $book->width }} mm
+			@else
+				{{ __('Empty') }}
+			@endif
+			<br>
+			<span class="font-bold">{{ __('Height') }} : </span>
+			@if( !empty($book->height))
+				{{ $book->height }} mm
+			@else
+				{{ __('Empty') }}
+			@endif
+			<br>
+			<span class="font-bold">{{ __('Pages count') }} : </span>
+			@if( !empty($book->pages))
+				{{ $book->pages }} pages
+			@else
+				{{ __('Empty') }}
+			@endif
+			<br>
+			<span class="font-bold">{{ __('Cover type') }} : </span>
+			@if( !empty($book->cover))
+				{{ $book->cover }}
+			@else
+				{{ __('Empty') }}
+			@endif
+			<br>
+			<span class="font-bold">{{ __('Edition') }} : </span>
+			@if( !empty($book->edition))
+				{{ $book->edition }}
+			@else
+				{{ __('Empty') }}
+			@endif
+			<br>
+			<span class="font-bold">{{ __('Price') }} : </span>
+			@if( !empty($book->price))
+				{{ $book->price }}€
+			@else
+				{{ __('Empty') }}
+			@endif
+			</p>
+			<p class="mb-4">
+				<span class="font-bold">{{ __('Publisher') }} : </span>{{ $book->user->username}}<br>
+				<span class="font-bold">{{ __('Created at') }} : </span>{{ $book->created_at }}<br>
+				<span class="font-bold">{{ __('Last updated') }} : </span>{{ $book->updated_at }}<br>
+			</p>
+		</div>
+		<div class="col-span-3 col-start-1 row-start-1">
+			<h4>{{ __('Description') }} :</h4>
+			<p class="mb-4">{!! nl2br(e($book->description)) !!}</p>
+		</div>
+	</div>
+	<div>
 	@if( $book->media->isEmpty() )
 		<h4 class="text-red-500">{{ __('No media linked ! Book will not be displayed on front page.') }}</h4>
 	@else
-		<h4>Attached media :</h4>
+		<h4>{{ __('Attached media') }} :</h4>
 		<p class="grid grid-cols-8 gap-4">
 			@foreach ($book->media as $medium)
 				<a href="{{ route('media.display', $medium->id )}}"><img src="{{ asset('storage/uploads/'.$medium->thumb) }}" srcset="{{ asset('storage/uploads/'.$medium->thumb) }} 1x, {{ asset('storage/uploads/'.$medium->thumb2x) }} 2x"></a>
 			@endforeach
 		</p>
 	@endif
+	</div>
 	    
 </x-app-layout>
