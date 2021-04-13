@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Exception;
+use App\Exceptions\PresetNotFoundException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,40 +29,17 @@ class Medium extends Model
 		return $this->belongsToMany(Book::class, 'book_medium', 'medium_id', 'book_id');
 	}
 
-	// TODO Thoses accessors need to be generated depending on optimage config
-	// Accessor
 	public function getFilenameAttribute()
     {
         return $this->attributes['filehash'].'.'.$this->attributes['extension'];
     }
 
-	public function getThumbAttribute()
-    {
-        return $this->attributes['filehash'].'_thumb.'.$this->attributes['extension'];
-    }
-
-	public function getThumb2xAttribute()
-    {
-        return $this->attributes['filehash'].'_thumb2x.'.$this->attributes['extension'];
-    }
-
-	public function getHdAttribute()
-    {
-        return $this->attributes['filehash'].'_hd.'.$this->attributes['extension'];
-    }
-
-	public function getLgAttribute()
-    {
-        return $this->attributes['filehash'].'_lg.'.$this->attributes['extension'];
-    }
-
-	public function getMdAttribute()
-    {
-        return $this->attributes['filehash'].'_md.'.$this->attributes['extension'];
-    }
-
-	public function getSmAttribute()
-    {
-        return $this->attributes['filehash'].'_sm.'.$this->attributes['extension'];
-    }
+	public function preset(string $preset, string $family = 'uploads') {
+		$filename = $this->attributes['filehash'].'_'.$preset.'.'.$this->attributes['extension'];
+		if(array_key_exists($preset, config('imageoptimizer.'.$family))) {
+			return $family.'/'.$filename;
+		} else {
+			throw new PresetNotFoundException($message = $preset.' does not exist in imageoptimizer.'.$family.' config');
+		}
+	}
 }
