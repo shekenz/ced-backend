@@ -6,7 +6,7 @@
     <x-slot name="controls">
 		<form method="POST" action="{{ route('books.deleteAll') }}" class="inline">
 			@csrf
-			<input type="submit" class="button-shared button-warning cursor-pointer" value="Delete all" onclick="return confirm('{{ __('Are you sure you want to permanently delete '.$archived.' books ? This action is not reversible.')}}');">
+			<input type="submit" class="button-shared button-warning cursor-pointer" value="{{ __('Delete all') }}" onclick="return confirm('{{ __('Are you sure you want to permanently delete all the books').' ? '.__('This action is not reversible').'.'}}');">
 		</form>
 		<a href="{{ route('books') }}" class="button-shared">{{ __('Return to books') }}</a>
     </x-slot>
@@ -43,7 +43,7 @@
 							@csrf
 							<a href="#" title="{{ __('Delete') }}" class="icon warning" onclick="
 								event.preventDefault();
-								if(confirm('{{ __('Are you sure you want to permanently delete the book '.$book->title.' ? This action is not reversible.')}}')) {
+								if(confirm('{{ __('Are you sure you want to permanently delete the book').' '.$book->title.' ? '.__('This action is not reversible').'.'}}')) {
 									this.closest('form').submit();
 								}
 							">

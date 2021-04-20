@@ -10,7 +10,7 @@
 	<x-slot name="controls">
 		<form method="POST" action="{{ route('media.delete', $medium->id) }}" class="inline">
 			@csrf
-			<input type="submit" class="button-shared button-warning cursor-pointer" value="Delete" onclick="return confirm('{{ __('Are you sure you want to permanently delete '.$medium->name.' ? This action is not reversible.')}}');">
+			<input type="submit" class="button-shared button-warning cursor-pointer" value="{{ __('Delete') }}" onclick="return confirm('{{__('Are you sure you want to permanently delete').' '.$medium->name.'.'.$medium->extension.' ? '.__('This action is not reversible').'.'}}');">
 		</form>
 	</x-slot>
 
@@ -79,7 +79,7 @@
 
 	@env('local')
 	<div>
-		<h4>File info</h4>
+		<h4>{{ __('File info') }}</h4>
 		ID : {{ $medium->id }}<br>
 		Hash : {{ $medium->filehash }}<br>
 		Format : <span class="bg-gray-400 rounded px-2 py-0.5 font-bold uppercase text-white text-sm">{{ $medium->extension }}</span><br>
@@ -96,13 +96,13 @@
 		@foreach ($medium->books as $book)
 			<tr>
 				<td><a class="default" href="{{ route('books.display', $book->id) }}">{{ $book->title }}</a></td>
-				<td>By {{ $book->author }}</td>
+				<td>{{ __('By') }} {{ $book->author }}</td>
 				@if( !empty($book->edition ))
 					<td>{{ $book->edition }}</td>
 				@else
 					<td>({{ __('No edition') }})</td>
 				@endif
-				<td>Published by <a class="default" href="{{ route('users.display', $book->user->id) }}">{{ $book->user->username }}</a></td>
+				<td>{{ __('Published by') }} <a class="default" href="{{ route('users.display', $book->user->id) }}">{{ $book->user->username }}</a></td>
 				<td class="text-right w-8"><a class="icon" title="Break link" href="{{ route('media.break', [$medium, $book]) }}"><x-tabler-unlink /></a></td>
 			</tr>
 		@endforeach

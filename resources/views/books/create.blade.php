@@ -33,11 +33,11 @@
 				<input class="input-shared" id="author" name="author" type="text" value="{{ old('author') }}" maxlength="64">
 			</div>
 			<div>
-				<label class="label-shared-first lg:text-lg" for="width">{{ __('Width (mm)') }} :</label>
+				<label class="label-shared-first lg:text-lg" for="width">{{ __('Width') }} (mm) :</label>
 				<input class="input-shared" id="width" name="width" type="number" value="{{ old('width') }}">
 			</div>
 			<div class="md:row-start-2">
-				<label class="label-shared-first lg:text-lg" for="height">{{ __('Height (mm)') }} :</label>
+				<label class="label-shared-first lg:text-lg" for="height">{{ __('Height') }} (mm) :</label>
 				<input class="input-shared" id="height" name="height" type="number" value="{{ old('height') }}">
 			</div>
 			<div>
@@ -45,7 +45,7 @@
 				<input class="input-shared" id="cover" name="cover" type="text" value="{{ old('cover') }}" maxlength="32">
 			</div>
 			<div class="md:row-start-2">
-				<label class="label-shared-first lg:text-lg" for="pages">{{ __('Pages') }} :</label>
+				<label class="label-shared-first lg:text-lg" for="pages">{{ __('Pages count') }} :</label>
 				<input class="input-shared" id="pages" name="pages" type="number" value="{{ old('pages') }}">
 			</div>
 			<div>

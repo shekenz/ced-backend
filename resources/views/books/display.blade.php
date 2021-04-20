@@ -35,7 +35,7 @@
 				{{ __('Empty') }}
 			@endif
 			<br>
-			<span class="font-bold">{{ __('Cover type') }} : </span>
+			<span class="font-bold">{{ __('Cover') }} : </span>
 			@if( !empty($book->cover))
 				{{ $book->cover }}
 			@else
@@ -57,7 +57,7 @@
 			@endif
 			</p>
 			<p class="mb-4">
-				<span class="font-bold">{{ __('Publisher') }} : </span>{{ $book->user->username}}<br>
+				<span class="font-bold">{{ __('Published by') }} : </span>{{ $book->user->username}}<br>
 				<span class="font-bold">{{ __('Created at') }} : </span>{{ $book->created_at }}<br>
 				<span class="font-bold">{{ __('Last updated') }} : </span>{{ $book->updated_at }}<br>
 			</p>
@@ -69,7 +69,7 @@
 	</div>
 	<div>
 	@if( $book->media->isEmpty() )
-		<h4 class="text-red-500">{{ __('No media linked ! Book will not be displayed on front page.') }}</h4>
+		<h4 class="text-red-500">{{ __('No media linked ! Book will not be displayed on front page') }}.</h4>
 	@else
 		<h4>{{ __('Attached media') }} :</h4>
 		<p class="grid grid-cols-8 gap-4">

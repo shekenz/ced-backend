@@ -29,8 +29,8 @@
 				{{-- <td class="hidden md:table-cell">{{ $book->id }}</td> --}}
 				<td>
 					@if($book->media->isEmpty())
-					<a href="{{ route('books.display', $book->id) }}" class="icon warning" title="{{ __('No media linked ! Book will not be displayed on front page.') }}"><x-tabler-alert-circle />
-					</svg></a>
+					<a href="{{ route('books.display', $book->id) }}" class="icon warning" title="{{ __('No media linked ! Book will not be displayed on front page') }}."><x-tabler-alert-circle />
+					</a>
 					@endif
 				</td>
 				<td><a href="{{ route('books.display', $book->id) }}" class="default">{{ $book->title }}</a></td>

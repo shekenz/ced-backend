@@ -11,7 +11,7 @@
             <div class="flex flex-col gap-8 sm:flex-row items-start p-8">
                 <div class="flex-none m-auto sm:m-0 text-center">
                     <img class="rounded-full shadow-md border border-gray-400 w-32 sm:w-48 my-2" src="{{ asset('img/default-thumbnail.jpg') }}" alt="Test thumbnail">
-                    <a href="#" class="default text-sm">Edit profile picture</a>
+                    <a href="#" class="default text-sm">{{ __('Edit profile picture') }}</a>
                 </div>
                 <div class="flex-grow mx-3 sm:mx-0 my-2">
                     @if ($errors->any())
@@ -49,10 +49,10 @@
                     </form>
                 </div>
                 <div class="justify-self-end bg-gray-200 p-4 rounded-lg">
-                    <h3 class="text-lg border-b border-current">{{ __('Other Actions') }}</h3>
+                    <h3 class="text-lg border-b border-current">{{ __('Other actions') }}</h3>
                     <form action="{{ route('users.delete', $user->id) }}" method="post">
                         @csrf
-                        <input class="button-shared mt-0" type="button" value="{{ __('Delete User') }}" onClick="if(confirm('Are you sure to delete user {{ $user->username }} ?')){this.parentNode.submit()}">
+                        <input class="button-shared mt-0" type="button" value="{{ __('Delete') }}" onClick="if(confirm('Are you sure to delete user {{ $user->username }} ?')){this.parentNode.submit()}">
                     </form>
                 </div>
             </div>
