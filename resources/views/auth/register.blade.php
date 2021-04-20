@@ -42,7 +42,7 @@
 
             <!-- Confirm Password -->
             <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" :required="true" minlength="8"/>
+                <x-label for="password_confirmation" :value="__('Confirm password')" :required="true" minlength="8"/>
                 <x-input id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
                                 name="password_confirmation" required />
@@ -50,7 +50,7 @@
             
             <!-- Birth date -->
             <div class="mt-4">
-                <x-label for="birthdate" :value="__('Birth date')"/>
+                <x-label for="birthdate" :value="__('Birthdate')"/>
                 <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')" />
             </div>
 
