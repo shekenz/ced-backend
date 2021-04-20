@@ -27,6 +27,9 @@
             <link rel="stylesheet" href="{{ asset(mix('css/index.css'), true) }}">
 			<script src="{{ asset(mix('js/index.js'), true) }}" defer></script>
         @endif
+		@auth
+			<script src="{{ asset('js/front.js') }}" defer></script>
+		@endauth
 		@if(isset($scripts))
 			{{ $scripts }}
 		@endif

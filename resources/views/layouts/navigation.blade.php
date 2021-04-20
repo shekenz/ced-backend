@@ -25,6 +25,9 @@
                     <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
                         <x-tabler-users class="mr-1"/>{{ __('Users') }}
                     </x-nav-link>
+					<x-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
+                        <x-tabler-settings class="mr-1"/>{{ __('Settings') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -99,6 +102,12 @@
             <x-responsive-nav-link :href="route('users')" :active="request()->routeIs('users')">
                 <x-tabler-users class="mr-1 inline"/>{{ __('Users') }}
             </x-responsive-nav-link>
+        </div>
+
+		<div class="border-t border-gray-200">
+            <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
+                <x-tabler-users class="mr-1 inline"/>{{ __('Settings') }}
+            </x-responsive-settings>
         </div>
 
         <div class="border-t border-gray-200">

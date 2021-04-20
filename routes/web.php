@@ -6,6 +6,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\SettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,5 +72,9 @@ Route::get('/dashboard/media/refresh/{medium}', [MediaController::class, 'refres
 Route::get('/dashboard/media/rebuild/{medium}', [MediaController::class, 'rebuild'])->middleware('auth')->name('media.optimize.rebuild');
 Route::get('/dashboard/media/{medium}/break/{book}', [MediaController::class, 'breakLink'])->middleware('auth')->name('media.break');
 Route::post('/dashboard/media/delete/{id}', [MediaController::class, 'delete'])->middleware('auth')->name('media.delete');
+
+// Settings
+Route::view('/dashboard/settings', 'settings.main')->middleware('auth')->name('settings');
+Route::patch('/dashboard/settings', [SettingsController::class, 'update'])->middleware('auth')->name('settings.update');
 
 require __DIR__.'/auth.php';

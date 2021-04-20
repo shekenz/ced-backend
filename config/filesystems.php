@@ -52,6 +52,13 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+		'raw' => [
+			'driver' => 'local',
+			'root' => storage_path('app/raw'),
+			'url' => env('APP_URL').'/storage',
+			'visibility' => 'public',
+		],
+
     ],
 
     /*
