@@ -20,13 +20,14 @@
 
 		<link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
 
-        @if(config('app.env') == 'local')
+		{{-- //TODO Fix the connection_refused error when deployed on VPS --}}
+        {{-- @if(config('app.env') == 'local') --}}
             <link rel="stylesheet" href="{{ asset('css/index.css') }}">
 			<script src="{{ asset('js/index.js') }}" defer></script>
-        @else {{-- Cache bustin in production --}}
+        <!-- @else {{-- Cache bustin in production DISBLED BECAUSE OF CONNECTION REFUSED ERROR WHEN DEPLOYED ON VPS --}}
             <link rel="stylesheet" href="{{ asset(mix('css/index.css'), true) }}">
 			<script src="{{ asset(mix('js/index.js'), true) }}" defer></script>
-        @endif
+        @endif -->
 		@auth
 			<script src="{{ asset('js/front.js') }}" defer></script>
 		@endauth
