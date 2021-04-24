@@ -130,10 +130,23 @@ return [
     | Image Intervention default driver
     |--------------------------------------------------------------------------
     |
-    |
+    | Here we can choose which driver between gd or imagick the ImageOptimizer
+	| helper will use for resizing and rendering the images.
+	|
     */
 
 	'driver' => env('IMAGE_DRIVER', 'gd'),
+
+	/*
+    |--------------------------------------------------------------------------
+    | Registering new user
+    |--------------------------------------------------------------------------
+    |
+    | Allow guest users to create a new account.
+	|
+    */
+
+	'allow_register' => env('APP_ALLOW_REGISTER', false),
 
     /*
     |--------------------------------------------------------------------------

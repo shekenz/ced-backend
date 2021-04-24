@@ -56,9 +56,11 @@
                     {{ __('Login') }}
                 </x-button>
             </div>
+			@if( config('app.allow_register'))
             <div class="flex item-center mt-4 border-top justify-center">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">{{ __('Not yet registered?') }}</a>
+            	<a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">{{ __('Not yet registered?') }}</a>
             </div>
+			@endif
         </form>
     </x-auth-card>
 </x-guest-layout>

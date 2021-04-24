@@ -19,7 +19,11 @@ class RegisteredUserController extends Controller
      */
     public function create()
     {
-        return view('auth.register');
+		if(config('app.allow_register')) {
+        	return view('auth.register');
+		} else {
+			return redirect(route('login'));
+		}
     }
 
     /**
