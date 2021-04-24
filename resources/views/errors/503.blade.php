@@ -101,7 +101,7 @@
 			<div class="flex-item"><h1>e.p.g.</h1></div>
 			<div class="flex-item mb"><span class="little">We'll be back soon.</span></div>
 			{{-- <div class="flex-item"><img src="img/logo.png" srcset="img/logo.png 1x, img/logo@2x.png 2x"></div> --}}
-			<div class="flex-item little"><a class="link" href="https://instagram.com/esteban_pablo_gonzalez?igshid=12x78dnza3p4h"><x-tabler-brand-instagram class="logo"/></a> <a class="link" href="https://www.facebook.com/stneue"><x-tabler-brand-facebook class="logo"/></a></div>
+			<div class="flex-item little"><a class="link" href="https://instagram.com/esteban_pablo_gonzalez"><x-tabler-brand-instagram class="logo"/></a> <a class="link" href="https://www.facebook.com/stneue"><x-tabler-brand-facebook class="logo"/></a></div>
 		</div>
 	</div>
 </body>
