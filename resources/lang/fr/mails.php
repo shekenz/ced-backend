@@ -1,6 +1,7 @@
 <?php
 
 return [
+	'subject' => 'Vous êtes invité(e) à rejoindre notre équipe !',
 	'salutation' => 'Bonjour',
 	'invitation' => 'Vous avez été invité(e) à rejoindre l\'équipe de modération d\'e.p.g. !',
 	'link' => 'Veuillez suivre le lien ci-dessous afin de procéder à votre inscription',

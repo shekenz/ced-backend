@@ -6,7 +6,7 @@
 <br>
 <a href="https://www.epg.works">https://www.epg.works/register/9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ</a>
 <br><br>
-{{ __('mails.warning') }}
+{{ __('mails.warning') }}.
 <br><br><br>
 {{ __('mails.regards') }},
 <br>
