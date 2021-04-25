@@ -28,6 +28,6 @@ class UserInvite extends Mailable
      */
     public function build()
     {
-        return $this->text('emails.users.invite-plain');
+        return $this->view('emails.users.invite');
     }
 }
