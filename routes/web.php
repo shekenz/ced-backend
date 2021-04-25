@@ -46,6 +46,7 @@ Route::get('/dashboard/user/{user}', [UsersController::class, 'display'])->middl
 Route::get('/dashboard/user/edit/{user}', [UsersController::class, 'edit'])->middleware('auth')->name('users.edit');
 Route::patch('/dashboard/user/{user}', [UsersController::class, 'update'])->middleware('auth')->name('users.update');
 Route::post('/dashboard/user/delete/{user}', [UsersController::class, 'delete'])->middleware('auth')->name('users.delete');
+Route::get('/dashboard/users/invite', [UsersController::class, 'invite'])->middleware('auth')->name('users.invite');
 
 // Books (Auth in controller)
 Route::get('/dashboard/books', [BooksController::class, 'list'])->middleware('auth')->name('books');

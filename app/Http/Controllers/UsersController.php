@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Mail\UserInvite;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+
 
 // Models
 use App\Models\User;
@@ -46,4 +49,10 @@ class UsersController extends Controller
 
         return redirect(route('users.display', ['user' => $user->id]));
     }
+
+	/** Invite a new user to register */
+	public function invite() {
+		Mail::to('aureltrotebas@icloud.com')->send(new UserInvite());
+		return redirect(route('users'));
+	}
 }
