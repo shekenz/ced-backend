@@ -1,5 +1,5 @@
 {{ __('mails.salutation') }},
-<br><br>
+<br><br><br>
 {{ __('mails.invitation') }}
 <br><br>
 {{ __('mails.link') }} :
