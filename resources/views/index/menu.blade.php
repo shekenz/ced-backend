@@ -10,8 +10,8 @@
 ">
 	<h1><a href="{{ route('about') }}" class="{{ (request()->routeIs('about')) ? 'base-menu-link-active' : '' }} base-menu-link base-menu-animated">e.p.g.</a></h1>
 	<div><a href="{{ route('index') }}" class="{{ (request()->routeIs('index')) ? 'base-menu-link-active' : '' }} base-menu-link base-menu-animated">{{ (config('app.env') == 'local') ? 'shop' : 'books'}}</a></div>
-	@if(config('app.env') == 'local')
 	<div><a href="{{ route('messages') }}" class="base-menu-link {{ (request()->routeIs('contact')) ? 'base-menu-link-active' : '' }} base-menu-animated">contact</a></div>
+	@if(config('app.env') == 'local')
 	<div class="md:col-start-8 "><a href="{{ route('cart') }}" class="{{ (request()->routeIs('cart')) ? 'base-menu-link-active ' : '' }}base-menu-link base-menu-animated">cart</a></div>
 	<div class="justify-self-end "><a href="#" class="base-menu-link">fr</a> / <a href="#" class="base-menu-link">en</a></div>
 	@endif

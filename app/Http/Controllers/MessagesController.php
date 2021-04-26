@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMessage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -18,7 +19,10 @@ class MessagesController extends Controller
 			'subject' => ['max:256', 'required'],
 			'message' => ['required'],
 		]);
-		//dd($data);
-		Mail::to('aureltrotebas@icloud.com')->send(New ContactMessage($data));
+		
+		$users = User::where('role', 'admin')->orWhere('role', 'postmaster')->get();
+		foreach($users as $user) {
+			Mail::to($user->email)->send(New ContactMessage($data));
+		}
 	}
 }
