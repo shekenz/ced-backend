@@ -5,6 +5,9 @@ return [
 		'success' => 'Your message has been sent. You will receive a confirmation by mail soon.',
 		'fail' => 'Your message could not be sent because of an internal error. We are sorry for the inconveniance.',
 	],
+	'user' => [
+		'invited' => 'A new invitation has been sent to :email.'
+	],
 	'book' => [
 		'added' => 'New book successfully added!',
 		'updated' => 'Book successfully updated!',

@@ -5,6 +5,9 @@ return [
 		'success' => 'Votre message a été envoyé. Vous recevrez une confirmation par email sous peu.',
 		'fail' => 'Votre message n\' pas pu être envoyé en raison d\'une erreur interne. Nous nous excusons pour la gène occasionée.',
 	],
+	'user' => [
+		'invited' => 'Une nouvelle invitation a été envoyée à :email.'
+	],
 	'book' => [
 		'added' => 'Nouveau livre ajouté !',
 		'updated' => 'Livre mis à jour.',

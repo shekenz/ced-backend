@@ -4,7 +4,7 @@
 	</x-slot>
 
 	<x-slot name="controls">
-		<a class="button-shared" href="{{ route('users.invite') }}">Invite</a>
+		<a class="button-shared" href="{{ route('users.invitation') }}">{{ __('Invite') }}</a>
 	</x-slot>
 
 	@foreach($users as $user)

@@ -12,7 +12,6 @@
 		</script>
         <title>
             {{ config('app.name') }}
-            @if(config('app.env') == 'local') (Dev) @endif
             @if(isset($title)) | {{ $title }} @endif
         </title>
         <meta charset=UTF-8>

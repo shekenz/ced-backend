@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 use App\Mail\UserInvite;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -51,8 +52,20 @@ class UsersController extends Controller
     }
 
 	/** Invite a new user to register */
-	public function invite() {
-		Mail::to('aureltrotebas@icloud.com')->send(new UserInvite());
-		return redirect(route('users'));
+	public function invitation() {
+		return view('users.invitation');
+	}
+
+	public function invite(Request $request) {
+		$data = $request->validate([
+			'email' => ['max:256', 'email', 'required'],
+		]);
+
+		//Mail::to($data['email'])->send(new UserInvite());
+		
+		return redirect()->route('users')->with([
+			'flash' => __('flash.user.invited', ['email' => $data['email']]),
+			'flash-type' => 'success'
+		]);
 	}
 }
