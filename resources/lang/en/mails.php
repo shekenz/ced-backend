@@ -3,7 +3,10 @@
 return [
 	'contact' => [
 		'notification' => [
-			'title' => 'Your message has been received'
+			'subject' => 'Your message has been received',
+			'line1' => 'Your message has been transmited to our team',
+			'line2' => 'Please consider a response time up to 2 working days',
+			'line3' => 'You will find a sumary of your message after de line below'
 		]
 	],
 	'users' => [

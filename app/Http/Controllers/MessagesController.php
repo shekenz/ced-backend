@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactMessage;
+use App\Mail\ContactNotification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -19,10 +20,13 @@ class MessagesController extends Controller
 			'subject' => ['max:256', 'required'],
 			'message' => ['required'],
 		]);
-		
+
 		$users = User::where('role', 'admin')->orWhere('role', 'postmaster')->get();
 		foreach($users as $user) {
 			Mail::to($user->email)->send(New ContactMessage($data));
 		}
+		Mail::to($data['email'])->send(New ContactNotification($data));
+
+		return redirect(route('index'));
 	}
 }
