@@ -82,4 +82,7 @@ Route::post('/contact', [MessagesController::class, 'forward'])->name('messages.
 Route::view('/dashboard/settings', 'settings.main')->middleware('auth')->name('settings');
 Route::patch('/dashboard/settings', [SettingsController::class, 'update'])->middleware('auth')->name('settings.update');
 
+// Misc/Debug/Log
+Route::get('/dashboard/mails/log', [MessagesController::class, 'log'])->middleware('auth')->name('mails.log');
+
 require __DIR__.'/auth.php';
