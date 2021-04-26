@@ -6,6 +6,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\SettingsController;
 
 /*
@@ -30,7 +31,6 @@ Route::view('/cart', 'index/cart', [
 	'quantity' => '1',
 ])->name('cart');
 Route::view('/about', 'index/about')->name('about');
-Route::view('/contact', 'index/contact')->name('contact');
 
 // Loggin route
 
@@ -73,6 +73,10 @@ Route::get('/dashboard/media/refresh/{medium}', [MediaController::class, 'refres
 Route::get('/dashboard/media/rebuild/{medium}', [MediaController::class, 'rebuild'])->middleware('auth')->name('media.optimize.rebuild');
 Route::get('/dashboard/media/{medium}/break/{book}', [MediaController::class, 'breakLink'])->middleware('auth')->name('media.break');
 Route::post('/dashboard/media/delete/{id}', [MediaController::class, 'delete'])->middleware('auth')->name('media.delete');
+
+// Messages
+Route::view('/contact', 'index/contact')->name('messages');
+Route::post('/contact', [MessagesController::class, 'forward'])->name('messages.forward');
 
 // Settings
 Route::view('/dashboard/settings', 'settings.main')->middleware('auth')->name('settings');
