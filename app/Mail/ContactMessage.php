@@ -32,7 +32,7 @@ class ContactMessage extends Mailable
     public function build()
     {
         return $this->view('emails.contact.forward')
-					->from($this->data['email'])
+					//->from($this->data['email'])
 					->replyTo($this->data['email'])
 					->subject($this->data['subject']);
     }

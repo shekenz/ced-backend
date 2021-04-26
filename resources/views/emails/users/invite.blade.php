@@ -1,15 +1,15 @@
-{{ __('mails.salutation') }},
+{{ __('mails.general.salutation') }},
 <br><br><br>
-{{ __('mails.invitation') }}
+{{ __('mails.users.invite.main') }}
 <br><br>
-{{ __('mails.link') }} :
+{{ __('mails.users.invite.link') }} :
 <br>
 <a href="https://www.epg.works">https://www.epg.works/register/9leGFtcGxlLmNvbS9pc19yb290Ijp0cnVlfQ</a>
 <br><br>
-{{ __('mails.warning') }}.
+{{ __('mails.users.invite.warning') }}.
 <br><br><br>
-{{ __('mails.regards') }},
+{{ __('mails.general.regards') }},
 <br>
-{{ __('mails.signature') }}
+{{ __('mails.general.signature') }}
 <br><br>
 <a href="https://www.epg.works">https://www.epg.works</a>
