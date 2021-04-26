@@ -2,6 +2,8 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import './flash.css';
+
 @layer base {
 
 	a.default, .base-link {

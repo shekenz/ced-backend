@@ -5,6 +5,8 @@
 @import '@glidejs/glide/dist/css/glide.core.min.css';
 @import './glide.theme.css';
 
+@import './flash.css';
+
 @layer base {
 
 	@font-face {

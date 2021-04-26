@@ -34,6 +34,9 @@
             <main>
                 <div class="py-2 sm:py-8">
                     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+						@if(Session::has('flash'))
+							<x-flash.back :message="Session::get('flash')" class="flash-{{ Session::get('flash-type') }}"/>
+						@endif
                         <div class="bg-white overflow-hidden shadow-sm rounded-md sm:rounded-lg">
                             @if(isset($title))
                             <div class="flex flex-row py-2 px-3 sm:py-4 sm:px-5 bg-white border-b border-gray-200">
@@ -56,5 +59,7 @@
                 </div>
             </main>
         </div>
+		<!-- Hack to prevent transition from firing at load in Chrome -->
+		<script> </script>
     </body>
 </html>

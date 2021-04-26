@@ -36,6 +36,9 @@
 		@endif
     </head>
     <body class="text-custom-md lg:text-custom text-gray-800 dark:bg-black dark:text-dark-200">
+		@if(Session::has('flash'))
+		<x-flash.default :message="Session::get('flash')" class="flash-{{ Session::get('flash-type') }}"/>
+		@endif
 		<div id="menu-wrapper" class="fixed w-full top-0">
 			@auth
 			<div id="user-menu" class="fixed w-full base-connected">
@@ -56,5 +59,7 @@
 		<div id="footer" class="fixed bottom-4 right-4  md:bottom-8 md:right-12 xl:bottom-12 xl:right-20">
 			<a id="fun" href="{{ route('about') }}"><img  class="block dark:hidden w-10 md:w-14 xl:w-auto" srcset="{{ asset('img/logo.png') }} 1x, {{ asset('img/logo@2x.png') }} 2x" src="{{ asset('img/logo.png') }}" alt="epg logo"><img  class="hidden dark:block w-10 md:w-14 xl:w-auto" srcset="{{ asset('img/logo-dark.png') }} 1x, {{ asset('img/logo-dark@2x.png') }} 2x" src="{{ asset('img/logo-dark.png') }}" alt="epg logo"></a>
 		</div>
+		<!-- Hack to prevent transition from firing at load in Chrome -->
+		<script> </script>
     </body>
 </html>

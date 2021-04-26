@@ -69,7 +69,10 @@ class MediaController extends Controller
 			}
 		}
 
-        return redirect(route('media'));
+        return redirect()->route('media')->with([
+			'flash' => __('flash.media.added'),
+			'flash-type' => 'success'
+		]);
     }
 
 	/** Updates a single file, basically renaming it. */
@@ -78,7 +81,11 @@ class MediaController extends Controller
 			'name' => ['required', 'string', 'max:64'],
 		]);
 		$medium->update($data);
-		return redirect(route('media.display', $medium));
+
+		return redirect()->route('media.display', $medium)->with([
+			'flash' => __('flash.media.renamed'),
+			'flash-type' => 'info'
+		]);
 	}
 
 	/** Breaks link between a medium and its related book. */
@@ -97,6 +104,9 @@ class MediaController extends Controller
 		ImageOptimizer::clean('uploads/'.$medium->filename, true);
 		
 		$medium->delete();
-		return redirect(route('media'));
+		return redirect()->route('media')->with([
+			'flash' => __('flash.media.deleted'),
+			'flash-type' => 'success'
+		]);
 	}
 }

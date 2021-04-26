@@ -22,6 +22,9 @@ class SettingsController extends Controller
 			}
 		}
 
-		return view('settings.main');
+		return redirect()->route('settings')->with([
+			'flash' => __('flash.settings.updated'),
+			'flash-type' => 'success'
+		]);
 	}
 }

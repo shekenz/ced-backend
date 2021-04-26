@@ -92,7 +92,10 @@ class BooksController extends Controller
 			$book->media()->attach($mediaIDs);
 		}
 
-		return redirect(route('books'));
+		return redirect()->route('books')->with([
+			'flash' => __('flash.book.added'),
+			'flash-type' => 'success'
+		]);
 	}
 
 	/** Displays the book edition page. */
@@ -132,7 +135,11 @@ class BooksController extends Controller
 
 		// Updating book
 		$book->update($data);
-		return redirect(route('books'));
+		
+		return redirect()->route('books')->with([
+			'flash' => __('flash.book.updated'),
+			'flash-type' => 'success'
+		]);
 	}
 
 	// Lists all archived books. Index of archives in backend.
@@ -145,14 +152,20 @@ class BooksController extends Controller
 	// Archives a book (SoftDelete)
 	public function archive(Book $book) {
 		$book->delete();
-		return redirect(route('books'));
+		return redirect()->route('books')->with([
+			'flash' => __('flash.book.archived'),
+			'flash-type' => 'info'
+		]);
 	}
 
 	// Restore a book from archives to library.
 	public function restore($id) {
 		// Can't bind a deleted model, will throw a 404
 		Book::onlyTrashed()->findOrFail($id)->restore();
-		return  redirect(route('books.archived'));
+		return redirect()->route('books.archived')->with([
+			'flash' => __('flash.book.restored'),
+			'flash-type' => 'success'
+		]);
 	}
 
 	// Permanently deletes a book from archives.
@@ -161,7 +174,10 @@ class BooksController extends Controller
 		$book = Book::with('media')->onlyTrashed()->findOrFail($id);
 		$book->media()->detach();
 		$book->forceDelete();
-		return redirect(route('books.archived'));
+		return redirect()->route('books.archived')->with([
+			'flash' => __('flash.book.deleted'),
+			'flash-type' => 'success'
+		]);
 	}
 
 	// Permanently deletes ALL books from archives.
@@ -171,6 +187,9 @@ class BooksController extends Controller
 			$book->media()->detach();
 		}
 		Book::with('media')->onlyTrashed()->forceDelete();
-		return redirect(route('books'));
+		return redirect()->route('books')->with([
+			'flash' => __('flash.book.all-deleted'),
+			'flash-type' => 'success'
+		]);
 	}
 }

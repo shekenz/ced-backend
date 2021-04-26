@@ -27,6 +27,9 @@ class MessagesController extends Controller
 		}
 		Mail::to($data['email'])->send(New ContactNotification($data));
 
-		return redirect(route('index'));
+		return redirect()->route('index')->with([
+			'flash' => __('flash.mail.success'),
+			'flash-type' => 'success'
+		]);
 	}
 }

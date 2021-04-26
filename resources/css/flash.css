@@ -1,0 +1,16 @@
+
+.flash-success {
+	@apply bg-green-300 border-green-500;
+}
+
+.flash-warning {
+	@apply bg-yellow-200 border-yellow-500;
+}
+
+.flash-error {
+	@apply bg-red-300 border-red-500;
+}
+
+.flash-info {
+	@apply bg-blue-300 border-blue-500;
+}
