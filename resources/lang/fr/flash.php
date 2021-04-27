@@ -6,7 +6,8 @@ return [
 		'fail' => 'Votre message n\' pas pu être envoyé en raison d\'une erreur interne. Nous nous excusons pour la gène occasionée.',
 	],
 	'user' => [
-		'invited' => 'Une nouvelle invitation a été envoyée à :email.'
+		'invited' => 'Une nouvelle invitation a été envoyée à :email.',
+		'expired' => 'Ce lien a expiré. Veuillez nous contacter pour en obtenir un nouveau.',
 	],
 	'book' => [
 		'added' => 'Nouveau livre ajouté !',

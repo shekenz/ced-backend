@@ -6,7 +6,8 @@ return [
 		'fail' => 'Your message could not be sent because of an internal error. We are sorry for the inconveniance.',
 	],
 	'user' => [
-		'invited' => 'A new invitation has been sent to :email.'
+		'invited' => 'A new invitation has been sent to :email.',
+		'expired' => 'This link has expired. Please contact us to request a new link.',
 	],
 	'book' => [
 		'added' => 'New book successfully added!',

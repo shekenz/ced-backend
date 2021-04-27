@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\InviteToken;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class RegisteredUserController extends Controller
 {
@@ -17,12 +19,21 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(string $token)
     {
 		if(config('app.allow_register')) {
         	return view('auth.register');
 		} else {
-			return redirect(route('login'));
+
+			if(InviteToken::where('token', $token)->where('generated_at', '>', Carbon::now()->subDay())->exists()) {
+				return view('auth.register');
+			} else {
+				return redirect()->route('index')->with([
+					'flash' => __('flash.user.expired'),
+					'flash-type' => 'error',
+				]);
+			}
+			
 		}
     }
 

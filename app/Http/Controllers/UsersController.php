@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Mail\UserInvite;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use App\Models\InviteToken;
+use Illuminate\Support\Str;
 
 
 // Models
@@ -61,7 +63,13 @@ class UsersController extends Controller
 			'email' => ['max:256', 'email', 'required'],
 		]);
 
-		//Mail::to($data['email'])->send(new UserInvite());
+		$token = Str::random(40);
+
+		InviteToken::create([
+			'token' => $token,
+		]);
+
+		Mail::to($data['email'])->send(new UserInvite($token));
 		
 		return redirect()->route('users')->with([
 			'flash' => __('flash.user.invited', ['email' => $data['email']]),
