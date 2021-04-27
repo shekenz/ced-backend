@@ -58,18 +58,20 @@ class UsersController extends Controller
 		return view('users.invitation');
 	}
 
+	public static function inviteByMail(string $email) {
+		$token = Str::random(40);
+		InviteToken::create([
+			'token' => $token,
+		]);
+		Mail::to($email)->send(new UserInvite($token));
+	}
+
 	public function invite(Request $request) {
 		$data = $request->validate([
 			'email' => ['max:256', 'email', 'required'],
 		]);
 
-		$token = Str::random(40);
-
-		InviteToken::create([
-			'token' => $token,
-		]);
-
-		Mail::to($data['email'])->send(new UserInvite($token));
+		Self::inviteByMail($data['email']);
 		
 		return redirect()->route('users')->with([
 			'flash' => __('flash.user.invited', ['email' => $data['email']]),
