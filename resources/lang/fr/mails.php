@@ -20,6 +20,6 @@ return [
 	'general' => [
 		'salutation' => 'Bonjour',
 		'regards' => 'Cordialement',
-		'signature' => 'L\'équipe d\'e.p.g.'
+		'signature' => 'e.p.g.'
 	]
 ];

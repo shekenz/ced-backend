@@ -85,5 +85,8 @@ Route::patch('/dashboard/settings', [SettingsController::class, 'update'])->midd
 
 // Misc/Debug/Log
 Route::get('/dashboard/mails/log', [MessagesController::class, 'log'])->middleware('auth')->name('mails.log');
+Route::get('/dashboard/phpinfo', function() {
+	return view('other.phpinfo');
+})->middleware('auth')->name('phpinfo');
 
 require __DIR__.'/auth.php';
