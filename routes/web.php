@@ -32,15 +32,12 @@ Route::view('/cart', 'index/cart', [
 ])->name('cart');
 Route::view('/about', 'index/about')->name('about');
 
-// Loggin route
-
-
 // Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
 
-// Users (Auth in controller)
+// Users
 Route::get('/dashboard/users', [UsersController::class, 'list'])->middleware('auth')->name('users');
 Route::get('/dashboard/user/{user}', [UsersController::class, 'display'])->middleware('auth')->name('users.display');
 Route::get('/dashboard/user/edit/{user}', [UsersController::class, 'edit'])->middleware('auth')->name('users.edit');
@@ -49,7 +46,7 @@ Route::post('/dashboard/user/delete/{user}', [UsersController::class, 'delete'])
 Route::get('/dashboard/users/invite', [UsersController::class, 'invitation'])->middleware('auth')->name('users.invitation');
 Route::post('/dashboard/users/invite', [UsersController::class, 'invite'])->middleware('auth')->name('users.invite');
 
-// Books (Auth in controller)
+// Books
 Route::get('/dashboard/books', [BooksController::class, 'list'])->middleware('auth')->name('books');
 Route::get('/dashboard/book/create', [BooksController::class, 'create'])->middleware('auth')->name('books.create');
 Route::post('/dashboard/books', [BooksController::class, 'store'])->middleware('auth')->name('books.store');

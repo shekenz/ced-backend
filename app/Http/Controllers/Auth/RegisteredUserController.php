@@ -26,7 +26,7 @@ class RegisteredUserController extends Controller
 		} else {
 
 			if(InviteToken::where('token', $token)->where('generated_at', '>', Carbon::now()->subDay())->exists()) {
-				return view('auth.register');
+				return view('auth.register', ['invitetoken' => $token]);
 			} else {
 				return redirect()->route('index')->with([
 					'flash' => __('flash.user.expired'),
@@ -56,14 +56,19 @@ class RegisteredUserController extends Controller
             'birthdate' => 'present'
         ]);
 
-        Auth::login($user = User::create([
+		$user = User::create([
             'username' => $request->username,
             'lastname' => $request->lastname,
             'firstname' => $request->firstname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'birthdate' => $request->birthdate,
-        ]));
+        ]);
+		
+		// Deleting invitation token
+		InviteToken::where('token', $request->invitetoken)->delete();
+
+        Auth::login($user);
 
         event(new Registered($user));
 

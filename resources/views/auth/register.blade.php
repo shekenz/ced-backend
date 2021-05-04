@@ -6,7 +6,12 @@
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
-            
+
+			<!-- Transmitiong invitation token for its deletion after user is registered -->
+			@if( isset($invitetoken) )
+			<input type="hidden" name="invitetoken" value="{{ $invitetoken }}">
+            @endif
+
             <!-- Last name -->
             <div class="mt-4">
                 <x-label for="lastname" :value="__('Last name')" :required="true" />
