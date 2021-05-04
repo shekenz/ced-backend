@@ -40,8 +40,9 @@
 	">
 		<div class="">
 				{{ $book->title }}<br>
+				@if( !empty($book->author) )
 				{{ $book->author }}<br>
-
+				@endif
 				@if( !(empty($book->height) && empty($book->width) && empty($book->cover) && empty($book->pages) && empty($book->year)) )
 				<br>
 				@endif
