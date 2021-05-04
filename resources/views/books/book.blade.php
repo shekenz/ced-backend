@@ -55,7 +55,7 @@
 					{{ $book->pages }} pages<br>
 				@endif
 				@if ( !empty($book->edition ) )
-					{{ $book->edition }}<br>
+					{{ $book->edition.' '.__('prints') }}<br>
 				@endif
 				@if ( !empty($book->year) )
 					{{ $book->year }}<br>
