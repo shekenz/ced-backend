@@ -19,6 +19,7 @@ class Book extends Model
 		'cover',
 		'pages',
 		'edition',
+		'year',
 		'price',
 		'description',
     ];

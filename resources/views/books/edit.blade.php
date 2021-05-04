@@ -57,6 +57,10 @@
             	<label class="label-shared-first lg:text-lg" for="price">{{ __('Price') }} :</label>
             	<input class="input-shared" id="price" name="price" type="text" value="{{ old('price') ?? $book->price }}" maxlength="10">
 			</div>
+			<div class="md:row-start-3">
+            	<label class="label-shared-first lg:text-lg" for="year">{{ __('Year') }} :</label>
+            	<input class="input-shared" id="year" name="year" type="number" value="{{ old('year') ?? $book->year }}" min="0" max="{{ now()->addYear(1)->year }}">
+			</div>
 			<div class="col-span-4">
             	<label class="label-shared lg:text-lg" for="description">{{ __('Description') }} :</label>
             	<textarea id="description" class="input-shared h-96" name="description">{{ old('description') ?? $book->description }}</textarea>

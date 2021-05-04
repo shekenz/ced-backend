@@ -40,7 +40,11 @@
 	">
 		<div class="">
 				{{ $book->title }}<br>
-				{{ $book->author }}<br><br>
+				{{ $book->author }}<br>
+
+				@if( !(empty($book->height) && empty($book->width) && empty($book->cover) && empty($book->pages) && empty($book->year)) )
+				<br>
+				@endif
 				@if ( !(empty($book->height) || empty($book->width)) )
 				{{ $book->height }}mm x {{ $book->width }}mm<br>
 				@endif
@@ -50,13 +54,17 @@
 				@if ( !empty($book->pages) )
 					{{ $book->pages }} pages<br>
 				@endif
-				@if ( !empty($book->price) )
+				@if ( !empty($book->edition ) )
 					{{ $book->edition }}<br>
 				@endif
-				<br>
-				@if ( !empty($book->price) )
-					{{ $book->price }} €<br><a href="#" class="underline hover:bg-black hover:text-white">Add to cart</a><br><br>
+				@if ( !empty($book->year) )
+					{{ $book->year }}<br>
 				@endif
+
+				@if ( !empty($book->price) )
+					<br>{{ $book->price }} €<br><a href="#" class="underline hover:bg-black hover:text-white">Add to cart</a><br>
+				@endif
+				<br>
 				@auth
 					<div class="hideable"><a href="{{ route('books.edit', $book->id) }}" class="base-con-edit">{{ __('Edit') }}</a><br><br></div>
 					<div class="hideable"><a href="{{ route('books.archive', $book->id) }}" class="base-con-edit">{{ __('Archive') }}</a><br><br></div>
