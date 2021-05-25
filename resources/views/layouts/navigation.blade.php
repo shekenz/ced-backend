@@ -94,13 +94,13 @@
 
 		<div class="border-t border-gray-200">
             <x-responsive-nav-link :href="route('settings')" :active="request()->routeIs('settings')">
-                <x-tabler-users class="mr-1 inline"/>{{ __('Settings') }}
+                <x-tabler-settings class="mr-1 inline"/>{{ __('Settings') }}
             </x-responsive-settings>
         </div>
 
         <div class="border-t border-gray-200">
            <x-responsive-nav-link :href="route('users.display', Auth::user()->id)" :active="request()->routeIs('user.display')">
-			<x-tabler-user class="mr-1 inline"/>{{ __('Profile') }}
+			<x-tabler-user class="mr-1 inline"/>{{ Auth::user()->username }}
             </x-responsive-nav-link> 
         </div>
 
