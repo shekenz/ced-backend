@@ -24,5 +24,7 @@ return [
 	],
 	'settings' => [
 		'updated' => 'Paramètres mis à jour.',
+		'published' => 'Le site est maintenant publié.',
+		'unpublished' => 'Le site n\'est plus accessible aux utilisateurs.',
 	]
 ];

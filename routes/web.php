@@ -21,16 +21,16 @@ use App\Http\Controllers\SettingsController;
 */
 
 // Main index route
-//Route::get('/', [FrontController::class, 'index'])->name('index');
-
-Route::get('/', [BooksController::class, 'index'])->name('index');
+Route::get('/', [BooksController::class, 'index'])->middleware('published')->name('index');
 Route::view('/cart', 'index/cart', [
 	'subTotal' => '240',
 	'artist' => 'Name',
 	'title' => 'Title',
 	'quantity' => '1',
-])->name('cart');
-Route::view('/about', 'index/about')->name('about');
+])->middleware('published')->name('cart');
+Route::view('/about', 'index/about')->middleware('published')->name('about');
+Route::view('/contact', 'index/contact')->middleware('published')->name('messages');
+Route::post('/contact', [MessagesController::class, 'forward'])->middleware('published')->name('messages.forward');
 
 // Dashboard
 Route::get('/dashboard', function () {
@@ -72,13 +72,10 @@ Route::get('/dashboard/media/rebuild/{medium}', [MediaController::class, 'rebuil
 Route::get('/dashboard/media/{medium}/break/{book}', [MediaController::class, 'breakLink'])->middleware('auth')->name('media.break');
 Route::post('/dashboard/media/delete/{id}', [MediaController::class, 'delete'])->middleware('auth')->name('media.delete');
 
-// Messages
-Route::view('/contact', 'index/contact')->name('messages');
-Route::post('/contact', [MessagesController::class, 'forward'])->name('messages.forward');
-
 // Settings
 Route::view('/dashboard/settings', 'settings.main')->middleware('auth')->name('settings');
 Route::patch('/dashboard/settings', [SettingsController::class, 'update'])->middleware('auth')->name('settings.update');
+Route::get('/dashboard/settings/publish', [SettingsController::class, 'publish'])->middleware('auth')->name('settings.publish');
 
 // Misc/Debug/Log
 Route::get('/dashboard/mails/log', [MessagesController::class, 'log'])->middleware('auth')->name('mails.log');

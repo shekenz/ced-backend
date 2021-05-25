@@ -40,14 +40,24 @@
 		@endif
 		<div id="menu-wrapper" class="fixed w-full top-0">
 			@auth
-			<div id="user-menu" class="fixed w-full base-connected">
-				<a id="hide-button" class="base-con-link hideable" title="Hide this menu" href="#"><x-tabler-eye-off class="pb-1 inline w-5 h-5" /></a>
-				<a id="unhide-button" class="base-con-link hideable hidden" title="Un-hide this menu" href="#"><x-tabler-eye class="pb-1 inline w-5 h-5" /></a>
-				<a class="flex-none base-con-link hideable" href="{{ route('users.display', Auth::user()->id)}}"><x-tabler-user class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ Auth::user()->username }}</a>
-				<a class="base-con-link hideable" href="{{ url('/dashboard') }}"><x-tabler-gauge class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Dashboard') }}</a>
-				<a class="base-con-link hideable" href="{{ url('/dashboard') }}"><x-tabler-mail class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Messages') }}</a>
-				<a class="base-con-link hideable" href="{{ url('/dashboard') }}"><x-tabler-receipt class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Orders') }}</a>
-				<a class="base-con-link hideable" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()"><x-tabler-logout class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Logout') }}</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
+			<div id="user-menu" class="fixed flex w-full base-connected">
+				<div id="user-menu-left">
+					<a id="hide-button" class="base-con-link hideable" title="Hide this menu" href="#"><x-tabler-eye-off class="pb-1 inline w-5 h-5" /></a>
+					<a id="unhide-button" class="base-con-link hideable hidden" title="Un-hide this menu" href="#"><x-tabler-eye class="pb-1 inline w-5 h-5" /></a>
+					<a class="flex-none base-con-link hideable" href="{{ route('users.display', Auth::user()->id)}}"><x-tabler-user class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ Auth::user()->username }}</a>
+					<a class="base-con-link hideable" href="{{ url('/dashboard') }}"><x-tabler-gauge class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Dashboard') }}</a>
+					<a class="base-con-link hideable" href="{{ url('/dashboard') }}"><x-tabler-mail class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Messages') }}</a>
+					<a class="base-con-link hideable" href="{{ url('/dashboard') }}"><x-tabler-receipt class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Orders') }}</a>
+					<a class="base-con-link hideable" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit()"><x-tabler-logout class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Logout') }}</a><form id="logout-form" class="hidden" action="{{ url('/logout') }}" method="POST">{{ csrf_field() }} </form>
+				</div>
+				<div class="flex-grow"></div>
+				<div id="user-menu-right">
+					@if( !setting('app.published') )
+					<span class="bg-red-600 text-white rounded-xl pb-px pr-3">
+						<x-tabler-alert-triangle class="pb-1 ml-2 mr-1 inline w-5 h-5" />{{ __('Website is not published') }}
+					</span>
+					@endif
+				</div>
 			</div>
 			@endauth
 			@include('index.menu')

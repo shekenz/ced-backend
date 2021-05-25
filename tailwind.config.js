@@ -22,6 +22,9 @@ module.exports = {
 			},
 			colors: {
 				dark: colors.gray,
+				green: {
+					pale: 'rgb(144, 255, 134)',
+				}
 			},
         },
     },

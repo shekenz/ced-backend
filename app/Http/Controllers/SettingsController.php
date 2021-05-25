@@ -27,4 +27,22 @@ class SettingsController extends Controller
 			'flash-type' => 'success'
 		]);
 	}
+
+	public function publish() {
+		if(setting('app.published')) {
+			setting(['app.published' => false]);
+			setting()->save();
+			return back()->with([
+				'flash' => __('flash.settings.unpublished'),
+				'flash-type' => 'warning'
+			]);
+		} else {
+			setting(['app.published' => true]);
+			setting()->save();
+			return back()->with([
+				'flash' => __('flash.settings.published'),
+				'flash-type' => 'success'
+			]);
+		}
+	}
 }

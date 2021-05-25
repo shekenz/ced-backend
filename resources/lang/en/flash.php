@@ -24,5 +24,7 @@ return [
 	],
 	'settings' => [
 		'updated' => 'Settings updated.',
+		'published' => 'Website is now published.',
+		'unpublished' => 'Website is no more accessible.',
 	]
 ];
