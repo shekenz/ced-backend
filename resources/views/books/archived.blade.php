@@ -19,8 +19,8 @@
 				<thead class="font-bold">
 					<td>{{ __('Title') }}</td>
 					<td>{{ __('Author') }}</td>
-					<td>{{ __('Edition') }}</td>
 					<td>{{ __('Price') }}</td>
+					<td>{{ __('Left') }}</td>
 					<td>{{ __('Trashed') }}</td>
 					<td>{{ __('Published by') }}</td>
 					<td>{{ __('Action') }}</td>
@@ -30,12 +30,12 @@
                     {{-- <td class="hidden md:table-cell">{{ $book->id }}</td> --}}
                     <td>{{ $book->title }}</td>
 					<td>{{ $book->author }}</td>
-					<td>{{ $book->edition }}</td>
 					<td>
 					@if( !empty($book->price) )
 						{{ $book->price }}€
 					@endif
 					</td>
+					<td>{{ $book->quantity }}</td>
                     <td class="hidden md:table-cell">{{ $book->deleted_at->diffForHumans() }}</td>
                     <td class="hidden md:table-cell"><a href="{{ route('users.display', $book->user->id)}}" class="default">{{ $book->user->username }}</a></td>
                     <td class="text-right">
