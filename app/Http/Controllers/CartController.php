@@ -161,11 +161,19 @@ class CartController extends Controller
 		return $this->redirectIfEmpty();
 	}
 
-	public function updateCart() {
+	public function populateCart() {
 		session([
 			'cart' => [
-				'1' => 2,
-				'2' => 4
+				'1' => 100,
+				'2' => 100,
+				'3' => 100,
+				'4' => 100,
+				'5' => 100,
+				'6' => 100,
+				'7' => 100,
+				'8' => 100,
+				'9' => 100,
+				'10' => 100,
 			],
 		]);
 		return redirect(route('cart'));

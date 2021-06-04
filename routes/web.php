@@ -33,7 +33,7 @@ Route::post('/contact', [MessagesController::class, 'forward'])->middleware('pub
 
 // Cart
 Route::get('/cart', [CartController::class, 'viewCart'])->middleware('published')->name('cart');
-Route::get('/cart/update', [CartController::class, 'updateCart'])->middleware('published')->name('cart.update');
+Route::get('/cart/populate', [CartController::class, 'populateCart'])->middleware('published')->name('cart.populate');
 Route::get('/cart/clear', [CartController::class, 'clearCart'])->middleware('published')->name('cart.clear');
 Route::get('/cart/add/{book}', [CartController::class, 'add'])->middleware('published')->name('cart.add');
 Route::get('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('published')->name('cart.remove');
