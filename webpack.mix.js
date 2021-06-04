@@ -23,9 +23,7 @@ mix.postCss('resources/css/app.css', 'public/css', [
 mix.postCss('resources/css/index.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),
-    require('autoprefixer')({
-        grid: 'autoplace'
-    }),
+    require('autoprefixer'),
 ])
 
 mix.webpackConfig({

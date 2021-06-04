@@ -1,4 +1,4 @@
-<article id="glide-{{ $glideIndex }}"class="grid grid-cols-9">
+<article id="{{ Str::slug($book->title, '-') }}" class="grid grid-cols-9">
 	<div class="
 		base-slider
 		col-span-9
@@ -55,15 +55,13 @@
 				@if ( !empty($book->pages) )
 					{{ $book->pages }} pages<br>
 				@endif
-				@if ( !empty($book->edition ) )
-					{{ $book->edition.' '.__('prints') }}<br>
-				@endif
+					{{ $book->quantity.' '.__('copies') }}<br>
 				@if ( !empty($book->year) )
 					{{ $book->year }}<br>
 				@endif
 
 				@if ( !empty($book->price) )
-					<br>{{ $book->price }} €<br><a href="#" class="underline hover:bg-black hover:text-white">Add to cart</a><br>
+					<br>{{ $book->price }} €<br><a href="{{ route('cart.add', $book->id)}}" class="underline hover:bg-black hover:text-white">{{ __('Add to cart') }}</a><br>
 				@endif
 				<br>
 				@auth

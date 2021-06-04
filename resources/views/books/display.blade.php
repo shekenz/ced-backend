@@ -42,12 +42,8 @@
 				{{ __('Empty') }}
 			@endif
 			<br>
-			<span class="font-bold">{{ __('Edition') }} : </span>
-			@if( !empty($book->edition))
-				{{ $book->edition }}
-			@else
-				{{ __('Empty') }}
-			@endif
+			<span class="font-bold">{{ __('Quantity') }} : </span>
+				{{ $book->quantity }}
 			<br>
 			<span class="font-bold">{{ __('Price') }} : </span>
 			@if( !empty($book->price))

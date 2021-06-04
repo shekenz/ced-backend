@@ -7,6 +7,7 @@ import Glide from '@glidejs/glide';
 
 load(() => {
 
+	// Flash disapearing timeout
 	let flash = document.getElementById('flash-wrapper');
 	if(flash) {
 		let flashes = flash.childNodes;
@@ -22,6 +23,7 @@ load(() => {
 		});
 	}
 
+	// Menu items underlaying black square
 	let blackSquare;
 	let widthOffset = 20;
 	let activeEl = arrayByClass('base-menu-link-active')[0];
@@ -62,6 +64,7 @@ load(() => {
 		});
 	});	
 
+	// Glides
 	let glides = new Array;
 
 	arrayByClass('glide').map((item,index) => {
@@ -81,6 +84,7 @@ load(() => {
 		});
 	});
 
+	// Dark theme switch
 	document.getElementById('fun').addEventListener('click', (e) => {
 		e.preventDefault();
 		if (!document.documentElement.classList.contains('dark')) {

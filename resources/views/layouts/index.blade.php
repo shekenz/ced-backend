@@ -35,8 +35,8 @@
 		@endif
     </head>
     <body class="text-custom-md lg:text-custom text-gray-800 dark:bg-black dark:text-dark-200">
-		@if(Session::has('flash'))
-		<x-flash.default :message="Session::get('flash')" class="flash-{{ Session::get('flash-type') }}"/>
+		@if(session('flash'))
+		<x-flash.default :message="session('flash')" class="flash-{{ session('flash-type') }}"/>
 		@endif
 		<div id="menu-wrapper" class="fixed w-full top-0">
 			@auth

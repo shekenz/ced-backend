@@ -18,11 +18,16 @@ class Book extends Model
 		'height',
 		'cover',
 		'pages',
-		'edition',
+		'quantity',
 		'year',
 		'price',
 		'description',
     ];
+
+	public function setCartQuantity($value)
+    {
+        $this->attributes['cartQuantity'] = intval($value);
+    }
 
     public function user() {
         return $this->belongsTo(User::class);

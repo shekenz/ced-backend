@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\BooksController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MediaController;
-use App\Http\Controllers\PostsController;
-use App\Http\Controllers\FrontController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\SettingsController;
 
@@ -22,15 +21,24 @@ use App\Http\Controllers\SettingsController;
 
 // Main index route
 Route::get('/', [BooksController::class, 'index'])->middleware('published')->name('index');
-Route::view('/cart', 'index/cart', [
+/* Route::view('/cart', 'index/cart', [
 	'subTotal' => '240',
 	'artist' => 'Name',
 	'title' => 'Title',
 	'quantity' => '1',
-])->middleware('published')->name('cart');
+])->middleware('published')->name('cart'); */
 Route::view('/about', 'index/about')->middleware('published')->name('about');
 Route::view('/contact', 'index/contact')->middleware('published')->name('messages');
 Route::post('/contact', [MessagesController::class, 'forward'])->middleware('published')->name('messages.forward');
+
+// Cart
+Route::get('/cart', [CartController::class, 'viewCart'])->middleware('published')->name('cart');
+Route::get('/cart/update', [CartController::class, 'updateCart'])->middleware('published')->name('cart.update');
+Route::get('/cart/clear', [CartController::class, 'clearCart'])->middleware('published')->name('cart.clear');
+Route::get('/cart/add/{book}', [CartController::class, 'add'])->middleware('published')->name('cart.add');
+Route::get('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('published')->name('cart.remove');
+Route::get('/cart/remove-all/{book}', [CartController::class, 'removeAll'])->middleware('published')->name('cart.removeAll');
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->middleware('published')->name('cart.checkout');
 
 // Dashboard
 Route::get('/dashboard', function () {

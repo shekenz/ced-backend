@@ -22,7 +22,7 @@ class BooksController extends Controller
 		'height' => ['nullable', 'integer'],
 		'pages' => ['nullable', 'integer'],
 		'cover' => ['nullable', 'string', 'max:32'],
-		'edition' => ['nullable', 'max:64'],
+		'quantity' => ['required', 'integer'],
 		'year' => ['nullable', 'integer', 'digits_between:0,4'],
 		'price' => ['nullable', 'numeric'],
 		'description' => ['required', 'string'],

@@ -49,8 +49,8 @@
 				<input class="input-shared" id="pages" name="pages" type="number" value="{{ old('pages') }}">
 			</div>
 			<div>
-				<label class="label-shared-first lg:text-lg" for="edition">{{ __('Edition') }} :</label>
-				<input class="input-shared" id="edition" name="edition" type="text" value="{{ old('edition') }}" maxlength="64">
+				<label class="label-shared-first lg:text-lg" for="quantity">{{ __('Quantity') }} :</label>
+				<input class="input-shared" id="quantity" name="quantity" type="number" value="{{ old('quantity') }}">
 			</div>
 			<div class="md:row-start-2">
 				<label class="label-shared-first lg:text-lg" for="price">{{ __('Price') }} :</label>

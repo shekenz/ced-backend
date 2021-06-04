@@ -34,8 +34,8 @@
             <main>
                 <div class="py-2 sm:py-8">
                     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-						@if(Session::has('flash'))
-							<x-flash.back :message="Session::get('flash')" class="flash-{{ Session::get('flash-type') }}"/>
+						@if(session('flash'))
+							<x-flash.back :message="session('flash')" class="flash-{{ session('flash-type') }}"/>
 						@endif
                         <div class="bg-white overflow-hidden shadow-sm rounded-md sm:rounded-lg">
                             @if(isset($title))
