@@ -9,7 +9,6 @@ use App\Http\Helpers\CartHelper;
 class CartController extends Controller
 {
 
-
 	protected function redirectIfEmpty() {
 		if(CartHelper::isEmpty()) {
 			return redirect(route('index'));
@@ -18,7 +17,7 @@ class CartController extends Controller
 		}
 	}
 
-	// Clean cart by removing not valid books.
+	// Cleans cart by removing not valid books.
 	protected function cleanCart(array $validBooks) {
 		$cart = session('cart');
 		$sizeDiff = count($cart) - count($validBooks);
@@ -28,6 +27,7 @@ class CartController extends Controller
 			$booksIdKeys[$book->id] = null;
 		}
 		session(['cart' => array_intersect_key($cart, $booksIdKeys)]);
+		// returns true if cart has changed
 		if($sizeDiff > 0) {
 			return true;
 		} else {
@@ -77,10 +77,24 @@ class CartController extends Controller
 		}
 		
 		// If book id found in cart, just update quantity
-		if(array_key_exists($book->id, $cart)) {		
-			$cart[$book->id] += 1;
-		} else { // If else push new book id with quantity of 1
-			$cart[$book->id] = 1;
+		if(array_key_exists($book->id, $cart)) {
+			if($cart[$book->id] < $book->quantity) { // Check for stock
+				$cart[$book->id] += 1;
+			} else {
+				return back()->with([
+					'flash' => __('flash.cart.stockLimit'),
+					'flash-type' => 'warning',
+				]);
+			}
+		} else { // Else push new book id with quantity of 1
+			if($book->quantity > 0) { // Check for stock
+				$cart[$book->id] = 1;
+			} else {
+				return back()->with([
+					'flash' => __('flash.cart.stockLimit'),
+					'flash-type' => 'warning',
+				]);
+			}
 		}
 
 		// Save new cart in sesh and redirect

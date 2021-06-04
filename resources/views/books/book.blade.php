@@ -46,22 +46,29 @@
 				@if( !(empty($book->height) && empty($book->width) && empty($book->cover) && empty($book->pages) && empty($book->year)) )
 				<br>
 				@endif
-				@if ( !(empty($book->height) || empty($book->width)) )
+				@if( !(empty($book->height) || empty($book->width)) )
 				{{ $book->height }}mm x {{ $book->width }}mm<br>
 				@endif
 				@if ( !empty($book->cover) )
 				{{ $book->cover }}<br>
 				@endif
-				@if ( !empty($book->pages) )
+				@if( !empty($book->pages) )
 					{{ $book->pages }} pages<br>
 				@endif
+				@if($book->quantity > 0)
 					{{ $book->quantity.' '.__('copies') }}<br>
-				@if ( !empty($book->year) )
+				@endif
+				@if( !empty($book->year) )
 					{{ $book->year }}<br>
 				@endif
 
-				@if ( !empty($book->price) )
-					<br>{{ $book->price }} €<br><a href="{{ route('cart.add', $book->id)}}" class="underline hover:bg-black hover:text-white">{{ __('Add to cart') }}</a><br>
+				@if( !empty($book->price) )
+					<br>{{ $book->price }} €<br>
+					@if( $book->quantity > 0)
+						<a href="{{ route('cart.add', $book->id)}}" class="underline hover:bg-black hover:text-white">{{ __('Add to cart') }}</a><br>
+					@else
+						({{ __('Out of stock') }})<br>
+					@endif
 				@endif
 				<br>
 				@auth
