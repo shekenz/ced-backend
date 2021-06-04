@@ -17,43 +17,52 @@ class CartController extends Controller
 		}
 	}
 
-	// Cleans cart by removing not valid books.
-	protected function cleanCart(array $validBooks) {
-		$cart = session('cart');
-		$sizeDiff = count($cart) - count($validBooks);
-		$booksIdKeys = [];
-		// Transform validBooks into an array with keys as book Id
-		foreach($validBooks as $book) {
-			$booksIdKeys[$book->id] = null;
-		}
-		session(['cart' => array_intersect_key($cart, $booksIdKeys)]);
-		// returns true if cart has changed
-		if($sizeDiff > 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
     public function viewCart(Request $request) {
 		$cart = $request->session()->get('cart', false);
 		if($cart) {
-			$books = [];
-			foreach($cart as $id => $cartQuantity) {
-				$book = Book::with('media')->find($id);
-				// Control if book has a price, has at least 1 media, and is not archived
-				if(isset($book->price) && $book->media->isNotEmpty()) {
-					$book->cartQuantity = $cartQuantity;
-					array_push($books, $book);
+
+			// Find all books from cart without archived books (In 1 call)
+			$books = Book::with('media')->findMany(array_keys($cart));
+
+			// Filter out if books has no price or no media
+			$books = $books->filter(function($item) {
+				return ($item->media->isNotEmpty() && isset($item->price));
+			});
+
+			// remap $books collection with books id as key
+			$books = $books->keyBy('id');
+
+			// Update cart according to filtered books array
+			$articleUpdated = (count($cart) - $books->count() > 0);
+			$cart = array_intersect_key($cart, $books->toArray());
+
+			// Check stock limits
+			$quantityUpdated = false;
+			array_walk($cart, function(&$cartQuantity, $id) use ($books, &$quantityUpdated) {
+				$stock = intval($books[$id]->quantity);
+				if($cartQuantity > $stock) {
+					$cartQuantity = $stock;
+					$quantityUpdated = true;
 				}
-			}
-			if($this->cleanCart($books)) {
-				session()->flash('flash', __('flash.cart.forceUpdate'));
+			});
+
+			// Updates $books cartQuantity
+			$books->each(function($book, $id) use ($cart) {
+				$book->cartQuantity = $cart[$id];
+			});
+
+			// Update session cart
+			session(['cart' => $cart]);
+
+			// Redirect with flash if needed
+			if($articleUpdated || $quantityUpdated) {
+				session()->flash('flash', __('flash.cart.stockUpdated'));
 				session()->flash('flash-type', 'warning');
 				return view('index.cart', compact('books'));
 			} else {
 				return view('index.cart', compact('books'));
 			}
+
 		} else {
 			return view('index.cart');
 		}

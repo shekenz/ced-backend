@@ -28,7 +28,7 @@ return [
 		'unpublished' => 'Website is no more accessible.',
 	],
 	'cart' => [
-		'forceUpdate' => 'Your cart has been updated because some articles are not for sell anymore.',
+		'stockUpdated' => 'Your cart has been updated according to our stock fluctuation.',
 		'stockLimit' => 'Cannot add more articles. Stock limit has been reached.',
 	]
 ];

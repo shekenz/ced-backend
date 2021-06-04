@@ -28,7 +28,7 @@ return [
 		'unpublished' => 'Le site n\'est plus accessible aux utilisateurs.',
 	],
 	'cart' => [
-		'forceUpdate' => 'Votre panier a été mis à jour car certains articles ne sont plus éligibles à la vente.',
+		'stockUpdated' => 'Votre panier a été mis à jour suite à la fluctuation de notre stock.',
 		'stockLimit' => 'Impossible d\'ajouter plus d\'articles. Limite de stock atteinte.',
 	]
 ];
