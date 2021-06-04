@@ -26,5 +26,8 @@ return [
 		'updated' => 'Paramètres mis à jour.',
 		'published' => 'Le site est maintenant publié.',
 		'unpublished' => 'Le site n\'est plus accessible aux utilisateurs.',
+	],
+	'cart' => [
+		'forceUpdate' => 'Votre panier a été mis à jour car certains articles ne sont plus éligibles à la vente.'
 	]
 ];

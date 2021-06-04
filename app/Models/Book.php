@@ -24,6 +24,10 @@ class Book extends Model
 		'description',
     ];
 
+	public function getIsAvailable() {
+		
+	}
+
 	public function setCartQuantity($value)
     {
         $this->attributes['cartQuantity'] = intval($value);

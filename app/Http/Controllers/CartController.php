@@ -9,7 +9,6 @@ use App\Http\Helpers\CartHelper;
 class CartController extends Controller
 {
 
-	//TODO helper to check if book has a price and a picture, or throw a 404 if not (Same behavior as when we try to add a archived book)
 
 	protected function redirectIfEmpty() {
 		if(CartHelper::isEmpty()) {
@@ -19,33 +18,55 @@ class CartController extends Controller
 		}
 	}
 
+	// Clean cart by removing not valid books.
+	protected function cleanCart(array $validBooks) {
+		$cart = session('cart');
+		$sizeDiff = count($cart) - count($validBooks);
+		$booksIdKeys = [];
+		// Transform validBooks into an array with keys as book Id
+		foreach($validBooks as $book) {
+			$booksIdKeys[$book->id] = null;
+		}
+		session(['cart' => array_intersect_key($cart, $booksIdKeys)]);
+		if($sizeDiff > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
     public function viewCart(Request $request) {
 		$cart = $request->session()->get('cart', false);
 		if($cart) {
 			$books = [];
 			foreach($cart as $id => $cartQuantity) {
 				$book = Book::with('media')->find($id);
-				// Control if book has a price
-				if(isset($book->price)) {
+				// Control if book has a price, has at least 1 media, and is not archived
+				if(isset($book->price) && $book->media->isNotEmpty()) {
 					$book->cartQuantity = $cartQuantity;
 					array_push($books, $book);
-				} else {
-					$this->removeAll($book);
 				}
 			}
-
-			return view('index.cart', compact('books'));
+			if($this->cleanCart($books)) {
+				session()->flash('flash', __('flash.cart.forceUpdate'));
+				session()->flash('flash-type', 'warning');
+				return view('index.cart', compact('books'));
+			} else {
+				return view('index.cart', compact('books'));
+			}
 		} else {
 			return view('index.cart');
 		}
 		
 	}
 
-	public function add(Book $book) {
+	public function add($id) {
 
-		// If book has no price, you shouldn't be here
-		if(!isset($book->price)) {
-			return redirect(route('index'));
+		$book = Book::with('media')->findOrFail($id);
+
+		// If book has no price or has no media, you shouldn't be here
+		if(!isset($book->price) || $book->media->isEmpty()) {
+			abort(404);
 		}
 
 		// If cart is empty, create new cart array
@@ -67,11 +88,13 @@ class CartController extends Controller
 		return back();
 	}
 
-	public function remove(Book $book) {
+	public function remove($id) {
 
-		// If cart is empty, or if book has no price, you shouldn't be here
-		if(CartHelper::isEmpty()) {
-			return redirect(route('index'));
+		$book = Book::with('media')->findOrFail($id);
+
+		// If cart is empty, or if book has no price or has no media, you shouldn't be here
+		if(CartHelper::isEmpty() || !isset($book->price) || $book->media->isEmpty()) {
+			abort(404);
 		}
 
 		// Retrieve cart
@@ -83,7 +106,7 @@ class CartController extends Controller
 		} elseif(array_key_exists($book->id, $cart) && $cart[$book->id] <= 1) { // If book id found in cart and is 1, just delete from cart
 			unset($cart[$book->id]);
 		} else { // If book is not in cart, you shouldn't be here neither
-			return redirect(route('index'));
+			abort(404);
 		}
 
 		// Save new cart in sesh and redirect
@@ -91,11 +114,13 @@ class CartController extends Controller
 		return $this->redirectIfEmpty();
 	}
 
-	public function removeAll(Book $book) {
+	public function removeAll($id) {
 
-		// If cart is empty, or if book has no price, you shouldn't be here
-		if(CartHelper::isEmpty()) {
-			return redirect(route('index'));
+		$book = Book::with('media')->findOrFail($id);
+
+		// If cart is empty, or if book has no price or has no media, you shouldn't be here
+		if(CartHelper::isEmpty() || !isset($book->price) || $book->media->isEmpty()) {
+			abort(404);
 		}
 
 		// Retrieve cart
@@ -105,7 +130,7 @@ class CartController extends Controller
 		if(array_key_exists($book->id, $cart)) {		
 			unset($cart[$book->id]);
 		} else { // If book is not in cart, you shouldn't be here neither
-			return redirect(route('index'));
+			abort(404);
 		}
 
 		// Save new cart in sesh and redirect

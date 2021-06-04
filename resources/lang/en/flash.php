@@ -26,5 +26,8 @@ return [
 		'updated' => 'Settings updated.',
 		'published' => 'Website is now published.',
 		'unpublished' => 'Website is no more accessible.',
+	],
+	'cart' => [
+		'forceUpdate' => 'Your cart has been updated because some articles are not for sell anymore.'
 	]
 ];
