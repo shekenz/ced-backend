@@ -25,8 +25,8 @@ class CartController extends Controller
 			$books = Book::with('media')->findMany(array_keys($cart));
 
 			// Filter out if books has no price or no media
-			$books = $books->filter(function($item) {
-				return ($item->media->isNotEmpty() && isset($item->price));
+			$books = $books->filter(function($book) {
+				return ($book->media->isNotEmpty() && isset($book->price));
 			});
 
 			// remap $books collection with books id as key
@@ -56,8 +56,8 @@ class CartController extends Controller
 
 			// Redirect with flash if needed
 			if($articleUpdated || $quantityUpdated) {
-				session()->flash('flash', __('flash.cart.stockUpdated'));
-				session()->flash('flash-type', 'warning');
+				session()->now('flash', __('flash.cart.stockUpdated'));
+				session()->now('flash-type', 'warning');
 				return view('index.cart', compact('books'));
 			} else {
 				return view('index.cart', compact('books'));
