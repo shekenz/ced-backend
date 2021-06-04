@@ -1,11 +1,7 @@
 <x-index-layout lang="FR_fr">
 
-	<?php $randMax = rand(3,7) ?>
-
-	<x-slot name="title">Cart ({{ $randMax }})</x-slot>
-
+	<x-slot name="title">Cart ({{ CartHelper::count() }})</x-slot>
 	
-
 		@if(isset($books))
 		<div class="md:grid md:grid-cols-9 md:items-start">
 			<div class="cart-list md:col-span-5 md:mr-6 md:grid md:grid-cols-2 md:gap-6">
@@ -16,7 +12,7 @@
 				@php
 					$total += $article['price'] * $article['cartQuantity'];
 				@endphp
-				@include('index.cart-article')
+				@include('index.cart.article')
 			@endforeach
 			</div>
 			<div id="info" class="grid grid-cols-2 mt-6 md:col-start-6 md:col-span-4 md:mt-0">

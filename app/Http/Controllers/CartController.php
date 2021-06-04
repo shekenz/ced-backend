@@ -58,13 +58,13 @@ class CartController extends Controller
 			if($articleUpdated || $quantityUpdated) {
 				session()->now('flash', __('flash.cart.stockUpdated'));
 				session()->now('flash-type', 'warning');
-				return view('index.cart', compact('books'));
+				return view('index.cart.cart', compact('books'));
 			} else {
-				return view('index.cart', compact('books'));
+				return view('index.cart.cart', compact('books'));
 			}
 
 		} else {
-			return view('index.cart');
+			return view('index.cart.cart');
 		}
 		
 	}
@@ -182,5 +182,9 @@ class CartController extends Controller
 	public function clearCart() {
 		session()->forget('cart');
 		return redirect(route('index'));
+	}
+
+	public function checkout() {
+		return view('cart.checkout');
 	}
 }
