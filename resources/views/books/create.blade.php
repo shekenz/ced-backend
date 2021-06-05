@@ -32,6 +32,10 @@
 				<label class="label-shared-first lg:text-lg" for="author">{{ __('Author') }} :</label>
 				<input class="input-shared" id="author" name="author" type="text" value="{{ old('author') }}" maxlength="64">
 			</div>
+			<div class="md:row-start-3">
+            	<label class="label-shared-first lg:text-lg" for="year">{{ __('Year') }} :</label>
+            	<input class="input-shared" id="year" name="year" type="number" value="{{ old('year') }}" min="0" max="{{ now()->addYear(1)->year }}">
+			</div>
 			<div>
 				<label class="label-shared-first lg:text-lg" for="width">{{ __('Width') }} (mm) :</label>
 				<input class="input-shared" id="width" name="width" type="number" value="{{ old('width') }}">
@@ -55,10 +59,6 @@
 			<div class="md:row-start-2">
 				<label class="label-shared-first lg:text-lg" for="price">{{ __('Price') }} :</label>
 				<input class="input-shared" id="price" name="price" type="text" value="{{ old('price') }}" maxlength="10">
-			</div>
-			<div class="md:row-start-3">
-            	<label class="label-shared-first lg:text-lg" for="year">{{ __('Year') }} :</label>
-            	<input class="input-shared" id="year" name="year" type="number" value="{{ old('year') }}" min="0" max="{{ now()->addYear(1)->year }}">
 			</div>
 			<div class="col-span-4">
 				<label class="label-shared lg:text-lg" for="description">{{ __('Description') }} :</label>
