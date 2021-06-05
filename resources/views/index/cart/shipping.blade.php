@@ -87,7 +87,7 @@
 			<legend>{{ __('Your invoice address') }}</legend>
 
 			<label for="address-duplicate">{{ __('Same as shipping address') }} :</label>
-			<input type="checkbox" name="address-duplicate" id="address-duplicate"><br>
+			<input type="checkbox" id="address-duplicate"><br>
 
 			<label for="invoice-address-1">{{ __('Address line 1') }} :</label>
 			<input type="text" name="invoice-address-1" id="invoice-address-1" maxlength="128" value="{{ old('invoice-address-1') }}">
@@ -123,6 +123,7 @@
 					<option value="{{ $code }}" {{ (old("invoice-country") == $code) ? 'selected' : '' }}>{{ $country }}</option>
 				@endforeach
 			</select><br>
+			<input type="hidden" id="invoice-country-hidden" name="invoice-country" disabled>
 		</fieldset>
 			<label for="sale-conditions">{{ __('Accept sale condition') }} :</label>
 			<input type="checkbox" name="sale-conditions" value="1" id="sale-conditions" {{ old('sale-conditions') ? 'checked' : '' }}>

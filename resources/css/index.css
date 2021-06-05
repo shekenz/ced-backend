@@ -90,6 +90,10 @@
 		@apply  bg-white text-black dark:bg-white dark:text-black;
 	}
 
+	input:read-only, input:disabled, select:disabled {
+		@apply bg-gray-200 text-gray-400;
+	}
+
 	/*----- BlackSquare -----*/
 
 	#menu-wrapper {
