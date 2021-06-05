@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('media')" :active="request()->routeIs('media')">
                         <x-tabler-photo class="mr-1"/>{{ __('Media') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('orders')" :active="request()->routeIs('orders')">
+                        <x-tabler-receipt class="mr-1"/>{{ __('Orders') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
                         <x-tabler-users class="mr-1"/>{{ __('Users') }}
                     </x-nav-link>
@@ -83,6 +86,12 @@
         <div class="border-t border-gray-200">
             <x-responsive-nav-link :href="route('media')" :active="request()->routeIs('media')">
                 <x-tabler-photo class="mr-1 inline"/>{{ __('Media') }}
+            </x-responsive-nav-link>
+        </div>
+		
+        <div class="border-t border-gray-200">
+            <x-responsive-nav-link :href="route('orders')" :active="request()->routeIs('orders')">
+                <x-tabler-receipt class="mr-1 inline"/>{{ __('Orders') }}
             </x-responsive-nav-link>
         </div>
 

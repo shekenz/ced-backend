@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Order;
 use App\Http\Helpers\CartHelper;
 
 class CartController extends Controller
@@ -184,7 +185,42 @@ class CartController extends Controller
 		return redirect(route('index'));
 	}
 
-	public function checkout() {
-		return view('cart.checkout');
+	protected $validation = [
+		'lastname' => ['required', 'string', 'max:64'],
+		'firstname' => ['required', 'string', 'max:64'],
+		'company' => ['nullable', 'string', 'max:64'],
+		'phone' => ['required', 'string'],
+		'email' => ['required', 'email'],
+		'shipping-address-1' => ['required', 'string', 'max:128'],
+		'shipping-address-2' => ['nullable', 'string', 'max:128'],
+		'shipping-city' => ['required', 'string', 'max:96'],
+		'shipping-postcode' => ['required', 'string'],
+		'shipping-country' => ['required', 'string'],
+		'invoice-address-1' => ['required', 'string', 'max:128'],
+		'invoice-address-2' => ['nullable', 'string', 'max:128'],
+		'invoice-city' => ['required', 'string', 'max:96'],
+		'invoice-postcode' => ['required', 'string'],
+		'invoice-country' => ['required', 'string'],
+		'sale-conditions' => ['accepted'],
+	];
+
+	public function shipping(Request $request) {
+		return view('index.cart.shipping');
+	}
+
+	public function checkout(Request $request) {
+		$data = $request->validate($this->validation);
+		$cart = session('cart');
+		$books = Book::with('media')->findMany(array_keys($cart));
+		$books->each(function($book) use($cart) {
+			$book->cartQuantity = $cart[$book->id];
+		});
+		return view('index.cart.checkout', compact('data', 'books'));
+		//Order::create($data);
+	}
+
+	public function confirmed() {
+		session()->forget('cart');
+		return view('index.cart.confirmed');
 	}
 }

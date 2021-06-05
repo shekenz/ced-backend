@@ -3,8 +3,13 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
 	darkMode: 'class',
+	mode: 'jit',
     purge: {
-		content: ['./storage/framework/views/*.php', './resources/views/**/*.blade.php'],
+		content: [
+			'./storage/framework/views/*.php',
+			'./resources/views/**/*.blade.php',
+			'./safelist.txt'
+		],
 		options: {
 			safelist: ['black-square'],
 		},

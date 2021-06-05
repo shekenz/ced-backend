@@ -19,11 +19,7 @@ class CartHelper {
 	}
 
 	public static function isEmpty() {
-		if(session('cart', false)) {
-			return false;
-		} else {
-			return true;
-		}
+		return (!session()->has('cart'));
 	}
 
 }

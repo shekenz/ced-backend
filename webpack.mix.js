@@ -37,3 +37,5 @@ mix.copyDirectory('resources/fonts', 'public/fonts');
 if (mix.inProduction()) {
     mix.version();
 }
+
+mix.disableSuccessNotifications();

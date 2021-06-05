@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
 
 /*
@@ -38,12 +39,17 @@ Route::get('/cart/clear', [CartController::class, 'clearCart'])->middleware('pub
 Route::get('/cart/add/{book}', [CartController::class, 'add'])->middleware('published')->name('cart.add');
 Route::get('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('published')->name('cart.remove');
 Route::get('/cart/remove-all/{book}', [CartController::class, 'removeAll'])->middleware('published')->name('cart.removeAll');
-Route::get('/cart/checkout', [CartController::class, 'checkout'])->middleware('published')->name('cart.checkout');
+Route::get('/cart/shipping', [CartController::class, 'shipping'])->middleware('published')->name('cart.shipping');
+Route::post('/cart/checkout', [CartController::class, 'checkout'])->middleware('published')->name('cart.checkout');
+Route::get('/cart/confirmed', [CartController::class, 'confirmed'])->middleware('published')->name('cart.confirmed');
 
 // Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('auth')->name('dashboard');
+
+// Orders
+Route::get('/dashboard/orders/', [OrdersController::class, 'list'])->middleware('auth')->name('orders');
 
 // Users
 Route::get('/dashboard/users', [UsersController::class, 'list'])->middleware('auth')->name('users');
