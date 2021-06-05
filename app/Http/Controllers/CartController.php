@@ -209,7 +209,6 @@ class CartController extends Controller
 	}
 
 	public function checkout(Request $request) {
-		dd($request->all());
 		$data = $request->validate($this->validation);
 		$cart = session('cart');
 		$books = Book::with('media')->findMany(array_keys($cart));
