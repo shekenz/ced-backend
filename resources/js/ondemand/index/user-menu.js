@@ -1,3 +1,4 @@
+// user-menu hide/unhide
 
 userMenu = document.getElementById('user-menu');
 

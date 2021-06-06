@@ -1,8 +1,10 @@
 {
-    "/js/app.js": "/js/app.js",
     "/js/index.js": "/js/index.js",
+    "/js/app.js": "/js/app.js",
     "/js/media.js": "/js/media.js",
-    "/js/front.js": "/js/front.js",
+    "/js/user-menu.js": "/js/user-menu.js",
+    "/js/glide.js": "/js/glide.js",
+    "/js/shipping-form.js": "/js/shipping-form.js",
     "/css/index.css": "/css/index.css",
     "/css/app.css": "/css/app.css",
     "/img/default-thumbnail.jpg": "/img/default-thumbnail.jpg",

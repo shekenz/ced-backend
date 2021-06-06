@@ -1,3 +1,4 @@
+// Displays optimized media infos
 
 frame = document.getElementById('frame');
 

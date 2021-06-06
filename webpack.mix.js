@@ -11,31 +11,52 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js');
-mix.js('resources/js/index.js', 'public/js');
-mix.js('resources/js/media.js', 'public/js');
-mix.js('resources/js/front.js', 'public/js');
+// Javascript compilations --------------------------------
+
+// Main JS (Shared)
+mix.js('resources/js/index.js', 'public/js'); // Main frontend script available in all index-layout
+mix.js('resources/js/app.js', 'public/js'); // Main backend script available in all app-layout
+
+// App JS (Backend)
+mix.js('resources/js/ondemand/app/media.js', 'public/js'); // Loaded on display media view
+
+//  Index JS (Frontend)
+mix.js('resources/js/ondemand/index/user-menu.js', 'public/js'); // Loaded on index-layout when user is authenticated
+mix.js('resources/js/ondemand/index/glide.js', 'public/js'); // Index caroussel, loaded on index view 
+mix.js('resources/js/ondemand/index/shipping-form.js', 'public/js'); // Loaded on shipping form view
+
+
+// CSS compilations ---------------------------------------
+
+// App CSS (Backend)
 mix.postCss('resources/css/app.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),
 ]);
+
+// Index CSS (Frontend)
 mix.postCss('resources/css/index.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),
 ])
 
-mix.webpackConfig({
-    stats: 'errors-warnings'
-});
-
+// Move imgages
 mix.copyDirectory('resources/img', 'public/img');
 mix.copyDirectory('resources/fonts', 'public/fonts');
+
+
+// Miscellaneous configs ----------------------------------
 
 // Cache bustin'
 if (mix.inProduction()) {
     mix.version();
 }
 
+mix.webpackConfig({
+    stats: 'errors-warnings'
+});
+
+// Notifications off
 mix.disableSuccessNotifications();

@@ -1,3 +1,4 @@
-window.load = require('window-load');
-
-require('./main');
+// Index
+require('./shared/flash');
+require('./index/menu')
+require('./index/theme');

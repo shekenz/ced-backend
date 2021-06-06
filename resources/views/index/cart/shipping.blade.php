@@ -4,6 +4,10 @@
 		{{ __('Checkout') }}
 	</x-slot>
 
+	<x-slot name="scripts">
+		<script src="{{ asset('js/shipping-form.js') }}" defer></script>
+	</x-slot>
+
 	<form method="POST" action="{{ route('cart.checkout') }}">
 		@csrf
 		<fieldset class="border mt-4 p-2">

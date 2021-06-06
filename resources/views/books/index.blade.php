@@ -2,6 +2,10 @@
 
 	<x-slot name="title">Index</x-slot>
 
+	<x-slot name="scripts">
+		<script src="{{ asset('js/glide.js') }}" defer></script>
+	</x-slot>
+
 	@foreach ($books as $glideIndex => $book)
 		@include('books.book')
 	@endforeach
