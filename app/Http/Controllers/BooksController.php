@@ -28,7 +28,6 @@ class BooksController extends Controller
 		'description' => ['required', 'string'],
 		'files.*' => ['nullable', 'file', 'mimes:jpg,gif,png'],
 		'media' => ['nullable', 'array'],
-		'detach' => ['nullable', 'array'],
 	];
 
 	public function __contruct() {
@@ -109,7 +108,7 @@ class BooksController extends Controller
 	/** Updates the book's info and re-links media if necessary. */
 	public function update(Book $book, Request $request) {
 		$data = $request->validate($this->validation);
-		$mediaIDs = array(); // Array containing all media ids to attach to the new book
+		$mediaIDs = array(); // Array containing all media ids to attach to the book
 
 		// Storing all uploaded images
 		if(array_key_exists('files', $data)) {
@@ -124,15 +123,11 @@ class BooksController extends Controller
 			$mediaIDs = array_merge($mediaIDs, $data['media']);
 		}
 
-		// Attaching
-		if(!empty($mediaIDs)) {
-			$book->media()->attach($mediaIDs);
-		}
-
-		// Detaching
-		if(array_key_exists('detach', $data)) {
-			$book->media()->detach($data['detach']);
-		}
+		/** We sync up the media array with the attach table.
+		 *  If a media id is in mediaIDs, it is attached.
+		 *  If it is not and was previously attached, it is detached.
+		 */
+		$book->media()->sync($mediaIDs);
 
 		// Updating book
 		$book->update($data);

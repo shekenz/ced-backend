@@ -18,7 +18,8 @@ mix.js('resources/js/index.js', 'public/js'); // Main frontend script available 
 mix.js('resources/js/app.js', 'public/js'); // Main backend script available in all app-layout
 
 // App JS (Backend)
-mix.js('resources/js/ondemand/app/media.js', 'public/js'); // Loaded on display media view
+mix.js('resources/js/ondemand/app/media-optimized.js', 'public/js'); // Loaded on display media view
+mix.js('resources/js/ondemand/app/media-library-dragdrop.js', 'public/js'); // Loaded on display media view
 
 //  Index JS (Frontend)
 mix.js('resources/js/ondemand/index/user-menu.js', 'public/js'); // Loaded on index-layout when user is authenticated

@@ -31,6 +31,9 @@ module.exports = {
 					pale: 'rgb(144, 255, 134)',
 				}
 			},
+			cursor: {
+				grab: 'grab',
+			}
         },
     },
 

@@ -4,6 +4,7 @@
 
 @import './flash.css';
 
+
 @layer base {
 
 	a.default, .base-link {
@@ -43,7 +44,16 @@
 	}
 
 	.input-mimic {
-		@apply input-shared rounded-md border border-gray-300 p-3;
+		@apply input-shared rounded-md border border-gray-300;
+	}
+
+	.dropzone {
+		min-height : calc(102px + 1.5rem);
+	}
+
+	.dropzone > .placeholder {
+		height : 100px;
+		box-sizing : border-box;
 	}
 
 	.button-shared {
@@ -119,6 +129,11 @@
 
 	.off:before {
 		left: 0em;
+	}
+
+	/*---- Fuck webkit ----*/
+	img.not-draggable {
+		-webkit-user-drag: none;
 	}
 
 }

@@ -18,3 +18,4 @@ misc
 workspace.code-workspace
 config/settings.json
 todo.txt
+resources/js/ondemand/app/media-library-dragdrop-custom.js

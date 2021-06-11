@@ -1,4 +1,6 @@
-<div class="bg-gray-300 text-white rounded-sm shadow-sm overflow-hidden">
-	<input class="absolute" id="mediumId{{ $medium->id }}" name="{{ $inputName }}[]" type="checkbox" value="{{ $medium->id }}">
-	<label for="mediumId{{ $medium->id }}"><img class="" src="{{ asset('storage/'.$medium->preset('thumb')) }}"></label>
+<div class="bg-transparent text-white rounded-sm shadow-sm inline-block mt-3 ml-3 cursor-grab" draggable="true">
+	@if ($input)
+		<input name="media[]" type="hidden" value="{{ $medium->id }}">
+	@endif
+	<img class="not-draggable" src="{{ asset('storage/'.$medium->preset('thumb')) }}" data-id="{{ $medium->id }}">
 </div>

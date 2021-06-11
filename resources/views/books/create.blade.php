@@ -5,7 +5,11 @@
 
 	<x-slot name="controls">
 		<a href="{{ route('books') }}" class="button-shared">{{ __('Cancel') }}</a> 
-	 </x-slot>
+	</x-slot>
+
+	<x-slot name="scripts">
+		<script src="{{ asset('js/media-library-dragdrop.js') }}" type="text/javascript" defer></script>
+	</x-slot>
 	
 	<div class="m-4">
         @if ($errors->any())
@@ -67,21 +71,34 @@
 			<input type="hidden" name="lang" value="fr">
 
 			@if( $media->isNotEmpty() )
-			<div class="col-span-4">
-				<label class="label-shared lg:text-lg">{{ __('Link media from the library') }} :</label>
-				<div class="input-mimic grid grid-cols-3 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-12 gap-4">
-					@php $inputName = 'media'; @endphp
-					@foreach($media as $medium)
-						@include('books.form-image')
-					@endforeach
+				<div class="col-span-4">
+					<label class="label-shared lg:text-lg">{{ __('Linked media') }} :</label>
+					<div id="media-link" class="dropzone input-mimic">
+						<div id="media-link-placeholder" class="placeholder flex m-3 justify-center items-center">
+							<span class="text-3xl text-gray-300 font-bold">{{ __('Drop media from the library here')}}.</span>
+						</div>
+					</div>
 				</div>
-			</div>
+				
+				<div class="col-span-4">
+					<label class="label-shared lg:text-lg">{{ __('Media library') }} :</label>
+					<div id="media-library" class="dropzone input-mimic">
+						@php $input = false; @endphp
+						@if($media->isEmpty())
+							<div id="media-library-placeholder" class="placeholder flex m-3 justify-center items-center">
+								<span class="text-3xl text-gray-300 font-bold">{{ __('Move media here to unlink from book')}}.</span>
+							</div>
+						@endif
+						@foreach($media as $medium)
+							@include('books.form-image')
+						@endforeach
+					</div>
+				</div>
 			@endif
 
 			<div class="col-span-4">
 				<label class="label-shared lg:text-lg">{{ __('Upload and link new media') }} :</label>
 				<div class="input-mimic">
-				{{-- <div class="input-mimic grid grid-cols-3 md:grid-cols-7 lg:grid-cols-10 xl:grid-cols-12 gap-4"> --}}
 					<input type="file" name="files[]" accept=".jpg,.jpeg,.png,.gif" multiple>
 				</div>
 			</div>
