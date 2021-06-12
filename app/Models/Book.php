@@ -39,7 +39,7 @@ class Book extends Model
 
 	// Books relation with media
 	public function media() {
-		return $this->belongsToMany(Medium::class, 'book_medium', 'book_id', 'medium_id');
+		return $this->belongsToMany(Medium::class, 'book_medium', 'book_id', 'medium_id')->withPivot('order');
 	}
 
 }

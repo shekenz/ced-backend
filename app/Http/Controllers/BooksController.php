@@ -37,7 +37,9 @@ class BooksController extends Controller
     public function index() {
 		// We need to filter out the books without linked images because gilde.js hangs if it have no child elements.
 		// We also need a clean ordered index to link each glides to its corresponding counter.
-		$books = Book::with('media')
+		$books = Book::with([
+				'media' => function($q) { $q->orderBy('pivot_order', 'asc'); }
+			])
 			->orderBy('created_at', 'DESC')
 			->get()
 			->filter(function($value) {
@@ -81,15 +83,24 @@ class BooksController extends Controller
 
 		// Merging files uploaded and files from library together for attachment
 		if(array_key_exists('media', $data)) {
-			$mediaIDs = array_merge($mediaIDs, $data['media']);
+			$mediaIDs = array_merge($data['media'], $mediaIDs);
 		}
 
-		// Saving book ind database
+		// Saving book in database
 		$book = auth()->user()->books()->create($data);
+
+		/** Creating a new array with ids as key and a table of order_field => order as value.
+		 * This table allows us to save data in the order field of the pivot table
+		 * It is order following the original $mediaIDs array. Hence uploaded files will be ordered at the end.
+		 */
+		$mediaIDsWithOrder = [];
+		foreach($mediaIDs as $order => $id) {
+			$mediaIDsWithOrder[$id] = ['order' => $order+1];
+		}
 
 		// Attach
 		if(!empty($mediaIDs)) {
-			$book->media()->attach($mediaIDs);
+			$book->media()->attach($mediaIDsWithOrder);
 		}
 
 		return redirect()->route('books')->with([
@@ -101,7 +112,9 @@ class BooksController extends Controller
 	/** Displays the book edition page. */
 	public function edit($id) {
 		$media = Medium::all();
-		$book = Book::with('media')->findOrFail($id);
+		$book = Book::with([
+			'media' => function($q) { $q->orderBy('pivot_order', 'asc'); }
+		])->findOrFail($id);
 		return view('books/edit', compact('book', 'media'));
 	}
 
@@ -120,14 +133,23 @@ class BooksController extends Controller
 
 		// Merging uploaded and from library IDs to attach
 		if(array_key_exists('media', $data)) {
-			$mediaIDs = array_merge($mediaIDs, $data['media']);
+			$mediaIDs = array_merge($data['media'], $mediaIDs);
+		}
+
+		/** Creating a new array with ids as key and a table of order_field => order as value.
+		 * This table allows us to save data in the order field of the pivot table
+		 * It is order following the original $mediaIDs array. Hence uploaded files will be ordered at the end.
+		 */
+		$mediaIDsWithOrder = [];
+		foreach($mediaIDs as $order => $id) {
+			$mediaIDsWithOrder[$id] = ['order' => $order+1];
 		}
 
 		/** We sync up the media array with the attach table.
 		 *  If a media id is in mediaIDs, it is attached.
 		 *  If it is not and was previously attached, it is detached.
 		 */
-		$book->media()->sync($mediaIDs);
+		$book->media()->sync($mediaIDsWithOrder);
 
 		// Updating book
 		$book->update($data);
