@@ -1,6 +1,6 @@
 // Laravel
 require('./bootstrap');
-//require('alpinejs');
+require('alpinejs');
 
 // App
 require('./shared/flash');
