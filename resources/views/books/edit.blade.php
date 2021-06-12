@@ -111,7 +111,7 @@
 			</div>
 
 			<div class="col-span-4 mt-2 lg:text-right">
-            	<input class="button-shared w-full lg:w-auto" type="submit">
+            	<input class="button-shared w-full lg:w-auto" type="submit"  value="{{ __('Save') }}">
 			</div>
 			
         </form>
