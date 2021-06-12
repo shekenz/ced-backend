@@ -23,7 +23,9 @@ class CartController extends Controller
 		if($cart) {
 
 			// Find all books from cart without archived books (In 1 call)
-			$books = Book::with('media')->findMany(array_keys($cart));
+			$books = Book::with([
+				'media' => function($q) { $q->orderBy('pivot_order', 'asc'); }
+			])->findMany(array_keys($cart));
 
 			// Filter out if books has no price or no media
 			$books = $books->filter(function($book) {
@@ -211,7 +213,9 @@ class CartController extends Controller
 	public function checkout(Request $request) {
 		$data = $request->validate($this->validation);
 		$cart = session('cart');
-		$books = Book::with('media')->findMany(array_keys($cart));
+		$books = Book::with([
+			'media' => function($q) { $q->orderBy('pivot_order', 'asc'); }
+		])->findMany(array_keys($cart));
 		$books->each(function($book) use($cart) {
 			$book->cartQuantity = $cart[$book->id];
 		});
