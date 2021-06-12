@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\IndexController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\MediaController;
@@ -28,7 +29,7 @@ Route::get('/', [BooksController::class, 'index'])->middleware('published')->nam
 	'title' => 'Title',
 	'quantity' => '1',
 ])->middleware('published')->name('cart'); */
-Route::view('/about', 'index/about')->middleware('published')->name('about');
+Route::get('/about', [IndexController::class, 'about'])->middleware('published')->name('about');
 Route::view('/contact', 'index/contact')->middleware('published')->name('messages');
 Route::post('/contact', [MessagesController::class, 'forward'])->middleware('published')->name('messages.forward');
 

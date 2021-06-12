@@ -116,5 +116,12 @@
 		@apply dark:bg-white;
 	}
 
+	.about a {
+		@apply underline;
+	}
+
+	.about img {
+		@apply inline-block;
+	}
 
 }
