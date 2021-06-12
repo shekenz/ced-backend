@@ -58,7 +58,9 @@ class BooksController extends Controller
 	
 	/** Displays the book resume in backend. */
 	public function display($id) {
-		$book = Book::with('media')->findOrFail($id);
+		$book = Book::with([
+			'media' => function($q) { $q->orderBy('pivot_order', 'asc'); }
+		])->findOrFail($id);
 		return view('books.display', compact('book'));
 	}
 
