@@ -18,6 +18,14 @@ class CartController extends Controller
 		}
 	}
 
+	protected function abortByRequestMethod(Request $request, $errorCode = 400, $errorMessage = '') {
+		if($request->isMethod('POST')) {
+			return response()->json()->setStatusCode($errorCode, $errorMessage);
+		} else {
+			return abort($errorCode, $errorMessage);
+		}
+	}
+
     public function viewCart(Request $request) {
 		$cart = $request->session()->get('cart', false);
 		if($cart) {
@@ -36,22 +44,23 @@ class CartController extends Controller
 			$books = $books->keyBy('id');
 
 			// Update cart according to filtered books array
+			// In case book has been removed or is not available for sale while in client's cart
 			$articleUpdated = (count($cart) - $books->count() > 0);
 			$cart = array_intersect_key($cart, $books->toArray());
 
 			// Check stock limits
 			$quantityUpdated = false;
-			array_walk($cart, function(&$cartQuantity, $id) use ($books, &$quantityUpdated) {
+			array_walk($cart, function(&$article, $id) use ($books, &$quantityUpdated) {
 				$stock = intval($books[$id]->quantity);
-				if($cartQuantity > $stock) {
-					$cartQuantity = $stock;
+				if($article['quantity'] > $stock) {
+					$article['quantity'] = $stock;
 					$quantityUpdated = true;
 				}
 			});
 
 			// Updates $books cartQuantity
 			$books->each(function($book, $id) use ($cart) {
-				$book->cartQuantity = $cart[$id];
+				$book->cartQuantity = $cart[$id]['quantity'];
 			});
 
 			// Update session cart
@@ -72,13 +81,20 @@ class CartController extends Controller
 		
 	}
 
-	public function add($id) {
+	public function add(request $request, $id) {
 
 		$book = Book::with('media')->findOrFail($id);
+		$bookReturnedDetails = [
+			'book' => [
+				'id' => $book->id,
+				'price' => $book->price,
+				'modifier' => 1
+			]
+		];
 
 		// If book has no price or has no media, you shouldn't be here
 		if(!isset($book->price) || $book->media->isEmpty()) {
-			abort(404);
+			return $this->abortByRequestMethod($request, 400, 'Book not available');
 		}
 
 		// If cart is empty, create new cart array
@@ -90,63 +106,88 @@ class CartController extends Controller
 		
 		// If book id found in cart, just update quantity
 		if(array_key_exists($book->id, $cart)) {
-			if($cart[$book->id] < $book->quantity) { // Check for stock
-				$cart[$book->id] += 1;
-			} else {
-				return back()->with([
-					'flash' => __('flash.cart.stockLimit'),
-					'flash-type' => 'warning',
-				]);
+			if($cart[$book->id]['quantity'] < $book->quantity) { // Check for stock
+				$cart[$book->id]['quantity'] += 1;
+			} else { // Redirect and inform the user book is not in stock anymore
+				// Needs refractoring -------------------------------------------------------- // TODO
+				if ($request->isMethod('post')) {
+					return response()->json($bookReturnedDetails)->setStatusCode(500, __('flash.cart.stockLimit'));
+				} else {
+					return back()->with([
+						'flash' => __('flash.cart.stockLimit'),
+						'flash-type' => 'warning',
+					]);
+				}
 			}
-		} else { // Else push new book id with quantity of 1
+		} else { // Else push new book id with an array with quantity of 1 and price
 			if($book->quantity > 0) { // Check for stock
-				$cart[$book->id] = 1;
+				$cart[$book->id] = [ 'price' => $book->price, 'quantity' => 1];
 			} else {
-				return back()->with([
-					'flash' => __('flash.cart.stockLimit'),
-					'flash-type' => 'warning',
-				]);
+				// Needs refractoring -------------------------------------------------------- // TODO
+				if ($request->isMethod('post')) {
+					return response()->json($bookReturnedDetails)->setStatusCode(500, __('flash.cart.stockLimit'));
+				} else {
+					return back()->with([
+						'flash' => __('flash.cart.stockLimit'),
+						'flash-type' => 'warning',
+					]);
+				}
 			}
 		}
 
 		// Save new cart in sesh and redirect
 		session(['cart' => $cart]);
-		return back();
+		if ($request->isMethod('post')) {
+			return response()->json($bookReturnedDetails);
+		} else {
+			return back();
+		}
 	}
 
-	public function remove($id) {
+	public function remove(Request $request, $id) {
 
 		$book = Book::with('media')->findOrFail($id);
+		$bookReturnedDetails = [
+			'book' => [
+				'id' => $book->id,
+				'price' => $book->price,
+				'modifier' => -1
+			]
+		];
 
 		// If cart is empty, or if book has no price or has no media, you shouldn't be here
 		if(CartHelper::isEmpty() || !isset($book->price) || $book->media->isEmpty()) {
-			abort(404);
+			return $this->abortByRequestMethod($request, 400, 'Book not available');
 		}
 
 		// Retrieve cart
 		$cart = session('cart');
 		
 		// If book id found in cart and is over 1, just update quantity
-		if(array_key_exists($book->id, $cart) && $cart[$book->id] > 1) {		
-			$cart[$book->id] -= 1;
-		} elseif(array_key_exists($book->id, $cart) && $cart[$book->id] <= 1) { // If book id found in cart and is 1, just delete from cart
+		if(array_key_exists($book->id, $cart) && $cart[$book->id]['quantity'] > 1) {		
+			$cart[$book->id]['quantity'] -= 1;
+		} elseif(array_key_exists($book->id, $cart) && $cart[$book->id]['quantity'] <= 1) { // If book id found in cart and is 1, just delete from cart
 			unset($cart[$book->id]);
 		} else { // If book is not in cart, you shouldn't be here neither
-			abort(404);
+			return $this->abortByRequestMethod($request, 400, 'Book not available');
 		}
 
 		// Save new cart in sesh and redirect
 		session(['cart' => $cart]);
-		return $this->redirectIfEmpty();
+		if($request->isMethod('POST')) {
+			return response()->json($bookReturnedDetails);
+		} else {
+			return $this->redirectIfEmpty();
+		}
 	}
 
-	public function removeAll($id) {
+	public function removeAll(Request $request, $id) {
 
 		$book = Book::with('media')->findOrFail($id);
 
 		// If cart is empty, or if book has no price or has no media, you shouldn't be here
 		if(CartHelper::isEmpty() || !isset($book->price) || $book->media->isEmpty()) {
-			abort(404);
+			return $this->abortByRequestMethod($request, 400, 'Book not available');
 		}
 
 		// Retrieve cart
@@ -156,30 +197,12 @@ class CartController extends Controller
 		if(array_key_exists($book->id, $cart)) {		
 			unset($cart[$book->id]);
 		} else { // If book is not in cart, you shouldn't be here neither
-			abort(404);
+			return $this->abortByRequestMethod($request, 400, 'Book not available');
 		}
 
 		// Save new cart in sesh and redirect
 		session(['cart' => $cart]);
 		return $this->redirectIfEmpty();
-	}
-
-	public function populateCart() {
-		session([
-			'cart' => [
-				'1' => 100,
-				'2' => 100,
-				'3' => 100,
-				'4' => 100,
-				'5' => 100,
-				'6' => 100,
-				'7' => 100,
-				'8' => 100,
-				'9' => 100,
-				'10' => 100,
-			],
-		]);
-		return redirect(route('cart'));
 	}
 
 	public function clearCart() {

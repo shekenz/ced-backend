@@ -3,6 +3,8 @@
     "/js/app.js": "/js/app.js",
     "/js/media-optimized.js": "/js/media-optimized.js",
     "/js/media-library-dragdrop.js": "/js/media-library-dragdrop.js",
+    "/js/cart.js": "/js/cart.js",
+    "/js/add-to-cart.js": "/js/add-to-cart.js",
     "/js/user-menu.js": "/js/user-menu.js",
     "/js/glide.js": "/js/glide.js",
     "/js/shipping-form.js": "/js/shipping-form.js",

@@ -8,7 +8,7 @@ module.exports = {
 		content: [
 			'./storage/framework/views/*.php',
 			'./resources/views/**/*.blade.php',
-			'./safelist.txt'
+			//'./safelist.txt'
 		],
 		options: {
 			safelist: ['black-square'],

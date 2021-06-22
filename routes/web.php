@@ -35,7 +35,6 @@ Route::post('/contact', [MessagesController::class, 'forward'])->middleware('pub
 
 // Cart
 Route::get('/cart', [CartController::class, 'viewCart'])->middleware('published')->name('cart');
-Route::get('/cart/populate', [CartController::class, 'populateCart'])->middleware('published')->name('cart.populate');
 Route::get('/cart/clear', [CartController::class, 'clearCart'])->middleware('published')->name('cart.clear');
 Route::get('/cart/add/{book}', [CartController::class, 'add'])->middleware('published')->name('cart.add');
 Route::get('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('published')->name('cart.remove');
@@ -43,6 +42,10 @@ Route::get('/cart/remove-all/{book}', [CartController::class, 'removeAll'])->mid
 Route::get('/cart/shipping', [CartController::class, 'shipping'])->middleware('published')->name('cart.shipping');
 Route::post('/cart/checkout', [CartController::class, 'checkout'])->middleware('published')->name('cart.checkout');
 Route::get('/cart/confirmed', [CartController::class, 'confirmed'])->middleware('published')->name('cart.confirmed');
+
+// Cart API
+Route::post('/cart/add/{book}', [CartController::class, 'add'])->middleware('published')->name('cart.api.add');
+Route::post('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('published')->name('cart.api.remove');
 
 // Dashboard
 Route::get('/dashboard', function () {

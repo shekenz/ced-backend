@@ -5,6 +5,7 @@
 		mr-0
 		xl:col-span-7
 		xl:mr-12
+		z-10
 	" data-slick='{"slidesToShow": 1, "slidesToScroll": 4}'>
 		<div class="glide">
 			<div data-glide-el="track" class="glide__track">
@@ -65,7 +66,28 @@
 				@if( !empty($book->price) )
 					<br>{{ $book->price }} €<br>
 					@if( $book->quantity > 0)
-						<a href="{{ route('cart.add', $book->id)}}" class="underline hover:bg-black hover:text-white">{{ __('Add to cart') }}</a><br>
+						<br>
+						<a href="{{ route('cart.add', $book->id)}}" class="
+							add-to-cart-button
+							inline-block
+							px-4
+							py-3
+							border
+							border-black
+							dark:border-white
+							dark:active:hover:border-white
+							dark:active:hover:text-white
+							dark:active:hover:bg-black
+							active:hover:border-black
+							active:hover:text-black
+							active:hover:bg-white
+							hover:bg-black
+							dark:hover:bg-white
+							hover:text-white
+							dark:hover:text-black
+							transition
+							duration-250	
+						">{{ __('Add to cart') }}</a><br>
 					@else
 						({{ __('Out of stock') }})<br>
 					@endif

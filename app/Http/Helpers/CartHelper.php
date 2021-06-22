@@ -9,8 +9,8 @@ class CartHelper {
 	public static function count() {
 		if(!self::isEmpty()) {
 			self::$count = 0;
-			foreach(session('cart') as $quantity) {
-				self::$count += intval($quantity);
+			foreach(session('cart') as $article) {
+				self::$count += intval($article['quantity']);
 			}
 			return self::$count;
 		} else {
@@ -19,7 +19,7 @@ class CartHelper {
 	}
 
 	public static function isEmpty() {
-		return (!session()->has('cart'));
+		return (!session()->has('cart') || ( count(session('cart')) == 0) );
 	}
 
 }
