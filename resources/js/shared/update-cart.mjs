@@ -1,5 +1,6 @@
 export function updateCartQuantity(relativeValue = 0) {
 	let el = document.getElementById('cart-menu-item').firstChild;
+	let elUnder = document.getElementById('cart-menu-item-under').firstChild;
 	let currentQuantityMatch = el.nodeValue.match(/[0-9]+/);
 	if (currentQuantityMatch) {
 		var currentQuantity = parseInt(currentQuantityMatch[0]);
@@ -11,8 +12,10 @@ export function updateCartQuantity(relativeValue = 0) {
 	if(!isNaN(newValue)) {
 		if(newValue > 0) {
 			el.nodeValue = `cart (${newValue})`;
+			elUnder.nodeValue = `cart (${newValue})`;
 		} else {
 			el.nodeValue = 'cart';
+			elUnder.nodeValue = 'cart';
 		}
 	} else {
 		throw new TypeError('newValue is not a number');

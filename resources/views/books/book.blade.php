@@ -1,11 +1,10 @@
 <article id="{{ Str::slug($book->title, '-') }}" class="grid grid-cols-9">
 	<div class="
-		base-slider
+		carousel
 		col-span-9
 		mr-0
 		xl:col-span-7
 		xl:mr-12
-		z-10
 	" data-slick='{"slidesToShow": 1, "slidesToScroll": 4}'>
 		<div class="glide">
 			<div data-glide-el="track" class="glide__track">
@@ -28,7 +27,8 @@
 		</div>
 		<div id="counter-{{ $glideIndex }}" class="hidden xl:block xl:mt-8 xl:mb-12"><span class="counter-index">1</span>/<span class="counter-total">{{ $book->media->count() }}</span></div>
 	</div>
-	<div id="info" class="
+	<div class="
+		info
 		grid
 		grid-cols-3
 		col-span-9
@@ -67,35 +67,14 @@
 					<br>{{ $book->price }} €<br>
 					@if( $book->quantity > 0)
 						<br>
-						<a href="{{ route('cart.add', $book->id)}}" class="
-							add-to-cart-button
-							inline-block
-							px-4
-							py-3
-							border
-							border-black
-							dark:border-white
-							dark:active:hover:border-white
-							dark:active:hover:text-white
-							dark:active:hover:bg-black
-							active:hover:border-black
-							active:hover:text-black
-							active:hover:bg-white
-							hover:bg-black
-							dark:hover:bg-white
-							hover:text-white
-							dark:hover:text-black
-							transition
-							duration-250	
-						">{{ __('Add to cart') }}</a><br>
+						<a href="{{ route('cart.add', $book->id)}}" class="add-to-cart-button button-lg">{{ __('Add to cart') }}</a><br>
 					@else
 						({{ __('Out of stock') }})<br>
 					@endif
 				@endif
 				<br>
 				@auth
-					<div class="hideable"><a href="{{ route('books.edit', $book->id) }}" class="base-con-edit">{{ __('Edit') }}</a><br><br></div>
-					<div class="hideable"><a href="{{ route('books.archive', $book->id) }}" class="base-con-edit">{{ __('Archive') }}</a><br><br></div>
+					<div class="hideable"><a href="{{ route('books.edit', $book->id) }}" class="user-edit">{{ __('Edit') }}</a><a href="{{ route('books.archive', $book->id) }}" class="user-edit">{{ __('Archive') }}</a></div><br>
 				@endauth
 		</div>
 		<div class="col-span-2">

@@ -29,11 +29,16 @@ module.exports = {
 				dark: colors.gray,
 				green: {
 					pale: 'rgb(144, 255, 134)',
-				}
+				},
+				inherit: 'inherit',
 			},
 			cursor: {
 				grab: 'grab',
-			}
+			},
+			outline: {
+				light: [`1px solid ${colors.black}`, '2px'],
+				dark: [`1px solid ${colors.gray[200]}`, '2px'],
+			  }
         },
     },
 

@@ -1,0 +1,61 @@
+@layer components {
+
+	/*--------------- Main menu ---------------*/
+	.menu-wrapper {
+		@apply
+			fixed
+			w-full
+			top-0;
+	}
+
+	.menu {
+		@apply
+			grid
+			grid-cols-5
+			m-4
+			md:grid-cols-9
+			md:my-8
+			md:mx-12
+			xl:my-12
+			xl:mx-20;	
+	}
+
+	#menu-wrapper {
+		z-index: 3;	
+	}
+
+	#menu-wrapper-under {
+		z-index: -1;
+	}
+
+	/*-------------- Buttons ---------------*/
+	.button {
+		@apply
+			inline-block
+			py-1
+			px-2.5;
+	}
+
+	.button-lg {
+		@apply
+			inline-block
+			py-3
+			px-4;
+	}
+
+	/*--------------- #user-menu ---------------*/
+	#user-menu {
+		@apply
+			px-2
+			py-1;
+	}
+
+	.user-edit {
+		@apply
+			inline-block
+			px-2
+			py-1
+			mr-2;
+	}
+
+}
