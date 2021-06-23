@@ -34,22 +34,6 @@
 		@apply inline-block;
 	}
 
-}
-
-@layer components {
-
-	/*--------------- Main menu ---------------*/
-	#menu-wrapper {
-		@apply
-			text-white
-			mix-blend-difference;
-	}
-
-	#menu-wrapper-under {
-		@apply
-			text-white;
-	}
-
 	/*--------------- Links ---------------*/
 	a {
 		@apply
@@ -61,19 +45,48 @@
 			dark:hover:bg-dark-200;
 	}
 
+}
+
+@layer components {
+
+	/*--------------- Main enu ---------------*/
+	#black-square {
+		@apply
+			bg-black;
+	}
+
+	#menu-wrapper {
+		@apply
+			no-underline
+			text-white
+			mix-blend-difference;
+	}
+
+	#menu-wrapper-under {
+		@apply
+			no-underline
+			text-white;
+	}
+
 	.menu a {
 		@apply
 			no-underline
-			hover:text-black
-			dark:hover:text-black;
+			hover:underline;
 	}
 
-	.menu a.active {
+	#menu a {
 		@apply
-			/* text-white
-			bg-black */
-			dark:text-black
-			dark:bg-white;
+			hover:bg-transparent;
+	}
+
+	#menu a.active, #menu-under a.active {
+		@apply
+			no-underline;
+	}
+
+	#menu-under a.hover {
+		@apply
+			underline;
 	}
 
 	/*-------------- Buttons ---------------*/

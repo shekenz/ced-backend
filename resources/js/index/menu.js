@@ -1,48 +1,54 @@
 import { arrayByClass } from '../shared/helpers.mjs';
 
-	// Menu items underlaying black square -- TODO needs rework
-	let blackSquare;
-	let widthOffset = 20;
-	let activeEl = arrayByClass('base-menu-link-active')[0];
-	let menu = document.getElementById('menu-wrapper');
+window.addEventListener('load', () => {
 
-	let init = () => {
-		if(activeEl) {
-			blackSquare = document.createElement('div');
-			blackSquare.setAttribute('id', 'black-square');
-			blackSquare.style.top = activeEl.offsetTop + 'px';
-			blackSquare.style.left = (activeEl.offsetLeft - (widthOffset/2)) + 'px';
-			blackSquare.style.width = (activeEl.offsetWidth + widthOffset) + 'px';
-			blackSquare.style.height = (activeEl.offsetHeight + 3) + 'px';
-			menu.parentNode.insertBefore(blackSquare, menu.nextSibling);
-		}
+	let blackSquare = document.getElementById('black-square');
+
+	let applyTransform = (boundingRect, xOffset = 0, yOffset = 0) => {
+		blackSquare.style.left = `${boundingRect.left - xOffset}px`;
+		blackSquare.style.top = `${boundingRect.top - yOffset}px`;
+		blackSquare.style.width = `${boundingRect.width + (xOffset*2) }px`;
+		blackSquare.style.height = `${boundingRect.height + 2 + (yOffset*2) }px`;
 	}
 
-	init();
-
-	window.addEventListener('resize', () => {
-		if(document.getElementById('black-square')) {
-			document.getElementById('black-square').remove();
-			init();
-		}
-	});
-
-	let links = arrayByClass('base-menu-animated');
-	links.map((item) => {
-		item.addEventListener('click', (e) => {
-			if(blackSquare) {
-				e.preventDefault();
-				blackSquare.style.top = e.target.offsetTop + 'px';
-				blackSquare.style.left = (e.target.offsetLeft - (widthOffset/2)) + 'px';
-				blackSquare.style.width = (e.target.offsetWidth + widthOffset) + 'px';
-				e.target.classList.add('base-menu-link-active');
-				activeEl.classList.remove('base-menu-link-active');
-
-				setTimeout(() => {
-					
-					window.location = e.target.href
-				}
-				, 500);
-			}
+	// Initial transform
+	// Adding delay to make sure browsers exited their first render loop.
+	// Safari will apply a weird bounding box otherwise.
+	setTimeout(() => {
+		applyTransform(arrayByClass('active')[0].getBoundingClientRect(), 7, 1);
+	}, 25);
+	
+	// Adding menu click event
+	let menuItems = arrayByClass('menu-item');
+	menuItems.map(item => {
+		item.addEventListener('click', e => {
+			e.preventDefault();
+			let itemDimension = e.target.getBoundingClientRect();
+			applyTransform(itemDimension, 7, 1);	
+			setTimeout(() => { window.location = e.target.href }, 300);
 		});
 	});
+
+	// Adding menu hover event (for blending menu items underlines)
+	let menuItemsUnder = arrayByClass('menu-item-under');
+	menuItems.map((item, index) => {
+		item.addEventListener('mouseenter', () => {
+			menuItemsUnder[index].classList.toggle('hover');
+		});
+		item.addEventListener('mouseleave', () => {
+			menuItemsUnder[index].classList.toggle('hover');
+		});
+	});
+
+	// Resize event
+	window.addEventListener('resize', () => {
+		applyTransform(arrayByClass('active')[0].getBoundingClientRect(), 7, 1);
+	});
+
+	// Adding delay to make sure browsers exited their first render loop.
+	// Firefox will apply animation before applying first initial transform otherwise.
+	setTimeout(() => {
+		blackSquare.classList.add('animated');
+	}, 50);
+});
+

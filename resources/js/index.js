@@ -1,5 +1,5 @@
 // Index
-require('./index/menu-refractored');
+require('./index/menu');
 require('./index/theme');
 require('./shared/flash');
 

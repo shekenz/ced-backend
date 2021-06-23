@@ -1,6 +1,22 @@
 @layer components {
 
 	/*--------------- Main menu ---------------*/
+	#black-square {
+		@apply
+			fixed
+			w-0
+			h-0
+			top-0
+			left-0
+			z-[2];
+	}
+
+	#black-square.animated {
+		@apply
+			transition-all
+			duration-300;
+	}
+
 	.menu-wrapper {
 		@apply
 			fixed
