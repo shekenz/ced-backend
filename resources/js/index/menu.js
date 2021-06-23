@@ -2,7 +2,8 @@ import { arrayByClass } from '../shared/helpers.mjs';
 
 window.addEventListener('load', () => {
 
-	let blackSquare = document.getElementById('black-square');
+	let blackSquare = document.createElement('div');
+	blackSquare.setAttribute('id', 'black-square');
 
 	let applyTransform = (boundingRect, xOffset = 0, yOffset = 0) => {
 		blackSquare.style.left = `${boundingRect.left - xOffset}px`;
@@ -16,7 +17,7 @@ window.addEventListener('load', () => {
 	// Safari will apply a weird bounding box otherwise.
 	setTimeout(() => {
 		applyTransform(arrayByClass('active')[0].getBoundingClientRect(), 7, 1);
-	}, 25);
+	}, 20);
 	
 	// Adding menu click event
 	let menuItems = arrayByClass('menu-item');
@@ -48,7 +49,9 @@ window.addEventListener('load', () => {
 	// Adding delay to make sure browsers exited their first render loop.
 	// Firefox will apply animation before applying first initial transform otherwise.
 	setTimeout(() => {
-		blackSquare.classList.add('animated');
-	}, 50);
+		document.body.insertBefore(blackSquare, document.getElementById('menu-wrapper').nextElementSibling);
+	}, 20);
+
+	
 });
 

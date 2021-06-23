@@ -35,7 +35,6 @@
 		@endif
     </head>
     <body class="text-custom-md lg:text-custom">
-		<div id="black-square"></div>
 		@if(session('flash'))
 		<x-flash.default :message="session('flash')" class="flash-{{ session('flash-type') }}"/>
 		@endif

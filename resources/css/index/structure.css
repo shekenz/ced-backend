@@ -8,14 +8,16 @@
 			h-0
 			top-0
 			left-0
+			transition-all
+			duration-300
 			z-[2];
 	}
 
-	#black-square.animated {
+	/* #black-square.animated {
 		@apply
 			transition-all
 			duration-300;
-	}
+	} */
 
 	.menu-wrapper {
 		@apply
