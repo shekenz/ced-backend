@@ -234,15 +234,23 @@ class CartController extends Controller
 	}
 
 	public function checkout(Request $request) {
-		$data = $request->validate($this->validation);
+
+		// In-house shipping method
+		//$data = $request->validate($this->validation);
+
 		$cart = session('cart');
 		$books = Book::with([
 			'media' => function($q) { $q->orderBy('pivot_order', 'asc'); }
 		])->findMany(array_keys($cart));
 		$books->each(function($book) use($cart) {
-			$book->cartQuantity = $cart[$book->id];
+			$book->cartQuantity = $cart[$book->id]['quantity'];
 		});
-		return view('index.cart.checkout', compact('data', 'books'));
+
+		// Paypal checkout (Shipping handled by paypal)
+		return view('index.cart.checkout-paypal', compact('books'));
+		
+		// In-house shipping method
+		//return view('index.cart.checkout', compact('data', 'books'));
 		//Order::create($data);
 	}
 

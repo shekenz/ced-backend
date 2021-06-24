@@ -4,6 +4,7 @@ window.addEventListener('load', () => {
 
 	let blackSquare = document.createElement('div');
 	blackSquare.setAttribute('id', 'black-square');
+	document.body.insertBefore(blackSquare, document.getElementById('menu-wrapper').nextElementSibling);
 
 	let applyTransform = (boundingRect, xOffset = 0, yOffset = 0) => {
 		blackSquare.style.left = `${boundingRect.left - xOffset}px`;
@@ -46,11 +47,11 @@ window.addEventListener('load', () => {
 		applyTransform(arrayByClass('active')[0].getBoundingClientRect(), 7, 1);
 	});
 
-	// Adding delay to make sure browsers exited their first render loop.
+	// Adding delay before applying the animated class to stop trigerring animations at load
 	// Firefox will apply animation before applying first initial transform otherwise.
 	setTimeout(() => {
-		document.body.insertBefore(blackSquare, document.getElementById('menu-wrapper').nextElementSibling);
-	}, 20);
+		blackSquare.classList.add();
+	}, 500);
 
 	
 });

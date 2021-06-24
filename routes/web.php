@@ -38,9 +38,11 @@ Route::get('/cart', [CartController::class, 'viewCart'])->middleware('published'
 Route::get('/cart/clear', [CartController::class, 'clearCart'])->middleware('published')->name('cart.clear');
 Route::get('/cart/add/{book}', [CartController::class, 'add'])->middleware('published')->name('cart.add');
 Route::get('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('published')->name('cart.remove');
+// Shipping form for in-house shipping method
 Route::get('/cart/remove-all/{book}', [CartController::class, 'removeAll'])->middleware('published')->name('cart.removeAll');
-Route::get('/cart/shipping', [CartController::class, 'shipping'])->middleware('published')->name('cart.shipping');
-Route::post('/cart/checkout', [CartController::class, 'checkout'])->middleware('published')->name('cart.checkout');
+//Route::get('/cart/shipping', [CartController::class, 'shipping'])->middleware('published')->name('cart.shipping');
+// Checkout route needs to be POST with in-house shipping for data validation
+Route::get('/cart/checkout', [CartController::class, 'checkout'])->middleware('published')->name('cart.checkout');
 Route::get('/cart/confirmed', [CartController::class, 'confirmed'])->middleware('published')->name('cart.confirmed');
 
 // Cart API

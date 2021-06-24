@@ -27,7 +27,7 @@
 					{{ __('Total') }} : <span id="cart-total">{{ $total }}</span>€
 				</p>
 				<p class="row-start-2 col-start-2 text-right md:text-left mb-6 md:mr-6">
-					<a href="{{ route('cart.shipping') }}" class="base-link">{{ __('Checkout') }}</a>
+					<a href="{{ route('cart.checkout') }}" class="base-link">{{ __('Checkout') }}</a>
 				</p>
 			</div>
 		</div>
