@@ -30,5 +30,10 @@ return [
 	'cart' => [
 		'stockUpdated' => 'Your cart has been updated according to our stock fluctuation.',
 		'stockLimit' => 'Cannot add more articles. Stock limit has been reached.',
-	]
+	],
+	'paypal' => [
+		'credentials' => 'You must set your Paypal credentials in Settings to activate payment functionality.',
+		'sandbox' => 'Paypal Sandbox mode is active.',
+		'recycle' => 'Cannot recycle. Transaction is still pending.',
+	],
 ];

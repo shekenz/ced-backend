@@ -21,5 +21,4 @@ class CartHelper {
 	public static function isEmpty() {
 		return (!session()->has('cart') || ( count(session('cart')) == 0) );
 	}
-
 }

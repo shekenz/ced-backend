@@ -238,7 +238,13 @@ class CartController extends Controller
 		// In-house shipping method
 		//$data = $request->validate($this->validation);
 
-		$cart = session('cart');
+		
+		if(session()->has('cart')) {
+			$cart = session('cart');
+		} else {
+			return redirect('cart');
+		}
+
 		$books = Book::with([
 			'media' => function($q) { $q->orderBy('pivot_order', 'asc'); }
 		])->findMany(array_keys($cart));
@@ -254,7 +260,7 @@ class CartController extends Controller
 		//Order::create($data);
 	}
 
-	public function confirmed() {
+	public function success() {
 		session()->forget('cart');
 		return view('index.cart.confirmed');
 	}

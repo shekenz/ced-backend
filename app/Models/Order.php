@@ -10,20 +10,25 @@ class Order extends Model
     use HasFactory;
 
 	protected $fillable = [
-		'lastname',
-		'firstname',
-		'company',
+		'order_id',
+		'transaction_id',
+		'payer_id',
+		'surname',
+		'given_name',
+		'full_name',
 		'phone',
-		'email',
-		'shipping-address-1',
-		'shipping-address-2',
-		'shipping-city',
-		'shipping-postcode',
-		'shipping-country',
-		'invoice-address-1',
-		'invoice-address-2',
-		'invoice-city',
-		'invoice-postcode',
-		'invoice-country',
+		'email_address',
+		'address_line_1',
+		'address_line_2',
+		'admin_area_2',
+		'admin_area_1',
+		'postal_code',
+		'country_code',
+		'shipping_option_id',
+		'status',
 	];
+
+	public function books() {
+		return $this->belongsToMany(Book::class)->withPivot('quantity');
+	}
 }

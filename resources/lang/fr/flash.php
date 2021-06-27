@@ -30,5 +30,10 @@ return [
 	'cart' => [
 		'stockUpdated' => 'Votre panier a été mis à jour suite à la fluctuation de notre stock.',
 		'stockLimit' => 'Impossible d\'ajouter plus d\'articles. Limite de stock atteinte.',
-	]
+	],
+	'paypal' => [
+		'credentials' => 'Vous devez enregistrer vos identifiants Paypal dans les paramètres pour activer les fonctionalités de payment.',
+		'sandbox' => 'La Sandbox de Paypal est active.',
+		'recycle' => 'Impossible de recycler. La transaction est toujours en attente.'
+	],
 ];

@@ -43,7 +43,7 @@ Route::get('/cart/remove-all/{book}', [CartController::class, 'removeAll'])->mid
 //Route::get('/cart/shipping', [CartController::class, 'shipping'])->middleware('published')->name('cart.shipping');
 // Checkout route needs to be POST with in-house shipping for data validation
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->middleware('published')->name('cart.checkout');
-Route::get('/cart/confirmed', [CartController::class, 'confirmed'])->middleware('published')->name('cart.confirmed');
+Route::get('/cart/success', [CartController::class, 'success'])->middleware('published')->name('cart.confirmed');
 
 // Cart API
 Route::post('/cart/add/{book}', [CartController::class, 'add'])->middleware('published')->name('cart.api.add');
@@ -56,6 +56,8 @@ Route::get('/dashboard', function () {
 
 // Orders
 Route::get('/dashboard/orders/', [OrdersController::class, 'list'])->middleware('auth')->name('orders');
+Route::get('/dashboard/order/{orderId}', [OrdersController::class, 'display'])->middleware('auth')->name('orders.display');
+Route::get('/dashboard/order/recycle/{orderId}', [OrdersController::class, 'recycle'])->middleware('auth')->name('orders.recycle');
 
 // Users
 Route::get('/dashboard/users', [UsersController::class, 'list'])->middleware('auth')->name('users');

@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +16,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+	return $request->user();
 });
+
+Route::post('/order/create/{shippingCost}', [OrdersController::class, 'paypal']);
+Route::post('/order/check-country/{countryCode}', [OrdersController::class, 'checkCountry']);
+Route::post('/order/cancel/{orderId}', [OrdersController::class, 'cancel']);
+Route::post('/order/details/{orderId}', [OrdersController::class, 'details']);
+Route::post('/order/capture/', [OrdersController::class, 'capture']);

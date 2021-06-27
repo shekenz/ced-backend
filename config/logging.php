@@ -47,6 +47,12 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
+		'paypal' => [
+			'driver' => 'single',
+			'path' => storage_path('logs/paypal.log'),
+			'level' => env('LOG_LEVEL', 'critical'),
+		],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),

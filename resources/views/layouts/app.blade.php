@@ -23,19 +23,18 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            {{-- <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header ?? ''}}
-                </div>
-            </header> --}}
-
             <!-- Page Content -->
             <main>
                 <div class="py-2 sm:py-8">
                     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
 						@if(session('flash'))
 							<x-flash.back :message="session('flash')" class="flash-{{ session('flash-type') }}"/>
+						@endif
+						@if( setting('app.paypal.sandbox'))
+							<x-flash.back :message="__('flash.paypal.sandbox')" permanent class="flash-warning"/>
+						@endif
+						@if( !setting('app.paypal.client-id') || !setting('app.paypal.secret'))
+							<x-flash.back :message="__('flash.paypal.credentials')" permanent class="flash-error"/>
 						@endif
                         <div class="bg-white overflow-hidden shadow-sm rounded-md sm:rounded-lg">
                             @if(isset($title))

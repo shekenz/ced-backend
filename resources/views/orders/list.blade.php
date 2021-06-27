@@ -6,12 +6,10 @@
 	<table class="app-table">
 		<thead>
 			<td>id</td>
-			<td>{{ __('First name') }}</td>
-			<td>{{ __('Last name') }}</td>
-			<td>{{ __('Phone') }}</td>
+			<td>{{ __('Order') }}</td>
+			<td>{{ __('Client') }}</td>
 			<td>{{ __('Email') }}</td>
-			<td>{{ __('Address') }}</td>
-			<td>{{ __('Shipping') }}</td>
+			<td>{{ __('Articles') }}</td>
 			<td>{{ __('Status') }}</td>
 			<td>{{ __('Created at') }}</td>
 			<td>{{ __('Last updated') }}</td>
@@ -20,16 +18,21 @@
 	@foreach ($orders as $order)
 		<tr>
 			<td>{{ $order->id }}</td>
-			<td>{{ $order->firstname }}</td>
-			<td>{{ $order->lastname }}</td>
-			<td>{{ $order->phone }}</td>
-			<td>{{ $order->email }}</td>
-			<td><a href="#">{{ __('Address') }}</a></td>
-			<td>{{ $order->shippingMethodId }}</td>
-			<td>{{ $order->status }}</td>
+			<td><a class="default" href="{{ route('orders.display', $order->order_id)}}">{{ $order->order_id }}</a></td>
+			<td>{{ $order->full_name }}</td>
+			<td>{{ $order->email_address }}</td>
+			<td class="text-right">{{ $order->books->reduce(function($total, $book) {
+				return $total + $book->pivot->quantity;
+			}) }}</td>
+			<td><span class="font-bold text-center inline-block w-full text-white px-2 py-1 rounded @switch($order->status)
+				@case('FAILED') {{ 'bg-red-500' }} @break
+				@case('CREATED') {{ 'bg-yellow-500' }} @break
+				@case('COMPLETED') {{ 'bg-blue-500' }} @break
+				@case('SHIPPED') {{ 'bg-green-500' }} @break
+			@endswitch">{{ $order->status }}</span></td>
 			<td>{{ $order->created_at }}</td>
 			<td>{{ $order->updated_at }}</td>
-			<td></td>
+			<td class="text-right">@if($order->status == 'CREATED')<a class="icon" href="{{ route('orders.recycle', $order->order_id) }}"><x-tabler-recycle></x-tabler-recycle></a>@endif</td>
 		</tr>
 	@endforeach
 	</table>

@@ -66,7 +66,7 @@
 		<td>
 			<form>
 				@for ($i = 1; $i <= 3; $i++)
-					<input type="radio" id="shipping-method-{{ $i }}" name="shipping-method" {{ ($i == 1) ? 'checked' : '' }}>
+					<input type="radio" id="shipping-method-{{ $i }}" name="shipping-method" {{ ($i == 1) ? 'checked' : '' }} value="{{ 7.5 * $i }}">
 					<label for="shipping-method-{{ $i }}">{{ __('Shipping method').' '.$i }}</label><br>
 				@endfor
 			</form>

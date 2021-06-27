@@ -42,4 +42,9 @@ class Book extends Model
 		return $this->belongsToMany(Medium::class, 'book_medium', 'book_id', 'medium_id')->withPivot('order');
 	}
 
+	// Book relation with orders
+	public function orders() {
+		return $this->belongsToMany(Order::class);
+	}
+
 }
