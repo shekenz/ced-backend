@@ -33,7 +33,7 @@ return [
 	],
 	'paypal' => [
 		'credentials' => 'You must set your Paypal credentials in Settings to activate payment functionality.',
-		'sandbox' => 'Paypal Sandbox mode is active.',
+		'sandbox' => 'Paypal is set on sandbox.',
 		'recycle' => 'Cannot recycle. Transaction is still pending.',
 	],
 ];

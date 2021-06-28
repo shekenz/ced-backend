@@ -8,7 +8,7 @@
 			<td>id</td>
 			<td>{{ __('Order') }}</td>
 			<td>{{ __('Client') }}</td>
-			<td>{{ __('Email') }}</td>
+			<td>{{ __('Client email') }}</td>
 			<td>{{ __('Articles') }}</td>
 			<td>{{ __('Status') }}</td>
 			<td>{{ __('Created at') }}</td>
@@ -29,7 +29,7 @@
 				@case('CREATED') {{ 'bg-yellow-500' }} @break
 				@case('COMPLETED') {{ 'bg-blue-500' }} @break
 				@case('SHIPPED') {{ 'bg-green-500' }} @break
-			@endswitch">{{ $order->status }}</span></td>
+			@endswitch">{{ __($order->status) }}</span></td>
 			<td>{{ $order->created_at }}</td>
 			<td>{{ $order->updated_at }}</td>
 			<td class="text-right">@if($order->status == 'CREATED')<a class="icon" href="{{ route('orders.recycle', $order->order_id) }}"><x-tabler-recycle></x-tabler-recycle></a>@endif</td>

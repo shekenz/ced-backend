@@ -33,7 +33,7 @@ return [
 	],
 	'paypal' => [
 		'credentials' => 'Vous devez enregistrer vos identifiants Paypal dans les paramètres pour activer les fonctionalités de payment.',
-		'sandbox' => 'La Sandbox de Paypal est active.',
+		'sandbox' => 'Paypal est paramétré en mode sandbox.',
 		'recycle' => 'Impossible de recycler. La transaction est toujours en attente.'
 	],
 ];
