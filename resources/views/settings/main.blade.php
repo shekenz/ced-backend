@@ -37,8 +37,11 @@
 					<input type="checkbox" class="" id="paypal-sandbox" name="paypal-sandbox" value="true" {{ (old('paypal-sandbox') || setting('app.paypal.sandbox')) ? 'checked' : '' }}>
 				</div>
 				<div class="col-span-2 mt-8">
+					@php
+						$countryList = (setting('app.shipping.allowed-countries')) ? implode(',', setting('app.shipping.allowed-countries')) : '';
+					@endphp
 					<label for="shipping-allowed-countries" class="label-shared lg:text-lg">{{ __('Shipping to countries (Country codes separated by a coma, leave blank for international)') }} : </label>
-					<input type="text" class="input-shared" id="shipping-allowed-countries" name="shipping-allowed-countries" value="{{ old('shipping-allowed-countries') ?? implode(',', setting('app.shipping.allowed-countries')) }}">
+					<input type="text" class="input-shared" id="shipping-allowed-countries" name="shipping-allowed-countries" value="{{ old('shipping-allowed-countries') ??  $countryList }}">
 				</div>
 				<div class="mt-8">
 					<label class="label-shared lg:text-lg" for="about-0">{{ __('About: First Column') }}</label>
