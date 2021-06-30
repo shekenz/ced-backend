@@ -15,6 +15,7 @@ use App\Mail\SystemError;
 class OrdersController extends Controller
 {
 	protected $credentials;
+	protected $provider;
 	
 	public function __construct() {
 		$this->credentials = [
@@ -35,6 +36,9 @@ class OrdersController extends Controller
 			'locale'         => '',
 			'validate_ssl'   => true,
 		];
+		$this->provider = new PayPalClient;
+		$this->provider->setApiCredentials($this->credentials);
+		$this->provider->getAccessToken();
 	}
 
     public function list() {
@@ -42,8 +46,8 @@ class OrdersController extends Controller
 		return view('orders.list', compact('orders'));
 	}
 
-	public function display($orderId) {
-		$order = Order::with('books')->where('order_id', $orderId)->first();
+	public function display($orderID) {
+		$order = Order::with('books')->where('order_id', $orderID)->first();
 		return view('orders.display', compact('order'));
 	}
 
@@ -60,11 +64,6 @@ class OrdersController extends Controller
 		// CART
 		$cart = $request->session()->get('cart', false);
 		$booksInCart = Book::findMany(array_keys($cart));
-
-		// PAYPAL
-		$provider = new PayPalClient;
-		$provider->setApiCredentials($this->credentials);
-		$provider->getAccessToken();
 
 		// ITEMS
 		$total = array_reduce($cart, function($total, $item) {
@@ -83,7 +82,7 @@ class OrdersController extends Controller
 		}
 
 		// ORDER
-		$order = $provider->createOrder([
+		$order = $this->provider->createOrder([
 			'intent' => 'CAPTURE',
 			'purchase_units' => [
 				0 => [
@@ -94,7 +93,7 @@ class OrdersController extends Controller
 					'items' => $items
 				]
 			]
-		]);
+		]); 
 
 		try {
 			$newOrder = Order::create([
@@ -140,83 +139,112 @@ class OrdersController extends Controller
 		return $order;
 	}
 
-	public function capture(Request $request) {
-		$data = json_decode($request->getContent());
-		if(isset($data->id)) {
+	public function capture(Request $request, $orderID) {
+		$paypalOrder = $this->provider->capturePaymentOrder($orderID);
+		try{
+			if(!isset($paypalOrder['error'])) {
+				// process order
+				$order = Order::where('order_id', $paypalOrder['id'])->first();
 
-			$order = Order::where('order_id', $data->id)->first();
+				// Check those optional fields, log if empty
+				if(!empty($paypalOrder['payer']['name']['surname'])) {
+					$order->surname = $paypalOrder['payer']['name']['surname'];
+				} else {
+					Log::channel('paypal')->critical('Can\'t read property "surname" from Paypal data for orderID '.$paypalOrder['id']);
+				}
+				if(!empty($paypalOrder['payer']['name']['given_name'])) {
+					$order->surname = $paypalOrder['payer']['name']['given_name'];
+				} else {
+					Log::channel('paypal')->critical('Can\'t read property "given_name" from Paypal data for orderID '.$paypalOrder['id']);
+				}
+				if(!empty($paypalOrder['purchase_units'][0]['shipping']['name']['full_name'])) {
+					$order->full_name = $paypalOrder['purchase_units'][0]['shipping']['name']['full_name'];
+				} else {
+					Log::channel('paypal')->critical('Can\'t read property "full_name" from Paypal data for orderID '.$paypalOrder['id']);
+				}
 
-			try {
+				// Check if optional address fields exists in paypal data, log if empty
+				$shippingAddressFields = [
+					'address_line_1',
+					'address_line_2',
+					'admin_area_2',
+					'admin_area_1', 
+					'postal_code',
+					'country_code'
+				];
+				foreach($shippingAddressFields as $columnName) {
+					if(!empty($paypalOrder['purchase_units'][0]['shipping']['address'][$columnName])) {
+						$order->{$columnName} = $paypalOrder['purchase_units'][0]['shipping']['address'][$columnName];
+					} else {
+						Log::channel('paypal')->critical('Can\'t read property "'.$columnName.'" from Paypal data for orderID '.$paypalOrder['id']);
+					}
+				}
 
-				// Crutial data, trigger exception if not found	in paypal data
-				$order->status = $data->status;			
-				$order->payer_id = $data->payer->payer_id;
-				$order->email_address = $data->payer->email_address;
-				$order->transaction_id = $data->purchase_units[0]->payments->captures[0]->id;
+				try {
+					// Crutial data, trigger exception if not found	in paypal data
+					$order->status = $paypalOrder['status'];			
+					$order->payer_id = $paypalOrder['payer']['payer_id'];
+					$order->email_address = $paypalOrder['payer']['email_address'];
+					$order->transaction_id = $paypalOrder['purchase_units'][0]['payments']['captures'][0]['id'];
 
-				// Optional data
-				$order->surname = (isset($data->payer->name->surname)) ? $data->payer->name->surname : null;
-				$order->given_name = (isset($data->payer->name->given_name)) ? $data->payer->name->given_name : null;
-				$order->full_name = (isset($data->purchase_units[0]->shipping->name->full_name)) ? $data->purchase_units[0]->shipping->name->full_name : null;
-				$order->address_line_1 = (isset($data->purchase_units[0]->shipping->address->address_line_1)) ? $data->purchase_units[0]->shipping->address->address_line_1 : null;
-				$order->address_line_2 = (isset($data->purchase_units[0]->shipping->address->address_line_2)) ? $data->purchase_units[0]->shipping->address->address_line_2 : null;
-				$order->admin_area_2 = (isset($data->purchase_units[0]->shipping->address->admin_area_2)) ? $data->purchase_units[0]->shipping->address->admin_area_2 : null;
-				$order->admin_area_1 = (isset($data->purchase_units[0]->shipping->address->admin_area_1)) ? $data->purchase_units[0]->shipping->address->admin_area_1 : null;
-				$order->postal_code = (isset($data->purchase_units[0]->shipping->address->postal_code)) ? $data->purchase_units[0]->shipping->address->postal_code : null;
-				$order->country_code = (isset($data->purchase_units[0]->shipping->address->country_code)) ? $data->purchase_units[0]->shipping->address->country_code : null;
+				} catch(Exception $e) { 
+
+					$transactionId = (isset($paypalOrder['purchase_units'][0]['payments']['captures'][0]['id'])) ? $paypalOrder['purchase_units'][0]['payments']['captures'][0]['id'] : 'TransactionID not found.';
+					$order->status = 'FAILED';
+					$order->transaction_id = $transactionId;
+
+					$customMessage = 'Paypal data doesn\'t match Order Model mendatory data';
+					$fullMessage = $customMessage."\n\t".
+						'in file '.$e->getFile().' on line '.$e->getLine()."\n\t".
+						'Called by : onApprouve'."\n\t".
+						'Message : '.$e->getMessage()."\n\t".
+						'OrderID : '.$paypalOrder['id']."\n\t".
+						'TransactionID : '.$transactionId;
+
+					Log::channel('paypal')->critical($fullMessage);
+
+					// Sending error email to admins
+					$admins = User::where('role', 'admin')->get();
+					$admins->each(function($admin) use($customMessage, $e, $paypalOrder) {
+						Mail::to($admin->email)->send(new SystemError($customMessage, $e, $paypalOrder));
+					});
+
+					$responseError = ['error' => [
+						'type' => 'internal',
+						'file' => $e->getFile(),
+						'line' => $e->getLine(),
+						'message' => $e->getMessage(),
+						'custom-message' => $customMessage,
+						'paypal-data' => $paypalOrder,
+					]];
 				
-				$order->save();
+				} finally {
+					// Saving order in database
+					$order->save();
+					// Emptying Cart
+					$request->session()->forget('cart');
+				}
 
-				// Emptying cart
-				$request->session()->forget('cart');
-
-				return $request->getContent();
-
-			} catch(Exception $e) { // In case paypal didn't send excpected data
-
-				$transactionId = (isset($data->purchase_units[0]->payments->captures[0]->id)) ? $data->purchase_units[0]->payments->captures[0]->id : 'TransactionID not found.';
-				$order->status = 'FAILED';
-				$order->transaction_id = $transactionId;
-				
-				$order->save();
-
-				$customMessage = 'Paypal data doesn\'t match Order Model';
-				$fullMessage = $customMessage."\n\t".
-					'in file '.$e->getFile().' at line '.$e->getLine()."\n\t".
-					'Called by : onApprouve'."\n\t".
-					'Message : '.$e->getMessage()."\n\t".
-					'OrderID : '.$data->id."\n\t".
-					'TransactionID : '.$transactionId."\n\n";
-
-				Log::channel('paypal')->critical($fullMessage);
-
-				// Sending error email to admins
-				$admins = User::where('role', 'admin')->get();
-				$admins->each(function($admin) use($customMessage, $e, $data) {
-					Mail::to($admin->email)->send(new SystemError($customMessage, $e, $data));
-				});
-
-				// Emptying Cart
-				$request->session()->forget('cart');
-
-				return ['error' => [
-					'code' => $e->getCode(),
-					'file' => $e->getFile(),
-					'line' => $e->getLine(),
-					'message' => $e->getMessage(),
-					'custom-message' => $customMessage,
-					'paypal-data' => $data,
-				]];
+			} else {
+				Throw new Exception($paypalOrder['error']['name']);
 			}
-		} else {
-			$e = new Exception('No ID found in $data');
-			Log::channel('paypal')->critical('Error : '.$e->getMessage());
-			// Sending error email to admins
+		} catch(Exception $e) {
+			$errorLog = 'Paypal order capture responded with an error : '.$e->getMessage()."\n".
+			'Details :'."\n";
+			foreach($paypalOrder['error']['details'] as $value) {
+				$errorLog .= "\t".$value['issue'].' : '.$value['description'];
+			}
+
+			Log::channel('paypal')->critical($errorLog);
 			$admins = User::where('role', 'admin')->get();
-			$admins->each(function($admin) use($e, $data) {
-				Mail::to($admin->email)->send(new SystemError('Cannot process onApprouve data', $e, $data));
+			$admins->each(function($admin) use($orderID, $e, $paypalOrder) {
+				Mail::to($admin->email)->send(new SystemError('Paypal order '.$orderID.' capture failed', $e, $paypalOrder));
 			});
-			return ['error' => $e->getMessage()];
+
+			$responseError = $paypalOrder;
+
+		} finally {
+			return (isset($responseError)) ? response()->json($responseError)->setStatusCode(500, 'Paypal order processing failed') : $paypalOrder;
 		}
 	}
 
@@ -226,9 +254,9 @@ class OrdersController extends Controller
 			: response()->json()->setStatusCode(500, 'Country code not accepted by the store.');
 	}
 
-	public function cancel($orderId) {
+	public function cancel($orderID) {
 		// Getting order to cancel
-		$order = Order::with('books')->where('order_id', $orderId)->first();
+		$order = Order::with('books')->where('order_id', $orderID)->first();
 
 		// Reinserting quantities in stock
 		$order->books()->each(function($book) {
@@ -243,21 +271,17 @@ class OrdersController extends Controller
 		$order->delete();
 	}
 
-	public function details($orderId) {
+	public function details($orderID) {
 
-		$provider = new PayPalClient;
-		$provider->setApiCredentials($this->credentials);
-		$provider->getAccessToken();
-
-		$details = $provider->showOrderDetails($orderId);
+		$details = $this->provider->showOrderDetails($orderID);
 
 		return $details;	
 	}
 
-	public function recycle($orderId) {
-		$details = $this->details($orderId);
+	public function recycle($orderID) {
+		$details = $this->details($orderID);
 		if(isset ($details['type']) && $details['type'] == 'error') {
-			$this->cancel($orderId);
+			$this->cancel($orderID);
 			return redirect()->route('orders');
 		} else {
 			return redirect()->route('orders')->with([

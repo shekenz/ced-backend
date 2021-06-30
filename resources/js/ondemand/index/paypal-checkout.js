@@ -45,26 +45,25 @@ if('paypal' in window) {
 		},
 
 		onApprove: function(data, actions) {
-			//console.log(data);
-			return actions.order.capture().then(function(details) {
+			console.log(data);
+			//return actions.order.capture().then(function(details) {
 				
-				return fetch('/api/order/capture', {
+				return fetch(`/api/order/capture/${data.orderID}`, {
 					method: 'post',
 					headers: {
 						'content-type': 'application/json'
 					},
-					body: JSON.stringify(details)
 				}).then(res => {
 					return res.json();
 				}).then(res => {
 					if(res.error) {
-						console.log(res);
+						console.error(res);
 						//TODO Inform client about fatal error
 					} else {
 						window.location.href = `${window.location.origin}/cart/success`;
 					}
 				});
-			});
+			//});
 		},
 
 		onCancel: function (data) {

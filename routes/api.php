@@ -21,6 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/order/create/{shippingCost}', [OrdersController::class, 'createOrder']);
 Route::post('/order/check-country/{countryCode}', [OrdersController::class, 'checkCountry']);
-Route::post('/order/cancel/{orderId}', [OrdersController::class, 'cancel']);
-Route::post('/order/details/{orderId}', [OrdersController::class, 'details']);
-Route::post('/order/capture/', [OrdersController::class, 'capture']);
+Route::post('/order/cancel/{orderID}', [OrdersController::class, 'cancel']);
+Route::post('/order/details/{orderID}', [OrdersController::class, 'details']);
+Route::post('/order/capture/{orderID}', [OrdersController::class, 'capture']);
