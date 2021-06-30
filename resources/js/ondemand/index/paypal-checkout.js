@@ -58,6 +58,7 @@ if('paypal' in window) {
 					return res.json();
 				}).then(res => {
 					if(res.error) {
+						console.log(res);
 						//TODO Inform client about fatal error
 					} else {
 						window.location.href = `${window.location.origin}/cart/success`;
