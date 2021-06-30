@@ -4,9 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ShippingMethod;
 
 class SettingsController extends Controller
 {
+
+	public function main() {
+		$shippingMethods = ShippingMethod::first();
+		return view('settings.main', compact('shippingMethods'));
+	}
+
     public function update(Request $request) {
 		$data = $request->validate([
 			'paypal-client-id' => [

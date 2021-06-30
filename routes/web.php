@@ -95,7 +95,7 @@ Route::get('/dashboard/media/{medium}/break/{book}', [MediaController::class, 'b
 Route::post('/dashboard/media/delete/{id}', [MediaController::class, 'delete'])->middleware('auth')->name('media.delete');
 
 // Settings
-Route::view('/dashboard/settings', 'settings.main')->middleware('auth')->name('settings');
+Route::get('/dashboard/settings', [SettingsController::class, 'main'])->middleware('auth')->name('settings');
 Route::patch('/dashboard/settings', [SettingsController::class, 'update'])->middleware('auth')->name('settings.update');
 Route::get('/dashboard/settings/publish', [SettingsController::class, 'publish'])->middleware('auth')->name('settings.publish');
 

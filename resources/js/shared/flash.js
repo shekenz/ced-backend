@@ -9,7 +9,7 @@ if(flash) {
 				setTimeout(function() {
 					item.classList.add('hidden');
 				}, 400);
-			}, 3000+(500*(index)));
+			}, 5000+(500*(index)));
 		};
 	});
 }

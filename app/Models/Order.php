@@ -31,4 +31,8 @@ class Order extends Model
 	public function books() {
 		return $this->belongsToMany(Book::class)->withPivot('quantity');
 	}
+
+	public function shippingMethods() {
+		$this->belongsTo(ShippingMethod::class, 'shipping_option_id');
+	}
 }

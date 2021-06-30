@@ -22,8 +22,17 @@
 						@endforeach
 					</ul>
 				</div>
-				@endif
-			<div class="grid grid-cols-2 gap-x-4 gap-y-2">
+			@endif
+			<div>
+				<label class="label-shared lg:text-lg">{{ __('Shipping methods') }} : </label>
+				<table>
+					<tr>
+						<td>{{ $shippingMethods->label }}</td>
+						<td>{{ $shippingMethods->price }}€</td>
+					</tr>
+				</table>
+			</div>
+			<div class="grid grid-cols-2 gap-x-4 gap-y-2 mt-8">
 				<div class="col-span-2">
 					<label for="paypal-client-id" class="label-shared lg:text-lg">{{ __('Paypal client ID') }} : </label>
 					<input type="text" class="input-shared" id="paypal-client-id" name="paypal-client-id" value="{{ old('paypal-client-id') ?? setting('app.paypal.client-id') }}">
