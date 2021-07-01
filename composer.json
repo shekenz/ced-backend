@@ -7,6 +7,12 @@
         "laravel"
     ],
     "license": "MIT",
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/shekenz/laravel-paypal"
+		}
+	],
     "require": {
         "php": "^7.3|^8.0",
         "akaunting/laravel-setting": "^1.2",
@@ -18,7 +24,7 @@
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "ryangjchandler/blade-tabler-icons": "^0.5.0",
-        "srmklive/paypal": "~3.0"
+		"srmklive/paypal": "dev-update-error-response as 3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
