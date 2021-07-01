@@ -176,7 +176,7 @@ class OrdersController extends Controller
 					if(!empty($paypalOrder['purchase_units'][0]['shipping']['address'][$columnName])) {
 						$order->{$columnName} = $paypalOrder['purchase_units'][0]['shipping']['address'][$columnName];
 					} else {
-						Log::channel('paypal')->critical('Can\'t read property "'.$columnName.'" from Paypal data for orderID '.$paypalOrder['id']);
+						Log::channel('paypal')->notice('Can\'t read property "'.$columnName.'" from Paypal data for orderID '.$paypalOrder['id']);
 					}
 				}
 
