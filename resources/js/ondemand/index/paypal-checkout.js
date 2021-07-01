@@ -12,65 +12,85 @@ arrayByClass('shipping-method').map(input => {
 	});
 });
 
+let fetchErrorHandler = () => {
+	//TODO -------------------------------------------------- CONNECTION ERROR
+	console.error('Impossible to reach server. Please make sure you are connected to the internet.');
+}
+
 if('paypal' in window) {
 		paypal.Buttons({
+			createOrder: () => {
+				return fetch(`/api/order/create/${shippingPrice}`, {
+					method: 'post',
+					headers: {
+					  'content-type': 'application/json'
+					}
+				}).then(
+					response => {
+						return response.json();
+					}, fetchErrorHandler
+				).then(
+					jsonResponse => {
+						if(jsonResponse.id && !jsonResponse.error) {
+							return jsonResponse.id;
+						} else if(jsonResponse.error) {
+							// We have error details
+							console.error(jsonResponse.error);
+						} else {
+							//TODO --------------------------------------------------------- ERROR AT CREATING ORDER
+						}
+					}
+				);
+			},
 
-		createOrder: function() {
-			return fetch(`/api/order/create/${shippingPrice}`, {
-			  method: 'post',
-			  headers: {
-				'content-type': 'application/json'
-			  }
-			}).then(function(res) {
-				if(res.status == '200') {
-					return res.json();
-				} else {
-					throw new Error(`Server responded with status ${res.status} : ${res.statusText}`);
-				}
-			}).then(function(data) {
-				//console.log(data);
-				return data.id;
-			})
-		},
-
-		onShippingChange: function(data, actions) {
+		
+		onShippingChange: (data, actions) => {
 			return fetch(`/api/order/check-country/${data.shipping_address.country_code}`, {
 				method: 'post',
 				headers: {
 					'content-type': 'application/json'
 				}
-			}).then(res => {
-					return (res.status != 200) ? actions.reject() : actions.resolve();
+			}).then(
+				response => {
+					return response.json();
+				}, fetchErrorHandler
+			).then(jsonResponse => {
+					return (jsonResponse.country) ? actions.resolve() : actions.reject();
 			});
 		},
 
 		onApprove: function(data, actions) {
-			console.log(data);
-			//return actions.order.capture().then(function(details) {
-				
-				return fetch(`/api/order/capture/${data.orderID}`, {
-					method: 'post',
-					headers: {
-						'content-type': 'application/json'
-					},
-				}).then(res => {
-					return res.json();
-				}).then(res => {
-					if(res.error) {
-						console.error(res);
-						//TODO Inform client about fatal error
-					} else {
-						window.location.href = `${window.location.origin}/cart/success`;
-					}
-				});
-			//});
+			return fetch(`/api/order/capture/${data.orderID}`, {
+				method: 'post',
+				headers: {
+					'content-type': 'application/json'
+				},
+			}).then(
+				response => {
+					return response.json();
+				}, fetchErrorHandler
+			).then(jsonResponse => {
+				if(jsonResponse.id && !jsonResponse.error) {
+					window.location.href = `${window.location.origin}/cart/success`;
+				} else if(jsonResponse.error) {
+					console.error(jsonResponse.error);
+				} else {
+					//TODO --------------------------------------------------------- ERROR AT CAPTURING ORDER
+				}
+			});
 		},
 
 		onCancel: function (data) {
 			return fetch(`/api/order/cancel/${data.orderID}`, {
 				method: 'post'
-			}).then(() => {
-				window.location.replace(`${window.location.origin}/cart`);
+			}).then(
+				response => {
+					return response.json();
+				}, fetchErrorHandler
+			).then(jsonResponse => {
+				if(jsonResponse.delete == data.orderID) {
+					window.location.replace(`${window.location.origin}/cart`);
+				}
 			});
 		},
 

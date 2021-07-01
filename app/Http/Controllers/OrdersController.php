@@ -52,13 +52,15 @@ class OrdersController extends Controller
 	}
 
 	public function createOrder(Request $request, float $shippingCost = 0) {
-
+		
 		if($shippingCost <= 0) {
-			return response()->json()->setStatusCode(500, 'No shipping price found');
+			Log::channel('paypal')->notice('Shipping price not found');
+			return response()->json()->setStatusCode(404, 'Shipping price not found');
 		}
-
+		
 		if(!$request->session()->has('cart')) {
-			return response()->json()->setStatusCode(500, 'Cart not found');
+			Log::channel('paypal')->notice('Cart not found');
+			return response()->json()->setStatusCode(404, 'Cart not found');
 		}
 
 		// CART
@@ -82,7 +84,7 @@ class OrdersController extends Controller
 		}
 
 		// ORDER
-		$order = $this->provider->createOrder([
+		$paypalOrder = $this->provider->createOrder([
 			'intent' => 'CAPTURE',
 			'purchase_units' => [
 				0 => [
@@ -96,47 +98,56 @@ class OrdersController extends Controller
 		]); 
 
 		try {
-			$newOrder = Order::create([
-				'order_id' => $order['id'],
-				'status' => $order['status'],
+			$order = Order::create([
+				'order_id' => $paypalOrder['id'],
+				'status' => $paypalOrder['status'],
 			]);
 		} catch(Exception $e) {
-			$newOrder = Order::create([
+			$order = Order::create([
 				'status' => 'FAILED',
 			]);
 			
-			$customMessage = 'Can\'t create order! The Esteban error';
+			$customMessage = 'Can\'t create order! The Esteban error!';
 			$fullMessage = $customMessage."\n\t".
 				'in file '.$e->getFile().' at line '.$e->getLine()."\n\t".
 				'Called by : createOrder'."\n\t".
 				'Message : '.$e->getMessage()."\n\t".
 				'Data : --------------------------------'."\n".
-				print_r($order, true);
+				print_r($paypalOrder, true);
 
 			// Loggin error
 			Log::channel('paypal')->critical($fullMessage);
 
 			// Sending error email to admins
 			$admins = User::where('role', 'admin')->get();
-			$admins->each(function($admin) use($customMessage, $e, $order) {
-				Mail::to($admin->email)->send(new SystemError($customMessage, $e, $order));
+			$admins->each(function($admin) use($customMessage, $e, $paypalOrder) {
+				Mail::to($admin->email)->send(new SystemError($customMessage, $e, $paypalOrder));
 			});
 
+			$responseError = (config('env') == 'local') ? ['error' => [
+				'type' => 'internal',
+				'file' => $e->getFile(),
+				'line' => $e->getLine(),
+				'message' => $e->getMessage(),
+				'custom-message' => $customMessage,
+				'paypal-data' => $paypalOrder,
+			]] : [];
+
+		} finally {
+
+			// Attaching books from cart to Order
+			$booksInCart->each(function($book) use(&$order, $cart) {
+				$order->books()->attach($book->id, ['quantity' => $cart[$book->id]['quantity']]);
+			});
+
+			// Updating books quantity
+			$booksInCart->each(function($book) use ($cart) {
+				$book->quantity = $book->quantity - $cart[$book->id]['quantity'];
+				$book->save();
+			});
+
+			return (isset($responseError)) ? response()->json($responseError)->setStatusCode(500, 'Paypal order creation failed') : $paypalOrder;
 		}
-		
-
-		// Attaching books from cart to Order
-		$booksInCart->each(function($book) use(&$newOrder, $cart) {
-			$newOrder->books()->attach($book->id, ['quantity' => $cart[$book->id]['quantity']]);
-		});
-
-		// Updating books quantity
-		$booksInCart->each(function($book) use ($cart) {
-			$book->quantity = $book->quantity - $cart[$book->id]['quantity'];
-			$book->save();
-		});
-
-		return $order;
 	}
 
 	public function capture(Request $request, $orderID) {
@@ -209,14 +220,14 @@ class OrdersController extends Controller
 						Mail::to($admin->email)->send(new SystemError($customMessage, $e, $paypalOrder));
 					});
 
-					$responseError = ['error' => [
+					$responseError = (config('env') == 'local') ? ['error' => [
 						'type' => 'internal',
 						'file' => $e->getFile(),
 						'line' => $e->getLine(),
 						'message' => $e->getMessage(),
 						'custom-message' => $customMessage,
 						'paypal-data' => $paypalOrder,
-					]];
+					]] : [];
 				
 				} finally {
 					// Saving order in database
@@ -241,7 +252,7 @@ class OrdersController extends Controller
 				Mail::to($admin->email)->send(new SystemError('Paypal order '.$orderID.' capture failed', $e, $paypalOrder));
 			});
 
-			$responseError = $paypalOrder;
+			$responseError = (config('env') == 'local') ? $paypalOrder : [];
 
 		} finally {
 			return (isset($responseError)) ? response()->json($responseError)->setStatusCode(500, 'Paypal order processing failed') : $paypalOrder;
@@ -250,7 +261,7 @@ class OrdersController extends Controller
 
 	public function checkCountry(Request $request, $countryCode) {
 		return (in_array($countryCode, setting('app.shipping.allowed-countries')))
-			? ''
+			? [ 'country' => true ]
 			: response()->json()->setStatusCode(500, 'Country code not accepted by the store.');
 	}
 
@@ -258,17 +269,39 @@ class OrdersController extends Controller
 		// Getting order to cancel
 		$order = Order::with('books')->where('order_id', $orderID)->first();
 
-		// Reinserting quantities in stock
-		$order->books()->each(function($book) {
-			$book->quantity = $book->quantity + $book->pivot->quantity;
-			$book->save();
-		});
+		try {
+			// Reinserting quantities in stock
+			$order->books()->each(function($book) {
+				$book->quantity = $book->quantity + $book->pivot->quantity;
+				$book->save();
+			});
+			// Detaching books
+			$order->books()->detach();
+			// Deleting order
+			$order->delete();
 
-		// Detaching books
-		$order->books()->detach();
+		} catch(Exception $e) {
+			
+			$customMessage = 'Can\'t delete order';
+			$fullMessage = $customMessage."\n\t".
+				'in file '.$e->getFile().' on line '.$e->getLine()."\n\t".
+				'Message : '.$e->getMessage()."\n\t".
+				'OrderID : '.$orderID;
 
-		// Deleting order
-		$order->delete();
+			Log::channel('paypal')->critical($fullMessage);
+
+			// Sending error email to admins
+			$admins = User::where('role', 'admin')->get();
+			$admins->each(function($admin) use($customMessage, $e, $order) {
+				Mail::to($admin->email)->send(new SystemError($customMessage, $e, $order));
+			});
+
+			$responseError = true;
+
+		} finally {
+			return (isset($responseError)) ? response()->json()->setStatusCode(500, 'Can\'t delete order') : [ 'deleted' => $orderID ];
+		}
+		
 	}
 
 	public function details($orderID) {
@@ -280,7 +313,7 @@ class OrdersController extends Controller
 
 	public function recycle($orderID) {
 		$details = $this->details($orderID);
-		if(isset ($details['type']) && $details['type'] == 'error') {
+		if(isset($details['error'])) {
 			$this->cancel($orderID);
 			return redirect()->route('orders');
 		} else {
