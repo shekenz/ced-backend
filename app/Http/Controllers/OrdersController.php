@@ -124,7 +124,7 @@ class OrdersController extends Controller
 				Mail::to($admin->email)->send(new SystemError($customMessage, $e, $paypalOrder));
 			});
 
-			$responseError = (config('env') == 'local') ? ['error' => [
+			$errorResponse = (config('env') == 'local') ? ['error' => [
 				'type' => 'internal',
 				'file' => $e->getFile(),
 				'line' => $e->getLine(),
@@ -146,7 +146,7 @@ class OrdersController extends Controller
 				$book->save();
 			});
 
-			return (isset($responseError)) ? response()->json($responseError)->setStatusCode(500, 'Paypal order creation failed') : $paypalOrder;
+			return (isset($errorResponse)) ? response()->json($errorResponse)->setStatusCode(500, 'Paypal order creation failed') : $paypalOrder;
 		}
 	}
 
@@ -220,7 +220,7 @@ class OrdersController extends Controller
 						Mail::to($admin->email)->send(new SystemError($customMessage, $e, $paypalOrder));
 					});
 
-					$responseError = (config('env') == 'local') ? ['error' => [
+					$errorResponse = (config('env') == 'local') ? ['error' => [
 						'type' => 'internal',
 						'file' => $e->getFile(),
 						'line' => $e->getLine(),
@@ -252,10 +252,10 @@ class OrdersController extends Controller
 				Mail::to($admin->email)->send(new SystemError('Paypal order '.$orderID.' capture failed', $e, $paypalOrder));
 			});
 
-			$responseError = (config('env') == 'local') ? $paypalOrder : [];
+			$errorResponse = $paypalOrder;
 
 		} finally {
-			return (isset($responseError)) ? response()->json($responseError)->setStatusCode(500, 'Paypal order processing failed') : $paypalOrder;
+			return (isset($errorResponse)) ? response()->json($errorResponse)->setStatusCode(500, 'Paypal order processing failed') : $paypalOrder;
 		}
 	}
 
@@ -296,10 +296,10 @@ class OrdersController extends Controller
 				Mail::to($admin->email)->send(new SystemError($customMessage, $e, $order));
 			});
 
-			$responseError = true;
+			$errorResponse = true;
 
 		} finally {
-			return (isset($responseError)) ? response()->json()->setStatusCode(500, 'Can\'t delete order') : [ 'deleted' => $orderID ];
+			return (isset($errorResponse)) ? response()->json()->setStatusCode(500, 'Can\'t delete order') : [ 'deleted' => $orderID ];
 		}
 		
 	}
