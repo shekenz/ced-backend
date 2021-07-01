@@ -232,8 +232,6 @@ class OrdersController extends Controller
 				} finally {
 					// Saving order in database
 					$order->save();
-					// Emptying Cart
-					$request->session()->forget('cart');
 				}
 
 			} else {
@@ -255,6 +253,9 @@ class OrdersController extends Controller
 			$errorResponse = $paypalOrder;
 
 		} finally {
+			// Emptying Cart
+			$request->session()->forget('cart');
+			
 			return (isset($errorResponse)) ? response()->json($errorResponse)->setStatusCode(500, 'Paypal order processing failed') : $paypalOrder;
 		}
 	}
