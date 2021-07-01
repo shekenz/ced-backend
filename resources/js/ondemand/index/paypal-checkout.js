@@ -73,7 +73,12 @@ if('paypal' in window) {
 				if(jsonResponse.id && !jsonResponse.error) {
 					window.location.href = `${window.location.origin}/cart/success`;
 				} else if(jsonResponse.error) {
-					console.error(jsonResponse.error);
+					if(jsonResponse.error.name == 'INSTRUMENT_DECLINED') {
+						// If payment refused
+						return actions.restart();
+					} else {
+						console.error(jsonResponse.error);
+					}
 				} else {
 					//TODO --------------------------------------------------------- ERROR AT CAPTURING ORDER
 				}
