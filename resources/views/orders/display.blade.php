@@ -27,7 +27,7 @@
 	<div>
 		<div class="flex mt-8 justify-between">
 			<div class="">
-				<span class="text-white text-xl py-4 px-6 {{ $statusClass }}">{{ __($order->status) }}</span>
+				<span class="text-white text-xl py-4 px-6 {{ $statusClass }}">{{ mb_strtoupper(__('paypal.status.'.$order->status)) }}</span>
 			</div>
 			<div class="font-bold">
 				<span class="mr-2">{{ __('Transaction ID') }} : </span><a href="@if(setting('app.paypal.sandbox')) {{ 'https://www.sandbox.paypal.com/activity/payment/'.$order->transaction_id  }}

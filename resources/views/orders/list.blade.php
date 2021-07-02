@@ -33,7 +33,7 @@
 				@case('CREATED') {{ 'bg-yellow-500' }} @break
 				@case('COMPLETED') {{ 'bg-blue-500' }} @break
 				@case('SHIPPED') {{ 'bg-green-500' }} @break
-			@endswitch">{{ __($order->status) }}</span></td>
+			@endswitch">{{ mb_strtoupper(__('paypal.status.'.$order->status)) }}</span></td>
 			<td>{{ $order->created_at }}</td>
 			<td>{{ $order->updated_at }}</td>
 			<td class="text-right">@if($order->status == 'CREATED' && isset($order->order_id))<a class="icon" href="{{ route('orders.recycle', $order->order_id) }}"><x-tabler-recycle></x-tabler-recycle></a>@endif</td>
