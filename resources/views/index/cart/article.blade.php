@@ -12,7 +12,7 @@
 		@endif
 	</p>
 	<p class="mb-2 md:mb-3">
-		{{ __('Quantity') }} : <span id="quantity-for-id-{{ $article->id }}">{{ $article->cartQuantity }}</span> <a class="qte-button base-link" href="{{ route('cart.add', $article->id) }}">+</a>&nbsp;\&nbsp;<a class="qte-button base-link" href="{{ route('cart.remove', $article->id) }}">-</a><br>
+		{{ __('Quantity') }} : <span id="quantity-for-id-{{ $article->id }}">{{ $article->cartQuantity }}</span> <a class="qte-button base-link" href="{{ route('cart.api.add', $article->id) }}">+</a>&nbsp;\&nbsp;<a class="qte-button base-link" href="{{ route('cart.api.remove', $article->id) }}">-</a><br>
 		{{ __('Subtotal') }} : <span id="subtotal-for-id-{{ $article->id }}">{{ $article->price * $article->cartQuantity }}</span>€
 	</p>
 	<p class="mb-2 md:mb-3">

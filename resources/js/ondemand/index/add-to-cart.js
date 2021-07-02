@@ -5,11 +5,11 @@ const axios = require('axios');
 
 const addToCartButtons = arrayByClass('add-to-cart-button');
 
-addToCartButtons.map(item => {
-	item.addEventListener('click', e => {
+addToCartButtons.map(buttons => {
+	buttons.addEventListener('click', e => {
 		e.preventDefault();
 		e.target.blur();
-		axios.post(e.target.href).then( response => {
+		axios.post(e.target.href).then( () => {
 			updateCartQuantity(1);
 		})
 		.catch(error => {

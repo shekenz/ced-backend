@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 	return $request->user();
 });
 
+//TODO secure the api
+
+// Live cart
+Route::post('/cart/add/{book}', [CartController::class, 'add'])->name('cart.api.add');
+Route::post('/cart/remove/{book}', [CartController::class, 'remove'])->name('cart.api.remove');
+Route::post('/cart/check/', [CartController::class, 'updateCart'])->name('cart.api.check');
+
+// Order (Paypal)
 Route::post('/order/create/{shippingCost}', [OrdersController::class, 'createOrder']);
 Route::post('/order/check-country/{countryCode}', [OrdersController::class, 'checkCountry']);
 Route::post('/order/cancel/{orderID}', [OrdersController::class, 'cancel']);

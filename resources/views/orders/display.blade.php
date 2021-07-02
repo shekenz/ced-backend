@@ -36,7 +36,13 @@
 			</div>
 		</div>
 
-		<div class="flex gap-x-8 mt-10">
+		@if($order->status != 'FAILED' && $order->status != 'CREATED')
+		<form class="block mt-6" action="{{ route('orders.shipped', $order->order_id) }}">
+			<button class="switch @if($order->status != 'SHIPPED') {{'off'}} @endif inline-block align-middle"></button> <x-tabler-truck-delivery class="inline-block align-middle" />
+		</form>
+		@endif
+
+		<div class="flex gap-x-8 mt-8">
 			<div class="flex-grow">
 				<h2 class="text-lg border-b border-black font-bold">{{ __('Client info') }} : </h2>
 				<div class="p-4">

@@ -45,10 +45,6 @@ Route::get('/cart/remove-all/{book}', [CartController::class, 'removeAll'])->mid
 Route::get('/cart/checkout', [CartController::class, 'checkout'])->middleware('published')->name('cart.checkout');
 Route::get('/cart/success', [CartController::class, 'success'])->middleware('published')->name('cart.confirmed');
 
-// Cart API
-Route::post('/cart/add/{book}', [CartController::class, 'add'])->middleware('published')->name('cart.api.add');
-Route::post('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('published')->name('cart.api.remove');
-
 // Dashboard
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -58,6 +54,7 @@ Route::get('/dashboard', function () {
 Route::get('/dashboard/orders/', [OrdersController::class, 'list'])->middleware('auth')->name('orders');
 Route::get('/dashboard/order/{id}', [OrdersController::class, 'display'])->middleware('auth')->name('orders.display');
 Route::get('/dashboard/order/recycle/{orderId}', [OrdersController::class, 'recycle'])->middleware('auth')->name('orders.recycle');
+Route::get('/dashboard/order/shipped/{orderId}', [OrdersController::class, 'shipped'])->middleware('auth')->name('orders.shipped');
 
 // Users
 Route::get('/dashboard/users', [UsersController::class, 'list'])->middleware('auth')->name('users');

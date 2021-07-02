@@ -1,6 +1,8 @@
 import { arrayByClass } from '../../shared/helpers.mjs';
+import { popUp } from '../../shared/popup.js';
 
-let shippingPrice = document.getElementById('shipping-price').firstChild.nodeValue;
+//let shippingPrice = document.getElementById('shipping-price').firstChild.nodeValue;
+let shippingPrice = 5;
 
 arrayByClass('shipping-method').map(input => {
 	input.addEventListener('change', e => {
@@ -12,48 +14,71 @@ arrayByClass('shipping-method').map(input => {
 	});
 });
 
-let popUp = message => {
-	document.getElementById('pop-up-message').innerHTML = message;
-	document.getElementById('pop-up-wrapper').classList.toggle('hidden');
-	let closeHandler = () => {
-		document.getElementById('pop-up-wrapper').classList.toggle('hidden');
-		document.getElementById('pop-up-close').removeEventListener('click', closeHandler);
-	}
-	document.getElementById('pop-up-close').addEventListener('click', closeHandler);
-}
-
 let fetchErrorHandler = () => {
 	popUp('Impossible to reach server. Please make sure you are connected to the internet.');
 	console.error('Impossible to reach server. Please make sure you are connected to the internet.');
 }
 
-if('paypal' in window) {
-		paypal.Buttons({
-			createOrder: () => {
-				return fetch(`/api/order/create/${shippingPrice}`, {
-					method: 'post',
-					headers: {
-					  'content-type': 'application/json'
-					}
-				}).then(
-					response => {
-						return response.json();
-					}, fetchErrorHandler
-				).then(
-					jsonResponse => {
-						if(jsonResponse.id && !jsonResponse.error) {
-							return jsonResponse.id;
-						} else if(jsonResponse.error) {
-							// We have error details
-							console.error(jsonResponse.error);
-						} else {
-							//--------------------------------------------------------- ERROR AT CREATING ORDER
-							popUp('An internal error has occured while creating your order. Our team has been warned and we will work on it as soon as possible. Please try to purchase your goods later. We are sorry for the inconvenience.');
-						}
-					}
-				);
-			},
+let checkCartButton = document.getElementById('checkCartButton');
+checkCartButton.addEventListener('click', e => {
+	e.preventDefault();
+	fetch(`/api/cart/check`, {
+		method: 'post',
+		headers: {
+			'content-type': 'application/json'
+		}
+	}).then(response => {
+		return response.json();
+	}).catch(rejected => {
+		fetchErrorHandler;
+	}).then(jsonResponse => {
+		console.log(jsonResponse);
+	});
+});
 
+if('paypal' in window) {
+	paypal.Buttons({
+		createOrder: () => {
+			return fetch(`/api/cart/check`, {
+				method: 'post',
+				headers: {
+					'content-type': 'application/json'
+				}
+			}).then( // Check cart fetch response
+				cartCheckResponse => {
+					return cartCheckResponse.json();
+				}, fetchErrorHandler
+			).then( // Check cart fetch JSON response
+				cartCheckResponseJSON => {
+					if(cartCheckResponseJSON.updated) {
+						popUp('Some articles from you cart are not available anymore. Your cart will now be reloaded. Please check your order again before payment.', () => { window.location.reload() });
+					} else {
+						return fetch(`/api/order/create/${shippingPrice}`, {
+							method: 'post',
+							headers: {
+							'content-type': 'application/json'
+							}
+						}).then( // Create fetch response
+							createResponse => {
+								return createResponse.json();
+							}, fetchErrorHandler
+						).then( // Create fetch response JSON
+							createResponseJSON => {
+								if(createResponseJSON.id && !createResponseJSON.error) {
+									return createResponseJSON.id;
+								} else if(createResponseJSON.error) {
+									// We have error details
+									console.error(createResponseJSON.error);
+								} else {
+									//--------------------------------------------------------- ERROR AT CREATING ORDER
+									popUp('An internal error has occured while creating your order. Our team has been warned and we will work on it as soon as possible. Please try to purchase your goods later. We are sorry for the inconvenience.');
+								}
+							}
+						);
+					}
+				}
+			);
+		},
 		
 		onShippingChange: (data, actions) => {
 			return fetch(`/api/order/check-country/${data.shipping_address.country_code}`, {

@@ -9,6 +9,24 @@ use App\Http\Helpers\CartHelper;
 
 class CartController extends Controller
 {
+	protected $validation = [
+		'lastname' => ['required', 'string', 'max:64'],
+		'firstname' => ['required', 'string', 'max:64'],
+		'company' => ['nullable', 'string', 'max:64'],
+		'phone' => ['required', 'string'],
+		'email' => ['required', 'email'],
+		'shipping-address-1' => ['required', 'string', 'max:128'],
+		'shipping-address-2' => ['nullable', 'string', 'max:128'],
+		'shipping-city' => ['required', 'string', 'max:96'],
+		'shipping-postcode' => ['required', 'string'],
+		'shipping-country' => ['required', 'string'],
+		'invoice-address-1' => ['required', 'string', 'max:128'],
+		'invoice-address-2' => ['nullable', 'string', 'max:128'],
+		'invoice-city' => ['required', 'string', 'max:96'],
+		'invoice-postcode' => ['required', 'string'],
+		'invoice-country' => ['required', 'string'],
+		'sale-conditions' => ['accepted'],
+	];
 
 	protected function redirectIfEmpty() {
 		if(CartHelper::isEmpty()) {
@@ -26,10 +44,12 @@ class CartController extends Controller
 		}
 	}
 
-    public function viewCart(Request $request) {
-		$cart = $request->session()->get('cart', false);
-		if($cart) {
+	// Better if it was a trait or helper //TODO
+	public function updateCart() {
 
+		$cart = session()->get('cart', false);
+
+		if($cart) {
 			// Find all books from cart without archived books (In 1 call)
 			$books = Book::with([
 				'media' => function($q) { $q->orderBy('pivot_order', 'asc'); }
@@ -66,13 +86,27 @@ class CartController extends Controller
 			// Update session cart
 			session(['cart' => $cart]);
 
+			return [
+				'books' => compact('books'),
+				'updated' => ($articleUpdated || $quantityUpdated),
+			];
+		} else {
+			return false;
+		}
+	}
+
+    public function viewCart(Request $request) {
+		$cart = $request->session()->get('cart', false);
+		$cartValidation = $this->updateCart($cart);
+
+		if($cartValidation) {
 			// Redirect with flash if needed
-			if($articleUpdated || $quantityUpdated) {
+			if($cartValidation['updated']) {
 				session()->now('flash', __('flash.cart.stockUpdated'));
 				session()->now('flash-type', 'warning');
-				return view('index.cart.cart', compact('books'));
+				return view('index.cart.cart', $cartValidation['books']);
 			} else {
-				return view('index.cart.cart', compact('books'));
+				return view('index.cart.cart',  $cartValidation['books']);
 			}
 
 		} else {
@@ -209,25 +243,6 @@ class CartController extends Controller
 		session()->forget('cart');
 		return redirect(route('index'));
 	}
-
-	protected $validation = [
-		'lastname' => ['required', 'string', 'max:64'],
-		'firstname' => ['required', 'string', 'max:64'],
-		'company' => ['nullable', 'string', 'max:64'],
-		'phone' => ['required', 'string'],
-		'email' => ['required', 'email'],
-		'shipping-address-1' => ['required', 'string', 'max:128'],
-		'shipping-address-2' => ['nullable', 'string', 'max:128'],
-		'shipping-city' => ['required', 'string', 'max:96'],
-		'shipping-postcode' => ['required', 'string'],
-		'shipping-country' => ['required', 'string'],
-		'invoice-address-1' => ['required', 'string', 'max:128'],
-		'invoice-address-2' => ['nullable', 'string', 'max:128'],
-		'invoice-city' => ['required', 'string', 'max:96'],
-		'invoice-postcode' => ['required', 'string'],
-		'invoice-country' => ['required', 'string'],
-		'sale-conditions' => ['accepted'],
-	];
 
 	public function shipping(Request $request) {
 		return view('index.cart.shipping');

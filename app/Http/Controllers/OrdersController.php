@@ -322,8 +322,19 @@ class OrdersController extends Controller
 				'flash' => __('flash.paypal.recycle'),
 				'flash-type' => 'warning'
 			]);;
+		}	
+	}
+
+	public function shipped($orderID) {
+		$order = Order::where('order_id', $orderID)->first();
+		if($order->status == 'COMPLETED') {
+			$order->status = 'SHIPPED';
+		} else {
+			$order->status = 'COMPLETED';
 		}
 		
+		$order->save();
+		return back();
 	}
 
 }

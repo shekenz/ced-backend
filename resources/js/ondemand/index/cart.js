@@ -3,11 +3,10 @@ import { updateQuantityFor, updateSubTotalFor } from '../../shared/update-articl
 import { updateCartQuantity, updateCartTotal } from '../../shared/update-cart.mjs';
 const axios = require('axios');
 
-let decButtons = arrayByClass('decrement-button');
-let incButtons = arrayByClass('qte-button');
+let incrementButtons = arrayByClass('qte-button');
 
-incButtons.map(item => {
-	item.addEventListener('click', e => {
+incrementButtons.map(button => {
+	button.addEventListener('click', e => {
 		e.preventDefault();
 		// Returns any numbers at the end of string
 		let id = /[0-9]+$/.exec(e.target.href)[0];
