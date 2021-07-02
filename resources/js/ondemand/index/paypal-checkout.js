@@ -12,8 +12,18 @@ arrayByClass('shipping-method').map(input => {
 	});
 });
 
+let popUp = message => {
+	document.getElementById('pop-up-message').innerHTML = message;
+	document.getElementById('pop-up-wrapper').classList.toggle('hidden');
+	let closeHandler = () => {
+		document.getElementById('pop-up-wrapper').classList.toggle('hidden');
+		document.getElementById('pop-up-close').removeEventListener('click', closeHandler);
+	}
+	document.getElementById('pop-up-close').addEventListener('click', closeHandler);
+}
+
 let fetchErrorHandler = () => {
-	//TODO -------------------------------------------------- CONNECTION ERROR
+	popUp('Impossible to reach server. Please make sure you are connected to the internet.');
 	console.error('Impossible to reach server. Please make sure you are connected to the internet.');
 }
 
@@ -37,7 +47,8 @@ if('paypal' in window) {
 							// We have error details
 							console.error(jsonResponse.error);
 						} else {
-							//TODO --------------------------------------------------------- ERROR AT CREATING ORDER
+							//--------------------------------------------------------- ERROR AT CREATING ORDER
+							popUp('An internal error has occured while creating your order. Our team has been warned and we will work on it as soon as possible. Please try to purchase your goods later. We are sorry for the inconvenience.');
 						}
 					}
 				);
@@ -80,7 +91,8 @@ if('paypal' in window) {
 						console.error(jsonResponse.error);
 					}
 				} else {
-					//TODO --------------------------------------------------------- ERROR AT CAPTURING ORDER
+					//--------------------------------------------------------- ERROR AT CAPTURING ORDER
+					popUp('An internal error has occured while processing your order. Don\'t panic, your payment has been successfull and your cart has been saved. Our team has been notified and we will contact you as soon as possible on your payapal e-mail address to finalise your order. We are sorry for the inconvenience.');
 				}
 			});
 		},

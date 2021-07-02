@@ -95,7 +95,7 @@ class OrdersController extends Controller
 					'items' => $items
 				]
 			]
-		]); 
+		]);
 
 		try {
 			$order = Order::create([

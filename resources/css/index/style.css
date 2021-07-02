@@ -120,8 +120,20 @@
 			dark:focus:text-black
 			dark:focus:bg-white
 
+			cursor-pointer
 			transition-colors
 			duration-200;
+	}
+
+	.inverted {
+		@apply
+			text-white
+			bg-black
+			hover:text-black
+			hover:bg-white
+
+			active:text-white
+			active:bg-black;
 	}
 
 	.button-lg {
