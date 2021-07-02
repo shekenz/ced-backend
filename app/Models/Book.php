@@ -18,6 +18,7 @@ class Book extends Model
 		'height',
 		'cover',
 		'pages',
+		'copies',
 		'quantity',
 		'year',
 		'price',

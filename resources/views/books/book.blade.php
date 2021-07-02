@@ -56,8 +56,8 @@
 				@if( !empty($book->pages) )
 					{{ $book->pages }} pages<br>
 				@endif
-				@if($book->quantity > 0)
-					{{ $book->quantity.' '.__('copies') }}<br>
+				@isset($book->copies)
+					{{ $book->copies.' '.__('copies') }}<br>
 				@endif
 				@if( !empty($book->year) )
 					{{ $book->year }}<br>
