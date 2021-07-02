@@ -261,7 +261,7 @@ class OrdersController extends Controller
 	}
 
 	public function checkCountry(Request $request, $countryCode) {
-		return (in_array($countryCode, setting('app.shipping.allowed-countries')))
+		return (in_array($countryCode, setting('app.shipping.allowed-countries')) || empty(setting('app.shipping.allowed-countries')))
 			? [ 'country' => true ]
 			: response()->json()->setStatusCode(500, 'Country code not accepted by the store.');
 	}
