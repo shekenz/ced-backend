@@ -46,8 +46,8 @@ class OrdersController extends Controller
 		return view('orders.list', compact('orders'));
 	}
 
-	public function display($orderID) {
-		$order = Order::with('books')->where('order_id', $orderID)->first();
+	public function display($id) {
+		$order = Order::with('books')->where('id', $id)->first();
 		return view('orders.display', compact('order'));
 	}
 

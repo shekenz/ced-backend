@@ -18,7 +18,11 @@
 	@foreach ($orders as $order)
 		<tr>
 			<td>{{ $order->id }}</td>
-			<td><a class="default" href="{{ route('orders.display', $order->order_id)}}">{{ $order->order_id }}</a></td>
+			<td><a class="default" href="{{ route('orders.display', $order->id)}}">@isset($order->order_id)
+				{{ $order->order_id }}
+			@else
+				{{ '[ '.__('Order ID missing').' ]'}}
+			@endisset</a></td>
 			<td>{{ $order->full_name }}</td>
 			<td>{{ $order->email_address }}</td>
 			<td class="text-right">{{ $order->books->reduce(function($total, $book) {
@@ -32,7 +36,7 @@
 			@endswitch">{{ __($order->status) }}</span></td>
 			<td>{{ $order->created_at }}</td>
 			<td>{{ $order->updated_at }}</td>
-			<td class="text-right">@if($order->status == 'CREATED')<a class="icon" href="{{ route('orders.recycle', $order->order_id) }}"><x-tabler-recycle></x-tabler-recycle></a>@endif</td>
+			<td class="text-right">@if($order->status == 'CREATED' && isset($order->order_id))<a class="icon" href="{{ route('orders.recycle', $order->order_id) }}"><x-tabler-recycle></x-tabler-recycle></a>@endif</td>
 		</tr>
 	@endforeach
 	</table>
