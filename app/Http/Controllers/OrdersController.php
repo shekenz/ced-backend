@@ -164,7 +164,7 @@ class OrdersController extends Controller
 					Log::channel('paypal')->critical('Can\'t read property "surname" from Paypal data for orderID '.$paypalOrder['id']);
 				}
 				if(!empty($paypalOrder['payer']['name']['given_name'])) {
-					$order->surname = $paypalOrder['payer']['name']['given_name'];
+					$order->given_name = $paypalOrder['payer']['name']['given_name'];
 				} else {
 					Log::channel('paypal')->critical('Can\'t read property "given_name" from Paypal data for orderID '.$paypalOrder['id']);
 				}
