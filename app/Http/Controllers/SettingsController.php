@@ -10,7 +10,7 @@ class SettingsController extends Controller
 {
 
 	public function main() {
-		$shippingMethods = ShippingMethod::all();
+		$shippingMethods = ShippingMethod::orderBy('price')->get();
 		return view('settings.main', compact('shippingMethods'));
 	}
 

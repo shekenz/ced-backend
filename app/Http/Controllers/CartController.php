@@ -94,12 +94,18 @@ class CartController extends Controller
 			return false;
 		}
 	}
-
+    
+    /**
+     * viewCart
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function viewCart(Request $request) {
 		$cart = $request->session()->get('cart', false);
 		$cartValidation = $this->updateCart($cart);
 
-		$shippingMethods = ShippingMethod::all();
+		$shippingMethods = ShippingMethod::orderBy('price')->get();
 
 		if($cartValidation) {
 			// Redirect with flash if needed
@@ -116,7 +122,14 @@ class CartController extends Controller
 		}
 		
 	}
-
+	
+	/**
+	 * add
+	 *
+	 * @param  mixed $request
+	 * @param  mixed $id
+	 * @return void
+	 */
 	public function add(request $request, $id) {
 
 		$book = Book::with('media')->findOrFail($id);
