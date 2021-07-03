@@ -41,37 +41,37 @@
             	<label class="label-shared-first lg:text-lg" for="year">{{ __('Year') }} :</label>
             	<input class="input-shared" id="year" name="year" type="number" value="{{ old('year') ?? $book->year }}" min="0" max="{{ now()->addYear(1)->year }}">
 			</div>
-			<div>
-            	<label class="label-shared-first lg:text-lg" for="width">{{ __('Width') }} (mm) :</label>
-            	<input class="input-shared" id="width" name="width" type="number" value="{{ old('width') ?? $book->width }}">
-			</div>
-			<div class="md:row-start-2">
-            	<label class="label-shared-first lg:text-lg" for="height">{{ __('Height') }} (mm) :</label>
-            	<input class="input-shared" id="height" name="height" type="number" value="{{ old('height') ?? $book->height }}">
-			</div>
-			<div class="md:row-start-3">
-            	<label class="label-shared-first lg:text-lg" for="cover">{{ __('Cover') }} :</label>
-            	<input class="input-shared" id="cover" name="cover" type="text" value="{{ old('cover') ?? $book->cover }}" maxlength="32">
-			</div>
-			<div>
-            	<label class="label-shared-first lg:text-lg" for="pages">{{ __('Pages count') }} :</label>
-            	<input class="input-shared" id="pages" name="pages" type="number" value="{{ old('pages') ?? $book->pages }}">
-			</div>
-			<div  class="md:row-start-2">
+			<div class="md:row-start-4">
 				<label class="label-shared-first lg:text-lg" for="copies">{{ __('Copies') }} :</label>
 				<input class="input-shared" id="copies" name="copies" type="number" value="{{ old('copies') ?? $book->copies }}">
 			</div>
-			<div class="md:row-start-3">
-            	<label class="label-shared-first lg:text-lg" for="quantity">{{ __('Stock') }} :</label>
-            	<input class="input-shared" id="quantity" name="quantity" type="number" value="{{ old('quantity') ?? $book->quantity }}">
+			<div class="md:row-start-5">
+				<label class="label-shared-first lg:text-lg" for="quantity">{{ __('Stock') }} :</label>
+				<input class="input-shared" id="quantity" name="quantity" type="number" value="{{ old('quantity') ?? $book->quantity }}">
 			</div>
-			<div>
+			<div class="md:col-start-2">
+				<label class="label-shared-first lg:text-lg" for="width">{{ __('Width') }} (mm) :</label>
+				<input class="input-shared" id="width" name="width" type="number" value="{{ old('width') ?? $book->width }}">
+			</div>
+			<div class="md:row-start-2 md:col-start-2">
+				<label class="label-shared-first lg:text-lg" for="height">{{ __('Height') }} (mm) :</label>
+				<input class="input-shared" id="height" name="height" type="number" value="{{ old('height') ?? $book->height }}">
+			</div>
+			<div  class="md:row-start-3 md:col-start-2">
+				<label class="label-shared-first lg:text-lg" for="cover">{{ __('Cover') }} :</label>
+				<input class="input-shared" id="cover" name="cover" type="text" value="{{ old('cover') ?? $book->cover }}" maxlength="32">
+			</div>
+			<div class="md:row-start-4 md:col-start-2">
+				<label class="label-shared-first lg:text-lg" for="pages">{{ __('Pages count') }} :</label>
+				<input class="input-shared" id="pages" name="pages" type="number" value="{{ old('pages') ?? $book->pages }}">
+			</div>
+			<div class="md:row-start-5 md:col-start-2">
             	<label class="label-shared-first lg:text-lg" for="price">{{ __('Price') }} :</label>
             	<input class="input-shared" id="price" name="price" type="text" value="{{ old('price') ?? $book->price }}" maxlength="10">
 			</div>
-			<div class="col-span-4">
+			<div class="col-start-3 col-span-2 row-start-1 row-span-5">
             	<label class="label-shared lg:text-lg" for="description">{{ __('Description') }} :</label>
-            	<textarea id="description" class="input-shared h-96" name="description">{{ old('description') ?? $book->description }}</textarea>
+            	<textarea id="description" class="input-shared h-[22rem]" name="description">{{ old('description') ?? $book->description }}</textarea>
 			</div>
 			<input type="hidden" name="lang" value="fr">
 
