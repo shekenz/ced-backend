@@ -1,5 +1,5 @@
 import { arrayByClass } from '../../shared/helpers.mjs';
-import { popUp } from '../../shared/popup.js';
+import { popUp } from '../../shared/popup.mjs';
 import { updateCartTotal } from '../../shared/update-cart.mjs';
 
 //let shippingPrice = document.getElementById('shipping-price').firstChild.nodeValue;
