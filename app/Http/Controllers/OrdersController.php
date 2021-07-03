@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Book;
 use App\Models\User;
+use App\Models\ShippingMethod;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -40,23 +41,37 @@ class OrdersController extends Controller
 		$this->provider->setApiCredentials($this->credentials);
 		$this->provider->getAccessToken();
 	}
-
+    
+    /**
+     * list
+     *
+     * @return void
+     */
     public function list() {
 		$orders = Order::with('books')->orderBy('created_at', 'DESC')->get();
 		return view('orders.list', compact('orders'));
 	}
-
+	
+	/**
+	 * display
+	 *
+	 * @param  mixed $id
+	 * @return void
+	 */
 	public function display($id) {
 		$order = Order::with('books')->where('id', $id)->first();
 		return view('orders.display', compact('order'));
 	}
 
-	public function createOrder(Request $request, float $shippingCost = 0) {
 		
-		if($shippingCost <= 0) {
-			Log::channel('paypal')->notice('Shipping price not found');
-			return response()->json()->setStatusCode(404, 'Shipping price not found');
-		}
+	/**
+	 * createOrder
+	 *
+	 * @param  mixed $request
+	 * @param  mixed $shippingCost
+	 * @return void
+	 */
+	public function createOrder(Request $request, ShippingMethod $shippingMethod) {
 		
 		if(!$request->session()->has('cart')) {
 			Log::channel('paypal')->notice('Cart not found');
@@ -70,7 +85,7 @@ class OrdersController extends Controller
 		// ITEMS
 		$total = array_reduce($cart, function($total, $item) {
 			return $total + ($item['price'] * $item['quantity']);
-		}, $shippingCost);
+		}, $shippingMethod->price);
 
 		$items = [];
 		if($booksInCart) {
@@ -101,10 +116,14 @@ class OrdersController extends Controller
 			$order = Order::create([
 				'order_id' => $paypalOrder['id'],
 				'status' => $paypalOrder['status'],
+				'shipping_method' => $shippingMethod->label,
+				'shipping_price' => $shippingMethod->price,
 			]);
 		} catch(Exception $e) {
 			$order = Order::create([
 				'status' => 'FAILED',
+				'shipping_method' => $shippingMethod->label,
+				'shipping_price' => $shippingMethod->price,
 			]);
 			
 			$customMessage = 'Can\'t create order! The Esteban error!';
@@ -149,7 +168,14 @@ class OrdersController extends Controller
 			return (isset($errorResponse)) ? response()->json($errorResponse)->setStatusCode(500, 'Paypal order creation failed') : $paypalOrder;
 		}
 	}
-
+	
+	/**
+	 * capture
+	 *
+	 * @param  mixed $request
+	 * @param  mixed $orderID
+	 * @return void
+	 */
 	public function capture(Request $request, $orderID) {
 		$paypalOrder = $this->provider->capturePaymentOrder($orderID);
 		try{
@@ -259,13 +285,26 @@ class OrdersController extends Controller
 			return (isset($errorResponse)) ? response()->json($errorResponse)->setStatusCode(500, 'Paypal order processing failed') : $paypalOrder;
 		}
 	}
-
+	
+	/**
+	 * checkCountry
+	 *
+	 * @param  mixed $request
+	 * @param  mixed $countryCode
+	 * @return void
+	 */
 	public function checkCountry(Request $request, $countryCode) {
 		return (in_array($countryCode, setting('app.shipping.allowed-countries')) || empty(setting('app.shipping.allowed-countries')))
 			? [ 'country' => true ]
 			: response()->json()->setStatusCode(500, 'Country code not accepted by the store.');
 	}
-
+	
+	/**
+	 * cancel
+	 *
+	 * @param  mixed $orderID
+	 * @return void
+	 */
 	public function cancel($orderID) {
 		// Getting order to cancel
 		$order = Order::with('books')->where('order_id', $orderID)->first();
@@ -304,14 +343,26 @@ class OrdersController extends Controller
 		}
 		
 	}
-
+	
+	/**
+	 * details
+	 *
+	 * @param  mixed $orderID
+	 * @return void
+	 */
 	public function details($orderID) {
 
 		$details = $this->provider->showOrderDetails($orderID);
 
 		return $details;	
 	}
-
+	
+	/**
+	 * recycle
+	 *
+	 * @param  mixed $orderID
+	 * @return void
+	 */
 	public function recycle($orderID) {
 		$details = $this->details($orderID);
 		if(isset($details['error'])) {
@@ -324,7 +375,13 @@ class OrdersController extends Controller
 			]);;
 		}	
 	}
-
+	
+	/**
+	 * shipped
+	 *
+	 * @param  mixed $orderID
+	 * @return void
+	 */
 	public function shipped($orderID) {
 		$order = Order::where('order_id', $orderID)->first();
 		if($order->status == 'COMPLETED') {

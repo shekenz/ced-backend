@@ -22,15 +22,24 @@
 			@endforeach
 			</div>
 			<div id="info" class="grid grid-cols-2 mt-6 md:col-start-6 md:col-span-4 md:mt-0">
-				<p class="row-start-2 md:row-start-1 md:col-start-1">
+				<p class="row-start-1 col-start-1">
 					<a href="{{ route('cart.clear') }}" class="base-link">{{ __('Empty cart') }}</a> /
 					<a href="#" id="checkCartButton" class="base-link">Check cart</a>
 				</p>
-				<p class="col-start-2 text-right mb-6 md:row-start-1 md:col-start-2 md:text-left md:mr-6">
+				<form class="mb-6 row-start-1 col-start-2" id="shipping-form">
+				{{ __('Shipping method') }} :<br>
+				@foreach($shippingMethods as $shippingMethod)
+					<div class="my-2">
+						<input id="shipping-method-{{ $shippingMethod->id }}" type="radio" data-price="{{ $shippingMethod->price }}" value="{{ $shippingMethod->id }}" name="shipping-method" @if($loop->first) {{ 'checked' }} @endif>
+						<label for="shipping-method-{{ $shippingMethod->id }}">{{ $shippingMethod->label }} : {{ $shippingMethod->price }}€</label>
+					</div>
+				@endforeach
+				</form>
+				<p class="mb-6 row-start-2 col-start-2">
 					{{ __('Total') }} : <span id="cart-total">{{ $total }}</span>€
 				</p>
 				@if(setting('app.paypal.client-id') && setting('app.paypal.secret'))
-					<div class="w-48 row-start-2 col-start-2 text-right md:text-right mb-6 md:mr-6" id="paypal-checkout-button"></div>
+					<div class="w-48 row-start-3 col-start-2" id="paypal-checkout-button"></div>
 				@endif
 			</div>
 		</div>

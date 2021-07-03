@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
-use App\Models\Order;
+use App\Models\ShippingMethod;
 use App\Http\Helpers\CartHelper;
 
 class CartController extends Controller
@@ -99,14 +99,16 @@ class CartController extends Controller
 		$cart = $request->session()->get('cart', false);
 		$cartValidation = $this->updateCart($cart);
 
+		$shippingMethods = ShippingMethod::all();
+
 		if($cartValidation) {
 			// Redirect with flash if needed
 			if($cartValidation['updated']) {
 				session()->now('flash', __('flash.cart.stockUpdated'));
 				session()->now('flash-type', 'warning');
-				return view('index.cart.cart', $cartValidation['books']);
+				return view('index.cart.cart', $cartValidation['books'], compact('shippingMethods'));
 			} else {
-				return view('index.cart.cart',  $cartValidation['books']);
+				return view('index.cart.cart',  $cartValidation['books'], compact('shippingMethods'));
 			}
 
 		} else {

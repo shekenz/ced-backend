@@ -1,8 +1,31 @@
 import { arrayByClass } from '../../shared/helpers.mjs';
 import { popUp } from '../../shared/popup.js';
+import { updateCartTotal } from '../../shared/update-cart.mjs';
 
 //let shippingPrice = document.getElementById('shipping-price').firstChild.nodeValue;
-let shippingPrice = 5;
+let shippingPrice = 0;
+let shippingMethod = 0;
+let shippingMethodInputs = (Array.from(document.getElementsByName('shipping-method')));
+
+// Initiate current shippingMethod ID
+shippingMethodInputs.forEach(input => {
+	if(input.hasAttribute('checked')) {
+		shippingMethod = input.value;
+		shippingPrice = parseFloat(input.dataset.price);
+		updateCartTotal(shippingPrice);
+	}
+});
+
+// Update price and shippingMethod ID on change
+shippingMethodInputs.forEach(input => {
+	input.addEventListener('focus', e => {
+		shippingMethod = e.target.value;
+		let newShippingPrice = parseFloat(e.target.dataset.price);
+		updateCartTotal( (shippingPrice * -1));
+		updateCartTotal(newShippingPrice);
+		shippingPrice = newShippingPrice;
+	});
+});
 
 arrayByClass('shipping-method').map(input => {
 	input.addEventListener('change', e => {
@@ -53,7 +76,7 @@ if('paypal' in window) {
 					if(cartCheckResponseJSON.updated) {
 						popUp('Some articles from you cart are not available anymore. Your cart will now be reloaded. Please check your order again before payment.', () => { window.location.reload() });
 					} else {
-						return fetch(`/api/order/create/${shippingPrice}`, {
+						return fetch(`/api/order/create/${shippingMethod}`, {
 							method: 'post',
 							headers: {
 							'content-type': 'application/json'

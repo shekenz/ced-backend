@@ -10,7 +10,7 @@ class SettingsController extends Controller
 {
 
 	public function main() {
-		$shippingMethods = ShippingMethod::first();
+		$shippingMethods = ShippingMethod::all();
 		return view('settings.main', compact('shippingMethods'));
 	}
 

@@ -28,7 +28,7 @@ Route::post('/cart/remove/{book}', [CartController::class, 'remove'])->name('car
 Route::post('/cart/check/', [CartController::class, 'updateCart'])->name('cart.api.check');
 
 // Order (Paypal)
-Route::post('/order/create/{shippingCost}', [OrdersController::class, 'createOrder']);
+Route::post('/order/create/{shippingMethod}', [OrdersController::class, 'createOrder']);
 Route::post('/order/check-country/{countryCode}', [OrdersController::class, 'checkCountry']);
 Route::post('/order/cancel/{orderID}', [OrdersController::class, 'cancel']);
 Route::post('/order/details/{orderID}', [OrdersController::class, 'details']);

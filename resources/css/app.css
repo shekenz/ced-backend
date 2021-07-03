@@ -7,6 +7,12 @@
 
 @layer base {
 
+	a {
+		@apply
+			transition-colors
+			duration-300;
+	}
+
 	a.default, .base-link {
 		@apply text-gray-500 underline transition-colors duration-300;
 	}
@@ -84,8 +90,8 @@
 		@apply text-red-500;
 	}
 
-	.app-table {
-		@apply border-collapse table-auto box-border border border-gray-200;
+	table {
+		@apply border-collapse table-auto box-border border border-gray-300;
 	}
 
 	.app-table-small td {
@@ -102,6 +108,40 @@
 
 	table tbody tr:nth-child(2n-1) {
 		@apply bg-gray-100;
+	}
+
+	table.shipping-method {
+		@apply
+			w-1/2
+			m-auto;
+	}
+
+	table.shipping-method td {
+		@apply
+			border-none;
+	}
+
+	table.shipping-method tr {
+		@apply
+			md:text-lg
+			bg-transparent
+			h-12
+			box-border
+			border-b
+			border-gray-300;
+	}
+
+	table.shipping-method tr:last-child{
+		@apply
+			border-none
+	}
+
+	table.shipping-method tr:nth-child(2n-1) {
+		@apply bg-transparent;
+	}
+	
+	table.shipping-method td {
+
 	}
 
 	.switch {

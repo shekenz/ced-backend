@@ -9,6 +9,7 @@ use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\ShippingMethodsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,10 @@ Route::get('/dashboard/orders/', [OrdersController::class, 'list'])->middleware(
 Route::get('/dashboard/order/{id}', [OrdersController::class, 'display'])->middleware('auth')->name('orders.display');
 Route::get('/dashboard/order/recycle/{orderId}', [OrdersController::class, 'recycle'])->middleware('auth')->name('orders.recycle');
 Route::get('/dashboard/order/shipped/{orderId}', [OrdersController::class, 'shipped'])->middleware('auth')->name('orders.shipped');
+
+// Shipping methods
+Route::post('/dashboard/shipping-methods/add/', [ShippingMethodsController::class, 'add'])->middleware('auth')->name('shippingMethods.add');
+Route::get('/dashboard/shipping-methods/delete/{shippingMethod}', [ShippingMethodsController::class, 'delete'])->middleware('auth')->name('shippingMethods.delete');
 
 // Users
 Route::get('/dashboard/users', [UsersController::class, 'list'])->middleware('auth')->name('users');

@@ -24,7 +24,8 @@ class Order extends Model
 		'admin_area_1',
 		'postal_code',
 		'country_code',
-		'shipping_option_id',
+		'shipping_method',
+		'shipping_price',
 		'status',
 	];
 
