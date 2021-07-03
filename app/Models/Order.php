@@ -26,6 +26,8 @@ class Order extends Model
 		'country_code',
 		'shipping_method',
 		'shipping_price',
+		'shipped_at',
+		'tracking_number',
 		'status',
 	];
 

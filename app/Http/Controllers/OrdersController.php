@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SystemError;
+use Illuminate\Support\Carbon;
 
 class OrdersController extends Controller
 {
@@ -42,6 +43,16 @@ class OrdersController extends Controller
 		$this->provider->getAccessToken();
 	}
     
+    /**
+     * list
+     *
+     * @return void
+     */
+    public function index($orderID) {
+		$order = Order::where('order_id', $orderID)->firstOrFail();
+		return view('index.order', compact('order'));
+	}
+
     /**
      * list
      *
@@ -386,8 +397,10 @@ class OrdersController extends Controller
 		$order = Order::where('order_id', $orderID)->first();
 		if($order->status == 'COMPLETED') {
 			$order->status = 'SHIPPED';
+			$order->shipped_at = Carbon::now();
 		} else {
 			$order->status = 'COMPLETED';
+			$order->shipped_at = null;
 		}
 		
 		$order->save();

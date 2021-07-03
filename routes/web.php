@@ -33,6 +33,7 @@ Route::get('/', [BooksController::class, 'index'])->middleware('published')->nam
 Route::get('/about', [IndexController::class, 'about'])->middleware('published')->name('about');
 Route::view('/contact', 'index/contact')->middleware('published')->name('messages');
 Route::post('/contact', [MessagesController::class, 'forward'])->middleware('published')->name('messages.forward');
+Route::get('/order/{orderID}', [OrdersController::class, 'index'])->middleware('published')->name('orders.index');
 
 // Cart
 Route::get('/cart', [CartController::class, 'viewCart'])->middleware('published')->name('cart');
@@ -54,8 +55,8 @@ Route::get('/dashboard', function () {
 // Orders
 Route::get('/dashboard/orders/', [OrdersController::class, 'list'])->middleware('auth')->name('orders');
 Route::get('/dashboard/order/{id}', [OrdersController::class, 'display'])->middleware('auth')->name('orders.display');
-Route::get('/dashboard/order/recycle/{orderId}', [OrdersController::class, 'recycle'])->middleware('auth')->name('orders.recycle');
-Route::get('/dashboard/order/shipped/{orderId}', [OrdersController::class, 'shipped'])->middleware('auth')->name('orders.shipped');
+Route::get('/dashboard/order/recycle/{orderID}', [OrdersController::class, 'recycle'])->middleware('auth')->name('orders.recycle');
+Route::get('/dashboard/order/shipped/{orderID}', [OrdersController::class, 'shipped'])->middleware('auth')->name('orders.shipped');
 
 // Shipping methods
 Route::post('/dashboard/shipping-methods/add/', [ShippingMethodsController::class, 'add'])->middleware('auth')->name('shippingMethods.add');
