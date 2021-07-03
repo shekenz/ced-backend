@@ -22,10 +22,11 @@
 	@endif
 	<div>
 		<label class="label-shared lg:text-lg">{{ __('Shipping methods') }} : </label>
-		<table class="shipping-method">
+		<table class="shipping-method w-full m-auto">
 			@foreach($shippingMethods as $shippingMethod)
 				<tr>
-					<td>{{ $shippingMethod->label }}</td>
+					<td class="font-bold">{{ $shippingMethod->label }}</td>
+					<td>{!! preg_replace('/\{tracking\}/', '<span class="font-bold text-white bg-gray-400 text-sm px-1 py-0.5 mx-0.5 uppercase rounded">tracking</span>', $shippingMethod->tracking_url) !!}</td>
 					<td class="font-bold text-right">{{ $shippingMethod->price }} €</td>
 					<td class="text-right w-14">
 						<a href="{{ route('shippingMethods.delete', $shippingMethod->id) }}"><x-tabler-trash class="icon text-red-300 hover:text-red-500 inline-block"/></a>
@@ -33,16 +34,18 @@
 				</tr>
 			@endforeach
 		</table>
-		<form class="flex justify-center items-end m-auto gap-x-2 w-1/2 mt-2" method="post" action="{{ route('shippingMethods.add') }}">
+		<form class="flex justify-center items-end m-auto gap-x-2 w-full mt-2" method="post" action="{{ route('shippingMethods.add') }}">
 			@csrf
 			<div class="flex w-full gap-x-2">
-				<input type="text" class="input-shared h-12" placeholder="{{ __('Label') }}" name="label" value="{{ old('label') ?? ''}}"">
-				<input type="text" class="input-shared h-12" placeholder="{{ __('Price') }}" name="price" value="{{ old('price') ?? ''}}">
+				<input type="text" class="input-shared h-12 w-1/4" placeholder="{{ __('Label') }}" name="label" value="{{ old('label') ?? ''}}"">
+				<input type="text" class="input-shared h-12 w-1/4" placeholder="{{ __('Price') }}" name="price" value="{{ old('price') ?? ''}}">
+				<input type="text" class="input-shared h-12" placeholder="{{ __('Tracking URL') }}" name="tracking_url" value="{{ old('tracking_url') ?? ''}}">
 			</div>
 			<button id="shipping-method-form-submit" class="bg-green-300 hover:bg-green-400 transition duration-300 rounded text-white p-2 h-12">
 				<x-tabler-circle-plus class="w-8 h-8"/>
 			</button>
 		</form>
+		<span class="text-sm italic text-gray-500">(Important : Enter {tracking} in place of the actual tracking number in the URL string)</span>
 	</div>
 
 	<form method="POST" action="{{ route('settings.update') }}">

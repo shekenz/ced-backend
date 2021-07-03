@@ -8,8 +8,9 @@ use App\Models\ShippingMethod;
 class ShippingMethodsController extends Controller
 {
 	protected $validation = [
-		"label" => ['required', 'string'],
-		"price" => ['required', 'numeric']
+		"label" => ['required', 'string', 'unique:App\Models\ShippingMethod,label'],
+		"price" => ['required', 'numeric'],
+		"tracking_url" => ['string', 'nullable'],
 	];
 
     public function add(Request $request) {

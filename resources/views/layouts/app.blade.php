@@ -58,6 +58,15 @@
                 </div>
             </main>
         </div>
+		<div id="pop-up-wrapper" class="hidden backdrop-blur-lg fixed top-0 left-0 w-full h-full z-[9001]">
+			<div id="pop-up" class="pop-up border border-gray-400 rounded-lg shadow-lg py-8 px-10 bg-white max-w-[640px] m-auto mt-[30vh]">
+				<div id="pop-inner-wrapper"></div>
+				<div class="flex justify-between mt-12">
+					<button id="pop-up-close" type="button" class="button-shared block">{{ __('Close') }}</button>
+					<button id="pop-up-button" type="button" class="button-shared block">{{ __('Close') }}</button>
+				</div>
+			</div>
+		<div>
 		<!-- Hack to prevent transition from firing at load in Chrome -->
 		<script> </script>
     </body>

@@ -110,12 +110,6 @@
 		@apply bg-gray-100;
 	}
 
-	table.shipping-method {
-		@apply
-			w-1/2
-			m-auto;
-	}
-
 	table.shipping-method td {
 		@apply
 			border-none;

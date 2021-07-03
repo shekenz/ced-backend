@@ -52,10 +52,9 @@
 		</div>
 		<div id="pop-up-wrapper" class="hidden bg-black bg-opacity-80 fixed top-0 left-0 w-full h-full z-[9001]">
 			<div id="pop-up" class="pop-up border border-black py-8 px-10 bg-white max-w-[640px] m-auto mt-[30vh]">
-				<p id="pop-up-message">Une erreur est survenue. Impossible de traiter la demande. Les administrateur en on été informé et vous contacterons dans les plus brefs délais. Veuillez nous excuser pour le désagrément.
-				</p>
-				<input id="pop-up-close" type="button" class="button inverted m-auto mt-8 block" value="{{ __('Close') }}">
-				</div>
+				<p id="pop-up-message"></p>
+				<button id="pop-up-close" type="button" class="button inverted m-auto mt-8 block">{{ __('Close') }}</button>
+			</div>
 		<div>
 		<!-- Hack to prevent transition from firing at load in Chrome -->
 		<script> </script>

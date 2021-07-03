@@ -12,7 +12,8 @@ class ShippingMethod extends Model
 
 	protected $fillable = [
 		'label',
-		'price'
+		'price',
+		'tracking_url'
 	];
 
 	public function orders() {

@@ -71,7 +71,8 @@ class OrdersController extends Controller
 	 */
 	public function display($id) {
 		$order = Order::with('books')->where('id', $id)->first();
-		return view('orders.display', compact('order'));
+		$shippingMethod = ShippingMethod::where('label', $order->shipping_method)->first();
+		return view('orders.display', compact('order', 'shippingMethod'));
 	}
 
 		
@@ -393,14 +394,23 @@ class OrdersController extends Controller
 	 * @param  mixed $orderID
 	 * @return void
 	 */
-	public function shipped($orderID) {
+	public function shipped(Request $request, $orderID) {
 		$order = Order::where('order_id', $orderID)->first();
 		if($order->status == 'COMPLETED') {
+			$data = $request->validate([
+				'tracking_number' => ['required', 'string'],
+				'tracking_url' => ['required', 'string'],
+			]);
+
 			$order->status = 'SHIPPED';
 			$order->shipped_at = Carbon::now();
+			$order->tracking_number = $data['tracking_number'];
+			$order->tracking_url = $data['tracking_url'];
 		} else {
 			$order->status = 'COMPLETED';
 			$order->shipped_at = null;
+			$order->tracking_number = null;
+			$order->tracking_url = null;
 		}
 		
 		$order->save();

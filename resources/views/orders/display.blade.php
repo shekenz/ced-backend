@@ -4,6 +4,10 @@
 		{{ __('Order') }}
 	</x-slot>
 
+	<x-slot name="scripts">
+		<script src="{{ asset('js/order-ship.js') }}" defer></script>
+	</x-slot>
+
 	@php
 		switch ($order->status) {
 			case 'FAILED':
@@ -25,22 +29,30 @@
 	@endphp
 
 	<div>
-		<div class="flex mt-8 justify-between">
+		<div class="flex mt-6 justify-between items-center">
 			<div class="">
 				<span class="text-white text-xl py-4 px-6 {{ $statusClass }}">{{ mb_strtoupper(__('paypal.status.'.$order->status)) }}</span>
+				@if($order->status == 'COMPLETED')
+					<form id="ship-form" class="inline-block" action="{{ route('orders.shipped', $order->order_id) }}" method="POST">
+						@csrf
+						<button id="ship-button" class="inline-block align-middle"><x-tabler-truck-delivery class="text-gray-400 hover:text-green-500 mx-2 w-12 h-12 inline-block" /></button> 
+					</form>
+				@endif
+				{{-- For debug ONLY ----- To be removed --}}
+				@if($order->status == 'SHIPPED')
+					<form class="inline-block" action="{{ route('orders.shipped', $order->order_id) }}" method="POST">
+						@csrf
+						<button id="ship-button" class="inline-block align-middle"><x-tabler-truck-return class="text-gray-400 hover:text-green-500 mx-2 w-12 h-12 inline-block" /></button> 
+					</form>
+				@endif
 			</div>
 			<div class="font-bold">
 				<span class="mr-2">{{ __('Transaction ID') }} : </span><a href="@if(setting('app.paypal.sandbox')) {{ 'https://www.sandbox.paypal.com/activity/payment/'.$order->transaction_id  }}
 				@else {{ 'https://www.paypal.com/activity/payment/'.$order->transaction_id  }}
-				@endif" class="border border-black box-border text-xl py-4 px-6">{{ $order->transaction_id }}</a>
+				@endif" class="new-tab border border-black box-border text-xl py-4 px-6">{{ $order->transaction_id }}</a>
 			</div>
 		</div>
 
-		@if($order->status != 'FAILED' && $order->status != 'CREATED')
-		<form class="block mt-6" action="{{ route('orders.shipped', $order->order_id) }}">
-			<button class="switch @if($order->status != 'SHIPPED') {{'off'}} @endif inline-block align-middle"></button> <x-tabler-truck-delivery class="inline-block align-middle" />
-		</form>
-		@endif
 
 		<div class="flex gap-x-8 mt-8">
 			<div class="flex-grow">
@@ -65,6 +77,17 @@
 					@endisset</p>
 				</div>
 			</div>
+			@if($order->status == 'SHIPPED')
+				<div class="flex-grow">
+					<h2 class="text-lg border-b border-black font-bold">{{ __('Shipping info') }} : </h2>
+					<div class="p-4">
+						<p class="my-2"><span class="font-bold">{{ __('Shipped at') }} : </span>{{ $order->shipped_at }}</p>
+						<p class="my-2"><span class="font-bold">{{ __('Shipping method') }} : </span>{{ $order->shipping_method }}</p>
+						<p class="my-2"><span class="font-bold">{{ __('Tracking number') }} : </span>{{ $order->tracking_number }}</p>
+						<p class="my-2"><span class="font-bold">{{ __('Tracking URL') }} : </span><a class="new-tab hover:underline" href="{{ $order->tracking_url }}">{{ $order->tracking_url }}</a></p>
+					</div>
+				</div>
+			@endisset
 		</div>
 
 		<div class="mt-6">
@@ -101,5 +124,7 @@
 			</table>
 		</div>
 	</div>
+
+	<span id="tracking-data" data-tracking-url="{{ $shippingMethod->tracking_url }}"></span>
 
 </x-app-layout>

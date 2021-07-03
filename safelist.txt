@@ -1,3 +1,5 @@
 black-square
 animated
 hover
+mb-6
+border-gray-900
