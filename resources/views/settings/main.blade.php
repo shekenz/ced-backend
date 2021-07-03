@@ -26,7 +26,7 @@
 			@foreach($shippingMethods as $shippingMethod)
 				<tr>
 					<td>{{ $shippingMethod->label }}</td>
-					<td class="font-bold text-right">{{ $shippingMethod->price }}€</td>
+					<td class="font-bold text-right">{{ $shippingMethod->price }} €</td>
 					<td class="text-right w-14">
 						<a href="{{ route('shippingMethods.delete', $shippingMethod->id) }}"><x-tabler-trash class="icon text-red-300 hover:text-red-500 inline-block"/></a>
 					</td>

@@ -37,7 +37,7 @@
 				<td>{{ $book->author }}</td>
 				<td>
 				@if( !empty($book->price) )
-					{{ $book->price }}€
+					{{ $book->price }} €
 				@endif
 				</td>
 				<td>{{ $book->quantity }}</td>

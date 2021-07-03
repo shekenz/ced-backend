@@ -47,7 +47,7 @@
 			<br>
 			<span class="font-bold">{{ __('Price') }} : </span>
 			@if( !empty($book->price))
-				{{ $book->price }}€
+				{{ $book->price }} €
 			@else
 				{{ __('Empty') }}
 			@endif
