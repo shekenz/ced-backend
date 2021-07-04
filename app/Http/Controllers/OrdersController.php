@@ -117,7 +117,7 @@ class OrdersController extends Controller
 				0 => [
 					'amount' => [
 						'currency_code'=> 'EUR',
-						'value' => $total,
+						'value' => round($total, 2),
 					],
 					'items' => $items
 				]
