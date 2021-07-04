@@ -124,7 +124,8 @@
 			</table>
 		</div>
 	</div>
-
-	<span id="tracking-data" data-tracking-url="{{ $shippingMethod->tracking_url }}"></span>
+		
+	<span id="tracking-data" data-tracking-url="@isset($shippingMethod) {{ $shippingMethod->tracking_url }} @endisset"></span>
+	
 
 </x-app-layout>
