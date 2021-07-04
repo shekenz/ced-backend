@@ -100,12 +100,12 @@
 				</thead>
 			@php $total = 0; @endphp
 			@foreach ($order->books as $book)
-				@php $total += $book->pivot->quantity * $book->price @endphp
+				@php $total += round($book->pivot->quantity * $book->price, 2) @endphp
 				<tr>
 					<td>{{ $book->title }}</td>
 					<td>{{ $book->author }}</td>
 					<td>{{ $book->pivot->quantity }}</td>
-					<td>{{ $book->pivot->quantity * $book->price }} €</td>
+					<td>{{ round($book->pivot->quantity * $book->price, 2) }} €</td>
 				</tr>
 			@endforeach
 				<tr class="border-b-2 border-t-2 border-black">
@@ -118,7 +118,7 @@
 					<td>{{ __('Total') }}</td>
 					<td></td>
 					<td></td>
-					<td class="font-bold">{{ $order->shipping_price + $total }} €</td>
+					<td class="font-bold">{{ round($order->shipping_price + $total, 2) }} €</td>
 				</tfoot>
 			</table>
 		</div>
