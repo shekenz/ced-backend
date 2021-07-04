@@ -130,7 +130,7 @@ if('paypal' in window) {
 				}, fetchErrorHandler
 			).then(jsonResponse => {
 				if(jsonResponse.id && !jsonResponse.error) {
-					window.location.href = `${window.location.origin}/cart/success`;
+					window.location.href = `${window.location.origin}/order/success/${jsonResponse.id}`;
 				} else if(jsonResponse.error) {
 					if(jsonResponse.error.name == 'INSTRUMENT_DECLINED') {
 						// If payment refused

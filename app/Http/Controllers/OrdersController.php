@@ -12,6 +12,8 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SystemError;
+use App\Mail\OrderConfirmation;
+use App\Mail\OrderShipped;
 use Illuminate\Support\Carbon;
 
 class OrdersController extends Controller
@@ -300,6 +302,7 @@ class OrdersController extends Controller
 	
 	/**
 	 * checkCountry
+	 * Check if country is listed for shippment
 	 *
 	 * @param  mixed $request
 	 * @param  mixed $countryCode
@@ -312,7 +315,23 @@ class OrdersController extends Controller
 	}
 	
 	/**
+	 * success
+	 * Sends a confirmation mail upon successfull order.
+	 *
+	 * @param  mixed $orderID
+	 * @return void
+	 */
+	public function success($orderID) {
+		$order = Order::where('order_id', $orderID)->first();
+
+		Mail::to('aureltrotebas@icloud.com')->send(new OrderConfirmation($order));
+
+		return redirect()->route('cart.success');
+	}
+	
+	/**
 	 * cancel
+	 * Cancel an order
 	 *
 	 * @param  mixed $orderID
 	 * @return void
@@ -384,7 +403,7 @@ class OrdersController extends Controller
 		$details = $this->details($orderID);
 		if(isset($details['error'])) {
 			$order = Order::where('order_id', $orderID)->first();
-			$this->cancel($order->id);
+			$this->cancel(request(), $order);
 			return redirect()->route('orders');
 		} else {
 			return redirect()->route('orders')->with([
@@ -412,6 +431,8 @@ class OrdersController extends Controller
 			$order->shipped_at = Carbon::now();
 			$order->tracking_number = $data['tracking_number'];
 			$order->tracking_url = $data['tracking_url'];
+
+			Mail::to('aureltrotebas@icloud.com')->send(new OrderShipped($order));
 		} else {
 			$order->status = 'COMPLETED';
 			$order->shipped_at = null;

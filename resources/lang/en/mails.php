@@ -1,6 +1,24 @@
 <?php
 
 return [
+	'orders' => [
+		'confirmation' => [
+			'subject' => 'Your e.p.g. order :order_id',
+			'intro' => 'Your order n° :order_id have been confirmed',
+			'summary' => 'Order summary',
+			'shipping' => 'You will soon receive another email to inform you when your order has been shipped',
+			'method' => 'Shipped with :method for :shipping_price',
+			'thanks' => 'Thank you for orderning on e.p.g.',
+
+		],
+		'shipped' => [
+			'subject' => 'Your e.p.g order has been shipped !',
+			'intro' => 'Your order n° :order_id has been shipped on :shipped_date with :shipping_method',
+			'trackingnumber' => 'Your tracking number is : :tracking_number',
+			'tracking' => 'You can follow this link to track your package',
+			'reclamation' => 'Please contact us if you encounter any problems or for any reclamations',
+		]
+	],
 	'contact' => [
 		'notification' => [
 			'subject' => 'Your message has been received',
@@ -18,7 +36,8 @@ return [
 		]
 	],
 	'general' => [
-		'salutation' => 'Hello',
+		'salutation' => 'Hi',
+		'salutationto' => 'Hi :name',
 		'regards' => 'Regards',
 		'signature' => 'e.p.g.'
 	]
