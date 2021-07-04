@@ -62,7 +62,7 @@
 					<p class="my-2"><span class="font-bold">{{ __('Order ID') }} : </span>{{ $order->order_id }}</p>
 					<p class="my-2"><span class="font-bold">{{ __('Client ID') }} : </span>{{ $order->payer_id }}</p>
 					<p class="my-2"><span class="font-bold">{{ __('Client') }} : </span>{{ $order->given_name }} {{ $order->surname }}</p>
-					<p class="my-2"><span class="font-bold">{{ __('Client email') }} : </span>{{ $order->email_address }}</p>
+					<p class="my-2"><span class="font-bold">{{ __('Client email') }} : </span><a href="mailto:{{ $order->email_address }}" class="hover:underline">{{ $order->email_address }}</a></p>
 				</div>
 			</div>
 			<div class="flex-grow">
@@ -76,18 +76,17 @@
 						{{ strtoupper(config('countries')[$order->country_code]) }}
 					@endisset</p>
 				</div>
-			</div>
-			@if($order->status == 'SHIPPED')
-				<div class="flex-grow">
-					<h2 class="text-lg border-b border-black font-bold">{{ __('Shipping info') }} : </h2>
-					<div class="p-4">
-						<p class="my-2"><span class="font-bold">{{ __('Shipped at') }} : </span>{{ $order->shipped_at }}</p>
-						<p class="my-2"><span class="font-bold">{{ __('Shipping method') }} : </span>{{ $order->shipping_method }}</p>
-						<p class="my-2"><span class="font-bold">{{ __('Tracking number') }} : </span>{{ $order->tracking_number }}</p>
-						<p class="my-2"><span class="font-bold">{{ __('Tracking URL') }} : </span><a class="new-tab hover:underline" href="{{ $order->tracking_url }}">{{ $order->tracking_url }}</a></p>
-					</div>
+				@if($order->status == 'SHIPPED')
+				<h2 class="text-lg border-b border-black font-bold">{{ __('Shipping info') }} : </h2>
+				<div class="p-4">
+					<p class="my-2"><span class="font-bold">{{ __('Shipped at') }} : </span>{{ $order->shipped_at }}</p>
+					<p class="my-2"><span class="font-bold">{{ __('Shipping method') }} : </span>{{ $order->shipping_method }}</p>
+					<p class="my-2"><span class="font-bold">{{ __('Tracking number') }} : </span>{{ $order->tracking_number }}</p>
+					<p class="my-2"><span class="font-bold">{{ __('Tracking URL') }} : </span><a class="new-tab hover:underline" href="{{ $order->tracking_url }}">{{ $order->tracking_url }}</a></p>
 				</div>
 			@endisset
+			</div>
+			
 		</div>
 
 		<div class="mt-6">
