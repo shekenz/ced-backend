@@ -61,8 +61,9 @@
 		<div id="pop-up-wrapper" class="hidden backdrop-blur-lg fixed top-0 left-0 w-full h-full z-[9001]">
 			<div id="pop-up" class="pop-up border border-gray-400 rounded-lg shadow-lg py-8 px-10 bg-white max-w-[640px] m-auto mt-[30vh]">
 				<div id="pop-inner-wrapper"></div>
-				<div class="flex justify-between mt-12">
+				<div class="flex justify-between items-center mt-12">
 					<button id="pop-up-close" type="button" class="button-shared block">{{ __('Close') }}</button>
+					<img src="{{ asset('img/loader2.gif') }}" id="loader" class="w-6 hidden"/>
 					<button id="pop-up-button" type="button" class="button-shared block">{{ __('Close') }}</button>
 				</div>
 			</div>

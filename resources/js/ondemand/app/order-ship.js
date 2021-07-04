@@ -189,7 +189,7 @@ document.getElementById('ship-form').addEventListener('submit', e => {
 		return shipTrackingForm;
 	},
 	returned => {
-		console.log(returned);
+		document.getElementById('loader').classList.toggle('hidden');
 		returned.submit();
 	}, true);
 });
