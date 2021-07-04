@@ -30,6 +30,6 @@ Route::post('/cart/check/', [CartController::class, 'updateCart'])->name('cart.a
 // Order (Paypal)
 Route::post('/order/create/{shippingMethod}', [OrdersController::class, 'createOrder']);
 Route::post('/order/check-country/{countryCode}', [OrdersController::class, 'checkCountry']);
-Route::post('/order/cancel/{orderID}', [OrdersController::class, 'cancel']);
+Route::post('/order/cancel/{order}', [OrdersController::class, 'cancel']);
 Route::post('/order/details/{orderID}', [OrdersController::class, 'details']);
 Route::post('/order/capture/{orderID}', [OrdersController::class, 'capture']);

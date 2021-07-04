@@ -55,6 +55,7 @@ Route::get('/dashboard', function () {
 // Orders
 Route::get('/dashboard/orders/', [OrdersController::class, 'list'])->middleware('auth')->name('orders');
 Route::get('/dashboard/order/{id}', [OrdersController::class, 'display'])->middleware('auth')->name('orders.display');
+Route::get('/dashboard/order/cancel/{order}', [OrdersController::class, 'cancel'])->middleware('auth')->name('orders.cancel');
 Route::get('/dashboard/order/recycle/{orderID}', [OrdersController::class, 'recycle'])->middleware('auth')->name('orders.recycle');
 Route::post('/dashboard/order/shipped/{orderID}', [OrdersController::class, 'shipped'])->middleware('auth')->name('orders.shipped');
 

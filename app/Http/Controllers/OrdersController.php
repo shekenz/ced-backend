@@ -317,9 +317,10 @@ class OrdersController extends Controller
 	 * @param  mixed $orderID
 	 * @return void
 	 */
-	public function cancel($orderID) {
-		// Getting order to cancel
-		$order = Order::with('books')->where('order_id', $orderID)->first();
+	public function cancel(Request $request, Order $order) {
+
+		// Getting order relationship
+		$order->load('books');
 
 		try {
 			// Reinserting quantities in stock
@@ -338,7 +339,7 @@ class OrdersController extends Controller
 			$fullMessage = $customMessage."\n\t".
 				'in file '.$e->getFile().' on line '.$e->getLine()."\n\t".
 				'Message : '.$e->getMessage()."\n\t".
-				'OrderID : '.$orderID;
+				'OrderID : '.$order->order_id;
 
 			Log::channel('paypal')->critical($fullMessage);
 
@@ -351,7 +352,11 @@ class OrdersController extends Controller
 			$errorResponse = true;
 
 		} finally {
-			return (isset($errorResponse)) ? response()->json()->setStatusCode(500, 'Can\'t delete order') : [ 'deleted' => $orderID ];
+			if($request->isMethod('POST')) {
+				return (isset($errorResponse)) ? response()->json()->setStatusCode(500, 'Can\'t delete order') : [ 'deleted' => $order->order_id ];
+			} else {
+				return (isset($errorResponse)) ? abort(500) : back();
+			}
 		}
 		
 	}
@@ -378,7 +383,8 @@ class OrdersController extends Controller
 	public function recycle($orderID) {
 		$details = $this->details($orderID);
 		if(isset($details['error'])) {
-			$this->cancel($orderID);
+			$order = Order::where('order_id', $orderID)->first();
+			$this->cancel($order->id);
 			return redirect()->route('orders');
 		} else {
 			return redirect()->route('orders')->with([
