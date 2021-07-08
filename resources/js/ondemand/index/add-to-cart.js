@@ -9,7 +9,11 @@ addToCartButtons.map(buttons => {
 	buttons.addEventListener('click', e => {
 		e.preventDefault();
 		e.target.blur();
-		axios.post(e.target.href).then( () => {
+		axios({
+			method: 'post',
+			url: e.target.href,
+			headers: 'accept: application/json'
+		}).then( () => {
 			updateCartQuantity(1);
 		})
 		.catch(error => {

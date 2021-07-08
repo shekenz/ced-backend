@@ -10,7 +10,11 @@ incrementButtons.map(button => {
 		e.preventDefault();
 		// Returns any numbers at the end of string
 		let id = /[0-9]+$/.exec(e.target.href)[0];
-		axios.post(e.target.href)
+		axios({
+			method: 'post',
+			url: e.target.href,
+			headers: 'accept: application/json'
+		})
 		.then(response => {
 			let book = response.data.book;
 			// Book modifier is 1 when adding book and -1 when removing book
