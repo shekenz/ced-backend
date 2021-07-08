@@ -86,6 +86,8 @@ class OrdersController extends Controller
 	 * @return void
 	 */
 	public function createOrder(Request $request, ShippingMethod $shippingMethod) {
+
+		//TODO Test if shippingMethod exists
 		
 		if(!$request->session()->has('cart')) {
 			Log::channel('paypal')->notice('Cart not found');
@@ -324,7 +326,7 @@ class OrdersController extends Controller
 	public function success($orderID) {
 		$order = Order::where('order_id', $orderID)->first();
 
-		Mail::to('aureltrotebas@icloud.com')->send(new OrderConfirmation($order));
+		Mail::to($order->email_address)->send(new OrderConfirmation($order));
 
 		return redirect()->route('cart.success');
 	}
@@ -432,7 +434,7 @@ class OrdersController extends Controller
 			$order->tracking_number = $data['tracking_number'];
 			$order->tracking_url = $data['tracking_url'];
 
-			Mail::to('aureltrotebas@icloud.com')->send(new OrderShipped($order));
+			Mail::to($order->email_address)->send(new OrderShipped($order));
 		} else {
 			$order->status = 'COMPLETED';
 			$order->shipped_at = null;
