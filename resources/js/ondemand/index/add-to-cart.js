@@ -12,7 +12,9 @@ addToCartButtons.map(buttons => {
 		axios({
 			method: 'post',
 			url: e.target.href,
-			headers: 'accept: application/json'
+			headers: {
+				accept: 'application/json'
+			}
 		}).then( () => {
 			updateCartQuantity(1);
 		})

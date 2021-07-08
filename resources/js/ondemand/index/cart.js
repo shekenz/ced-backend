@@ -13,7 +13,9 @@ incrementButtons.map(button => {
 		axios({
 			method: 'post',
 			url: e.target.href,
-			headers: 'accept: application/json'
+			headers: {
+				accept: 'application/json'
+			}
 		})
 		.then(response => {
 			let book = response.data.book;
