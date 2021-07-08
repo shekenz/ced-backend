@@ -24,6 +24,7 @@ class BooksController extends Controller
 		'cover' => ['nullable', 'string', 'max:32'],
 		'copies' => ['nullable', 'integer'],
 		'quantity' => ['required', 'integer'],
+		'pre_order' => ['nullable', 'boolean'],
 		'year' => ['nullable', 'integer', 'digits_between:0,4'],
 		'price' => ['nullable', 'numeric'],
 		'description' => ['required', 'string'],
@@ -153,6 +154,10 @@ class BooksController extends Controller
 		 *  If it is not and was previously attached, it is detached.
 		 */
 		$book->media()->sync($mediaIDsWithOrder);
+
+		if(empty($data['pre_order'])) {
+			$data['pre_order'] = 0;
+		}
 
 		// Updating book
 		$book->update($data);

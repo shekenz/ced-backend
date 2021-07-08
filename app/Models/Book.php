@@ -20,6 +20,7 @@ class Book extends Model
 		'pages',
 		'copies',
 		'quantity',
+		'pre_order',
 		'year',
 		'price',
 		'description',
