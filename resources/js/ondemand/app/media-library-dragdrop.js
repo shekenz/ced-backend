@@ -1,5 +1,4 @@
 import Sortable from 'sortablejs';
-import { arrayByClass } from '../../shared/helpers';
 
 // Dropzones declaration
 const mediaLink = document.getElementById('media-link');

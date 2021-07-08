@@ -4,6 +4,7 @@
     "/js/settings.js": "/js/settings.js",
     "/js/media-optimized.js": "/js/media-optimized.js",
     "/js/media-library-dragdrop.js": "/js/media-library-dragdrop.js",
+    "/js/books-form.js": "/js/books-form.js",
     "/js/order-ship.js": "/js/order-ship.js",
     "/js/cart.js": "/js/cart.js",
     "/js/add-to-cart.js": "/js/add-to-cart.js",
@@ -15,6 +16,8 @@
     "/img/default-thumbnail.jpg": "/img/default-thumbnail.jpg",
     "/img/favicon.png": "/img/favicon.png",
     "/img/favicon32.png": "/img/favicon32.png",
+    "/img/loader.gif": "/img/loader.gif",
+    "/img/loader2.gif": "/img/loader2.gif",
     "/img/logo-dark.png": "/img/logo-dark.png",
     "/img/logo-dark@2x.png": "/img/logo-dark@2x.png",
     "/img/logo.png": "/img/logo.png",
@@ -33,7 +36,5 @@
     "/fonts/MonumentGroteskTrial-Italic.woff": "/fonts/MonumentGroteskTrial-Italic.woff",
     "/fonts/MonumentGroteskTrial-Medium.woff": "/fonts/MonumentGroteskTrial-Medium.woff",
     "/fonts/MonumentGroteskTrial-MediumItalic.woff": "/fonts/MonumentGroteskTrial-MediumItalic.woff",
-    "/fonts/MonumentGroteskTrial-Regular.woff": "/fonts/MonumentGroteskTrial-Regular.woff",
-    "/img/loader.gif": "/img/loader.gif",
-    "/img/loader2.gif": "/img/loader2.gif"
+    "/fonts/MonumentGroteskTrial-Regular.woff": "/fonts/MonumentGroteskTrial-Regular.woff"
 }

@@ -9,6 +9,7 @@
 
 	<x-slot name="scripts">
 		<script src="{{ asset('js/media-library-dragdrop.js') }}" type="text/javascript" defer></script>
+		<script src="{{ asset('js/books-form.js') }}" type="text/javascript" defer></script>
 	</x-slot>
 	
 	<div class="m-4">
@@ -26,7 +27,7 @@
         </div>
         @endif
 
-        <form action="{{ route('books.update', $book->id) }}" method="post" enctype="multipart/form-data" class="flex flex-col gap-y-2 md:grid md:grid-cols-4 lg:m-2 md:gap-x-4">
+        <form id="edit-form" action="{{ route('books.update', $book->id) }}" method="post" enctype="multipart/form-data" class="flex flex-col gap-y-2 md:grid md:grid-cols-4 lg:m-2 md:gap-x-4">
             @csrf
 			@method('patch')
 			<div>
@@ -47,9 +48,10 @@
 			</div>
 			<div class="md:row-start-5">
 				<label class="label-shared lg:text-lg" for="quantity">{{ __('Stock') }} :</label>
-				<input class="input-shared" id="quantity" name="quantity" type="number" value="{{ old('quantity') ?? $book->quantity }}">
+				<input class="input-shared" id="quantity" name="quantity" type="number" min="0" value="{{ old('quantity') ?? $book->quantity }}">
+				<input class="input-shared" id="quantity-hidden" name="quantity" type="hidden" disabled="true" value="0">
 				<div class="mt-1">
-					<input class="" id="pre-order" name="pre_order" type="checkbox" value="1" @if( old('pre_order') ?? $book->pre_order) {{ 'checked' }} @endif><label for="pre-order"> {{ __('Pre-order') }}</label>
+					<input class="" id="pre-order" name="pre_order" type="checkbox" value="1" @if(old('pre_order') ?? $book->pre_order){{ 'checked' }}@endif><label for="pre-order"> {{ __('Pre-order') }}</label>
 				</div>
 			</div>
 			<div class="md:col-start-2">

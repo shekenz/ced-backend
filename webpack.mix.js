@@ -20,7 +20,8 @@ mix.js('resources/js/app.js', 'public/js'); // Main backend script available in 
 // App JS (Backend)
 mix.js('resources/js/ondemand/app/settings.js', 'public/js'); // Loaded on settings view
 mix.js('resources/js/ondemand/app/media-optimized.js', 'public/js'); // Loaded on display media view
-mix.js('resources/js/ondemand/app/media-library-dragdrop.js', 'public/js'); // Loaded on display media view
+mix.js('resources/js/ondemand/app/media-library-dragdrop.js', 'public/js'); // Loaded on edit and create book view
+mix.js('resources/js/ondemand/app/books-form.js', 'public/js'); // Loaded on edit and create book view
 mix.js('resources/js/ondemand/app/order-ship.js', 'public/js'); // Loaded on display order view
 
 //  Index JS (Frontend)
