@@ -49,6 +49,12 @@
 		@apply border-indigo-300 ring ring-indigo-200 ring-opacity-50;
 	}
 
+	.input-shared:disabled {
+		@apply
+			text-gray-400
+			bg-gray-100;
+	}
+
 	.input-mimic {
 		@apply input-shared rounded-md border border-gray-300;
 	}

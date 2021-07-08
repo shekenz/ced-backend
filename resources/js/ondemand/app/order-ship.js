@@ -97,8 +97,6 @@ document.getElementById('ship-form').addEventListener('submit', e => {
 
 			// Disable Tracking URL Input
 			shipTrackingURL.setAttribute('disabled', true);
-			shipTrackingURL.classList.add('bg-gray-100');
-			shipTrackingURL.classList.add('text-gray-400');
 
 			// Set value to automated tracking address
 			shipTrackingURL.setAttribute('value', trackingData.trackingUrl.replace(/\{tracking\}/, ''));
@@ -150,8 +148,6 @@ document.getElementById('ship-form').addEventListener('submit', e => {
 				if(e.target.checked) {
 					// Disable Tracking URL Input
 					shipTrackingURL.removeAttribute('disabled');
-					shipTrackingURL.classList.remove('bg-gray-100');
-					shipTrackingURL.classList.remove('text-gray-400');
 					shipTrackingURL.classList.add('bg-transparent');
 					shipTrackingURL.classList.add('text-inherit');
 					shipTrackingURL.value = '';
@@ -162,8 +158,6 @@ document.getElementById('ship-form').addEventListener('submit', e => {
 					shipTrackingURL.setAttribute('disabled', true);
 					shipTrackingURL.classList.remove('bg-transparent');
 					shipTrackingURL.classList.remove('text-inherit');
-					shipTrackingURL.classList.add('bg-gray-100');
-					shipTrackingURL.classList.add('text-gray-400');
 					let shipTrackingURLValue = trackingData.trackingUrl.replace(/\{tracking\}/, encodeURIComponent(shipTrackingNumber.value));
 					shipTrackingURL.value = shipTrackingURLValue;
 					shipTrackingURLHidden.value = shipTrackingURLValue;
