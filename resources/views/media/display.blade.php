@@ -4,7 +4,7 @@
     </x-slot>
 
 	<x-slot name="scripts">
-		<script src="{{ asset('js/media.js') }}" defer></script>
+		<script src="{{ asset('js/media-optimized.js') }}" defer></script>
 	</x-slot>
 
 	<x-slot name="controls">

@@ -25,7 +25,7 @@ if(editForm) {
 	editForm.addEventListener('submit', e => {
 		if(originalQuantity !== '0' && preorderInput.checked) {
 			e.preventDefault();
-			if(confirm('Setting the book to preorder will reset the stock quantity. Are you sure you want to proceed ?')) {	
+			if(confirm('Setting the book to pre-order will reset the stock quantity. Are you sure you want to proceed ?')) {	
 				e.target.submit();
 			}
 		}
