@@ -32,6 +32,9 @@
 					<a href="{{ route('books.display', $book->id) }}" class="icon warning" title="{{ __('No media linked ! Book will not be displayed on front page') }}."><x-tabler-alert-circle />
 					</a>
 					@endif
+					@if($book->pre_order)
+						<span title="{{ __('Pre-order') }}"><x-tabler-forklift class="inline-block text-blue-500" /></span>
+					@endif
 				</td>
 				<td><a href="{{ route('books.display', $book->id) }}" class="default">{{ $book->title }}</a></td>
 				<td>{{ $book->author }}</td>
@@ -40,6 +43,7 @@
 					{{ $book->price }} €
 				@endif
 				</td>
+				
 				<td>{{ $book->quantity }}</td>
 				<td class="hidden md:table-cell">{{ $book->created_at->diffForHumans() }}</td>
 				<td class="hidden md:table-cell"><a href="{{ route('users.display', $book->user->id)}}" class="default">{{ $book->user->username }}</a></td>

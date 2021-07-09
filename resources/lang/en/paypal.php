@@ -6,5 +6,6 @@ return [
 		"CREATED" => "Aborded",
 		"COMPLETED" => "Paid",
 		"SHIPPED" => "Shipped",
+		"preorder" => "Pre-order",
 	],
 ];

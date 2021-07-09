@@ -29,6 +29,7 @@ class Order extends Model
 		'shipped_at',
 		'tracking_number',
 		'status',
+		'pre_order',
 		'read',
 	];
 

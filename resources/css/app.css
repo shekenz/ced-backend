@@ -115,7 +115,7 @@
 	}
 
 	table {
-		@apply border-collapse table-auto box-border border border-gray-300;
+		@apply border-collapse table-auto box-border border border-gray-300 w-full;
 	}
 
 	.app-table-small td {

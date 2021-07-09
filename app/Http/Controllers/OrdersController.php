@@ -98,8 +98,8 @@ class OrdersController extends Controller
 	 */
 	public function createOrder(Request $request, ShippingMethod $shippingMethod) {
 
-		//TODO Test if shippingMethod exists
-		
+		$preOrder = false;
+
 		if(!$request->session()->has('cart')) {
 			Log::channel('paypal')->notice('Cart not found');
 			return response()->json()->setStatusCode(404, 'Cart not found');
@@ -116,12 +116,17 @@ class OrdersController extends Controller
 
 		$items = [];
 		if($booksInCart) {
-			$booksInCart->each(function($book) use ($cart, $items) {
+			$booksInCart->each(function($book) use ($cart, $items, &$preOrder) {
 				array_push($items, [
 					'name' => $book->title,
 					'unit_amount' => $book->price,
 					'quantity' => $cart[$book->id]['quantity'],
 				]);
+
+				// Checking for pre_order
+				if($book->pre_order) {
+					$preOrder = true;
+				}
 			});
 		}
 
@@ -145,12 +150,14 @@ class OrdersController extends Controller
 				'status' => $paypalOrder['status'],
 				'shipping_method' => $shippingMethod->label,
 				'shipping_price' => $shippingMethod->price,
+				'pre_order' => ($preOrder),
 			]);
 		} catch(Exception $e) {
 			$order = Order::create([
 				'status' => 'FAILED',
 				'shipping_method' => $shippingMethod->label,
 				'shipping_price' => $shippingMethod->price,
+				'pre_order' => ($preOrder),
 			]);
 			
 			$customMessage = 'Can\'t create order! The Esteban error!';

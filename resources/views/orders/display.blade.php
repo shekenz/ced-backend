@@ -96,6 +96,9 @@
 					<td>{{ __('Title') }}</td>
 					<td>{{ __('Author') }}</td>
 					<td>{{ __('Quantity') }}</td>
+					@if($order->pre_order)
+						<td></td>
+					@endif
 					<td>{{ __('Subtotal') }}</td>
 				</thead>
 			@php $total = 0; @endphp
@@ -105,6 +108,13 @@
 					<td>{{ $book->title }}</td>
 					<td>{{ $book->author }}</td>
 					<td>{{ $book->pivot->quantity }}</td>
+					@if($order->pre_order)
+						@if($book->pre_order)
+							<td><span class="font-bold text-sm inline-block text-white px-2 py-0.5 rounded bg-blue-500">{{ __('Pre-order') }}</span></td>
+						@else
+							<td></td>
+						@endif
+					@endif
 					<td>{{ round($book->pivot->quantity * $book->price, 2) }} €</td>
 				</tr>
 			@endforeach
@@ -112,12 +122,18 @@
 					<td>{{ __('Shipping method') }}</td>
 					<td>{{ $order->shipping_method }}</td>
 					<td></td>
+					@if($order->pre_order)
+						<td></td>
+					@endif
 					<td>{{ $order->shipping_price }} €</td>
 				</tr>
 				<tfoot>
 					<td>{{ __('Total') }}</td>
 					<td></td>
 					<td></td>
+					@if($order->pre_order)
+						<td></td>
+					@endif
 					<td class="font-bold">{{ round($order->shipping_price + $total, 2) }} €</td>
 				</tfoot>
 			</table>

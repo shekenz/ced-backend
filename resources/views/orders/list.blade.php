@@ -33,7 +33,11 @@
 				@case('CREATED') {{ 'bg-yellow-500' }} @break
 				@case('COMPLETED') {{ 'bg-blue-500' }} @break
 				@case('SHIPPED') {{ 'bg-green-500' }} @break
-			@endswitch">{{ mb_strtoupper(__('paypal.status.'.$order->status)) }}</span></td>
+			@endswitch">@if($order->pre_order)
+				{{ mb_strtoupper(__('paypal.status.preorder')) }}
+			@else
+				{{ mb_strtoupper(__('paypal.status.'.$order->status)) }}
+			@endif</span></td>
 			<td>{{ $order->created_at }}</td>
 			<td>{{ $order->updated_at }}</td>
 			<td class="text-right">
