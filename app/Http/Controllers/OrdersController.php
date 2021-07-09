@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SystemError;
 use App\Mail\OrderConfirmation;
 use App\Mail\OrderShipped;
+use App\Mail\NewOrder;
 use Illuminate\Support\Carbon;
 
 class OrdersController extends Controller
@@ -73,10 +74,20 @@ class OrdersController extends Controller
 	 */
 	public function display($id) {
 		$order = Order::with('books')->where('id', $id)->first();
+		$order->read = 1;
+		$order->save();
 		$shippingMethod = ShippingMethod::where('label', $order->shipping_method)->first();
 		return view('orders.display', compact('order', 'shippingMethod'));
 	}
-
+	
+	/**
+	 * countUnread
+	 *
+	 * @return array
+	 */
+	public function countUnread() {
+		return ['count' => Order::where('read', 0)->count() ];
+	}
 		
 	/**
 	 * createOrder
@@ -274,6 +285,12 @@ class OrdersController extends Controller
 				} finally {
 					// Saving order in database
 					$order->save();
+
+					// Notify admins
+					$admins = User::where('role', 'admin')->get();
+					$admins->each(function($admin) {
+						Mail::to($admin->email)->send(new NewOrder());
+					});
 				}
 
 			} else {

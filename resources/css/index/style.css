@@ -49,7 +49,7 @@
 
 @layer components {
 
-	/*--------------- Main enu ---------------*/
+	/*--------------- Main menu ---------------*/
 	#black-square {
 		@apply
 			bg-black
@@ -178,6 +178,14 @@
 			focus:border-green-900
 			focus:text-green-900
 			focus:bg-green-300;
+	}
+
+	.notification::before {
+		content: ' (';
+	}
+	
+	.notification::after {
+		content: ')';
 	}
 
 	/*--------------- Shipping form ---------------*/

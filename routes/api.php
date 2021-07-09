@@ -33,3 +33,4 @@ Route::post('/order/check-country/{countryCode}', [OrdersController::class, 'che
 Route::post('/order/cancel/{order}', [OrdersController::class, 'cancel']);
 Route::post('/order/details/{orderID}', [OrdersController::class, 'details']);
 Route::post('/order/capture/{orderID}', [OrdersController::class, 'capture']);
+Route::post('/orders/unread/count', [OrdersController::class, 'countUnread']);

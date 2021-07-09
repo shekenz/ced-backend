@@ -21,6 +21,19 @@
 		@apply text-gray-700;
 	}
 
+	.notification {
+		@apply
+			bg-red-500
+			text-white
+			font-bold
+			rounded-full
+			min-w-[1.25rem]
+			h-5
+			px-1
+			ml-1
+			text-center;
+	}
+
 	h4 {
 		@apply font-bold py-2;
 	}
@@ -111,6 +124,17 @@
 
 	table th {
 		@apply border-b border-current text-left p-2;
+	}
+
+	table tr.unread, table tr:nth-child(2n-1).unread {
+		@apply
+			bg-blue-100;
+	}
+
+	table tr.unread a, table tr:nth-child(2n-1).unread a {
+		@apply
+			text-blue-600
+			font-bold;
 	}
 
 	table td {

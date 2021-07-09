@@ -29,6 +29,7 @@ class Order extends Model
 		'shipped_at',
 		'tracking_number',
 		'status',
+		'read',
 	];
 
 	public function books() {

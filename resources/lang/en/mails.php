@@ -17,7 +17,12 @@ return [
 			'trackingnumber' => 'Your tracking number is : :tracking_number',
 			'tracking' => 'You can follow this link to track your package',
 			'reclamation' => 'Please contact us if you encounter any problems or for any reclamations',
-		]
+		],
+		'notification' => [
+			'subject' => 'New order on e.p.g.',
+			'line1' => 'A new order has been registered.',
+			'line2' => 'Check your dashboard to process the order.',
+		],
 	],
 	'contact' => [
 		'notification' => [

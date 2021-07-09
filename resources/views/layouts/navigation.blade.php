@@ -4,7 +4,7 @@
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center">
+                <div class="flex-shrink-0 flex items-center mr-8">
                     <a href="{{ route('index') }}">
                         <!-- <x-application-logo class="block h-10 w-auto fill-current text-gray-600" /> -->
                         {{ config('app.name') }}
@@ -23,7 +23,7 @@
                         <x-tabler-photo class="mr-1"/>{{ __('Media') }}
                     </x-nav-link>
                     <x-nav-link :href="route('orders')" :active="request()->routeIs('orders')">
-                        <x-tabler-receipt class="mr-1"/>{{ __('Orders') }}
+                        <x-tabler-receipt class="mr-1"/>{{ __('Orders') }}<span id="orderUnread" class="notification hidden"></span>
                     </x-nav-link>
                     <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
                         <x-tabler-users class="mr-1"/>{{ __('Users') }}

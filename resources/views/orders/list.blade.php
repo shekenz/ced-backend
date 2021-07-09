@@ -16,7 +16,7 @@
 			<td>{{ __('Tools') }}</td>
 		</thead>
 	@foreach ($orders as $order)
-		<tr>
+		<tr class="@if(!$order->read){{ 'unread' }}@endif">
 			<td>{{ $order->id }}</td>
 			<td><a class="default" href="{{ route('orders.display', $order->id)}}">@isset($order->order_id)
 				{{ $order->order_id }}

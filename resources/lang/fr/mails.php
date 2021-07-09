@@ -1,6 +1,13 @@
 <?php
 
 return [
+	'orders' => [
+		'notification' => [
+			'subject' => 'Nouvelle commande sur e.p.g.',
+			'line1' => 'Une nouvelle commande a été effectuée.',
+			'line2' => 'Veuillez vous connecter sur le dashboard pour gérer la commande.',
+		],
+	],
 	'contact' => [
 		'notification' => [
 			'subject' => 'Votre message a bien été reçu',
