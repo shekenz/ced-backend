@@ -68,6 +68,9 @@
 					@if( $book->quantity > 0)
 						<br>
 						<a href="{{ route('cart.api.add', $book->id)}}" class="add-to-cart-button button-lg">{{ __('Add to cart') }}</a><br>
+					@elseif( $book->pre_order)
+						<br>
+						<a href="{{ route('cart.api.add', $book->id)}}" class="add-to-cart-button button-lg">{{ __('Pre-order') }}</a><br>
 					@else
 						<br>
 						({{ __('Out of stock') }})<br>

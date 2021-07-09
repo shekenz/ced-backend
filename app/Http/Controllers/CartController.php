@@ -72,7 +72,7 @@ class CartController extends Controller
 			$quantityUpdated = false;
 			array_walk($cart, function(&$article, $id) use ($books, &$quantityUpdated) {
 				$stock = intval($books[$id]->quantity);
-				if($article['quantity'] > $stock) {
+				if($article['quantity'] > $stock && !$books[$id]->pre_order) {
 					$article['quantity'] = $stock;
 					$quantityUpdated = true;
 				}
@@ -124,13 +124,12 @@ class CartController extends Controller
 	}
 	
 	/**
-	 * add
+	 * Add a new article to cart
 	 *
-	 * @param  mixed $request
-	 * @param  mixed $id
-	 * @return void
+	 * @param  Request $request
+	 * @param  string $id
 	 */
-	public function add(request $request, $id) {
+	public function add(Request $request, $id) {
 
 		$book = Book::with('media')->findOrFail($id);
 		$bookReturnedDetails = [
@@ -150,13 +149,17 @@ class CartController extends Controller
 		
 		// If book id found in cart, just update quantity
 		if(array_key_exists($book->id, $cart)) {
-			if($cart[$book->id]['quantity'] < $book->quantity) { // Check for stock
+			// Checking for stock
+			// Adding book only if cartQuantity < stockQuantity or if book is in pre_order
+			if($cart[$book->id]['quantity'] < $book->quantity || $book->pre_order) {
 				$cart[$book->id]['quantity'] += 1;
 			} else { // Redirect and inform the user book is not in stock anymore
 				return response()->json($bookReturnedDetails)->setStatusCode(500, __('flash.cart.stockLimit'));
 			}
 		} else { // Else push new book id with an array with quantity of 1 and price
-			if($book->quantity > 0) { // Check for stock
+			// Checking for stock
+			// Adding book only if stockQuantity > 0 or if book is in pre_order
+			if($book->quantity > 0 || $book->pre_order) { // Check for stock
 				$cart[$book->id] = [ 'price' => $book->price, 'quantity' => 1];
 			} else {
 				return response()->json($bookReturnedDetails)->setStatusCode(500, __('flash.cart.stockLimit'));
