@@ -141,11 +141,6 @@ class CartController extends Controller
 			]
 		];
 
-		// If book has no price or has no media, you shouldn't be here
-		if(!isset($book->price) || $book->media->isEmpty()) {
-			return $this->abortByRequestMethod($request, 400, 'Book not available');
-		}
-
 		// If cart is empty, create new cart array
 		if(CartHelper::isEmpty()) {
 			$cart = [];
