@@ -23,14 +23,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //TODO secure the api
 
 // Live cart
-Route::post('/cart/add/{book}', [CartController::class, 'add'])->name('cart.api.add');
-Route::post('/cart/remove/{book}', [CartController::class, 'remove'])->name('cart.api.remove');
-Route::post('/cart/check/', [CartController::class, 'updateCart'])->name('cart.api.check');
+Route::post('/cart/add/{book}', [CartController::class, 'add'])->middleware('shop');
+Route::post('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('shop');
+Route::post('/cart/check/', [CartController::class, 'updateCart'])->middleware('shop');
 
 // Order (Paypal)
-Route::post('/order/create/{shippingMethod}', [OrdersController::class, 'createOrder']);
-Route::post('/order/check-country/{countryCode}', [OrdersController::class, 'checkCountry']);
-Route::post('/order/cancel/{order}', [OrdersController::class, 'cancel']);
-Route::post('/order/details/{orderID}', [OrdersController::class, 'details']);
-Route::post('/order/capture/{orderID}', [OrdersController::class, 'capture']);
+Route::post('/order/create/{shippingMethod}', [OrdersController::class, 'createOrder'])->middleware('shop');
+Route::post('/order/check-country/{countryCode}', [OrdersController::class, 'checkCountry'])->middleware('shop');
+Route::post('/order/cancel/{order}', [OrdersController::class, 'cancel'])->middleware('shop');
+Route::post('/order/details/{orderID}', [OrdersController::class, 'details'])->middleware('shop');
+Route::post('/order/capture/{orderID}', [OrdersController::class, 'capture'])->middleware('shop');
 Route::post('/orders/unread/count', [OrdersController::class, 'countUnread']);
