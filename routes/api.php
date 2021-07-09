@@ -23,9 +23,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //TODO secure the api
 
 // Live cart
-Route::post('/cart/add/{book}', [CartController::class, 'add'])->middleware('shop');
-Route::post('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('shop');
-Route::post('/cart/check/', [CartController::class, 'updateCart'])->middleware('shop');
+Route::post('/cart/add/{book}', [CartController::class, 'add'])->middleware('shop')->name('cart.api.add');
+Route::post('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('shop')->name('cart.api.remove');
+Route::post('/cart/check/', [CartController::class, 'updateCart'])->middleware('shop')->name('cart.api.check');
 
 // Order (Paypal)
 Route::post('/order/create/{shippingMethod}', [OrdersController::class, 'createOrder'])->middleware('shop');
