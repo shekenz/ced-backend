@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ShippingMethod;
+use App\Traits\ShopControls;
 
 class SettingsController extends Controller
 {
+
+	use ShopControls;
 
 	public function main() {
 		$shippingMethods = ShippingMethod::orderBy('price')->get();
@@ -54,6 +57,10 @@ class SettingsController extends Controller
 		setting(['app.paypal.secret' => $data['paypal-secret']]);
 		setting(['app.paypal.sandbox' => isset($data['paypal-sandbox']) ]);
 		setting()->save();
+
+		if($this->isShopNotAvailable()) {
+			$this->shopOff();
+		}
 		
 		foreach($data['about'] as $key => $item) {
 			if($item) {
@@ -82,6 +89,31 @@ class SettingsController extends Controller
 				'flash' => __('flash.settings.published'),
 				'flash-type' => 'success'
 			]);
+		}
+	}
+
+	public function toggleShop() {
+		if(setting('app.shop.enabled')) {
+			$this->shopOff();	
+			return back()->with([
+				'flash' => __('flash.settings.shop.disable'),
+				'flash-type' => 'warning'
+			]);
+		} else {	
+			$shopNotAvailable = $this->isShopNotAvailable();
+			if($shopNotAvailable) {
+				return back()->with([
+					'flash' => __('flash.settings.shop.error').' '.$shopNotAvailable,
+					'flash-type' => 'error'
+				]);
+			} else {
+				$this->shopOn();
+				return back()->with([
+					'flash' => __('flash.settings.shop.enable'),
+					'flash-type' => 'success'
+				]);
+			}
+
 		}
 	}
 }
