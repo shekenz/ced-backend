@@ -8,7 +8,7 @@ export function updateQuantityFor(id, relativeValue = 0) {
 
 export function updateSubTotalFor(id, relativeValue = 0) {
 	let el = document.getElementById(`subtotal-for-id-${id}`).firstChild;
-	let currentSubTotal = parseInt(el.nodeValue);
+	let currentSubTotal = parseFloat(el.nodeValue);
 	let newValue = currentSubTotal + relativeValue;
-	el.nodeValue = newValue;
+	el.nodeValue = Math.round(newValue * 100) / 100;
 }
