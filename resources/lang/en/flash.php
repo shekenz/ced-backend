@@ -26,6 +26,15 @@ return [
 		'updated' => 'Settings updated.',
 		'published' => 'Website is now published.',
 		'unpublished' => 'Website is no more accessible.',
+		'shop' => [
+			'enable' => 'Shop features are now enabled.',
+			'disable' => 'Shop features are now disabled.',
+			'error' => 'Can\'t enable shop features.',
+			'reasons' => [
+				'noShippingMethods' => 'No shipping method registered. Create at least one shipping method.',
+				'noPaypalCredentials' => 'No valid Paypal credentials registered. Please check your Paypal settings.',
+			],
+		],
 	],
 	'cart' => [
 		'stockUpdated' => 'Your cart has been updated according to our stock fluctuation.',

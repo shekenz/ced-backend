@@ -1,3 +1,5 @@
+/** @module popUp */
+
 export function popUp(message, callback = function() {}) {
 	document.getElementById('pop-up-message').innerHTML = message;
 	document.getElementById('pop-up-wrapper').classList.toggle('hidden');
@@ -9,6 +11,27 @@ export function popUp(message, callback = function() {}) {
 	document.getElementById('pop-up-close').addEventListener('click', closeHandler);
 }
 
+/**
+ * Callback to customize the popup's content.
+ * 
+ * @callback run 
+ * @param {HTMLElement} el Popup's main wrapper where to append content.
+ * @param {HTMLElement} button Popup's accept button for customization.
+ */
+
+/**
+ * Callback called on accept.
+ * 
+ * @callback buttonCallback
+ * @param returned 
+ */
+
+/**
+ * Open up a new popup with generated content.
+ * 
+ * @param {run} Callback Fills up the popup's main wrapper.
+ * @param {buttonCallback} Callback Called on accept button click.
+ */
 export function popUpPlus(run = (el, button) => {}, buttonCallback = returned => {}) {
 	let button = document.getElementById('pop-up-button');
 	let innerWrapper = document.getElementById('pop-inner-wrapper');

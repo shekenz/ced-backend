@@ -20,7 +20,27 @@
 			</ul>
 		</div>
 	@endif
-	<div>
+	<div class="border-b flex justify-between items-center">
+		<label class="label-shared lg:text-lg">{{ __('Published') }}</label>
+		<div class="text-[1.25rem]">
+			<form action="{{ route('settings.publish') }}" method="POST">
+				@csrf
+				<button id="publish-switch" title="{{ __('Publish site') }}" class="switch @if(!setting('app.published')) {{ 'off' }} @endif">
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="border-b flex justify-between items-center">
+		<label class="label-shared lg:text-lg">{{ __('Enable e-shop') }}</label>
+		<div class="text-[1.25rem]">
+			<form action="{{ route('settings.toggleShop') }}" method="POST">
+				@csrf
+				<button id="publish-switch" title="{{ __('Enable shop') }}" class="switch @if(!setting('app.shop.enabled')) {{ 'off' }} @endif">
+				</button>
+			</form>
+		</div>
+	</div>
+	<div class="mt-10">
 		<label class="label-shared lg:text-lg">{{ __('Shipping methods') }} : </label>
 		<table class="shipping-method w-full m-auto">
 			@foreach($shippingMethods as $shippingMethod)

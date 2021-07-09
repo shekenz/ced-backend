@@ -102,7 +102,8 @@ Route::post('/dashboard/media/delete/{id}', [MediaController::class, 'delete'])-
 // Settings
 Route::get('/dashboard/settings', [SettingsController::class, 'main'])->middleware('auth')->name('settings');
 Route::patch('/dashboard/settings', [SettingsController::class, 'update'])->middleware('auth')->name('settings.update');
-Route::get('/dashboard/settings/publish', [SettingsController::class, 'publish'])->middleware('auth')->name('settings.publish');
+Route::post('/dashboard/settings/publish', [SettingsController::class, 'publish'])->middleware('auth')->name('settings.publish');
+Route::post('/dashboard/settings/toggleshop', [SettingsController::class, 'toggleShop'])->middleware('auth')->name('settings.toggleShop');
 
 // Misc/Debug/Log
 Route::get('/dashboard/mails/log', [MessagesController::class, 'log'])->middleware('auth')->name('mails.log');

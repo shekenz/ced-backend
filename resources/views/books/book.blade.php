@@ -63,7 +63,7 @@
 					{{ $book->year }}<br>
 				@endif
 
-				@if( !empty($book->price) )
+				@if( !empty($book->price) && setting('app.shop.enabled'))
 					<br>{{ $book->price }} €<br>
 					@if( $book->quantity > 0)
 						<br>

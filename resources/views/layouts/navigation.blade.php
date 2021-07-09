@@ -11,11 +11,6 @@
                     </a>
                 </div>
 
-				<form class="flex items-center mx-6" style="font-size: 1.25rem;" action="{{ route('settings.publish') }}">
-					<button id="publish-switch" title="{{ __('Publish site') }}" class="switch @if(!setting('app.published')) {{ 'off' }} @endif">
-					</button>
-				</form>
-
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">

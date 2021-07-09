@@ -176,6 +176,15 @@
 		left: 0em;
 	}
 
+	/*-------------------------------- popUp --------------------------------*/
+	#pop-inner-wrapper h2 {
+		@apply
+			text-xl
+			mb-6
+			border-b
+			border-gray-900;
+	}
+
 	/*---- Fuck webkit ----*/
 	img.not-draggable {
 		-webkit-user-drag: none;

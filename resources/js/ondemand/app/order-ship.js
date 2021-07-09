@@ -19,10 +19,6 @@ document.getElementById('ship-form').addEventListener('submit', e => {
 
 		let title = document.createElement('h2');
 		title.appendChild(document.createTextNode('Confirm shipping'));
-		title.classList.add('text-xl');
-		title.classList.add('mb-6');
-		title.classList.add('border-b');
-		title.classList.add('border-gray-900');
 
 		let shipTrackingForm = document.createElement('form');
 		shipTrackingForm.setAttribute('method', 'POST');

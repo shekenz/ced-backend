@@ -26,6 +26,15 @@ return [
 		'updated' => 'Paramètres mis à jour.',
 		'published' => 'Le site est maintenant publié.',
 		'unpublished' => 'Le site n\'est plus accessible aux utilisateurs.',
+		'shop' => [
+			'enable' => 'Les fonctionalités de commerce sont maintenant activées.',
+			'disable' => 'Les fonctionalités de commerce sont maintenant désactivées.',
+			'error' => 'Impossible d\'activer les fonctionalités de commerce.',
+			'reasons' => [
+				'noShippingMethods' => 'Aucune méthode d\'envois enregistré. Créez-en une au minimum.',
+				'noPaypalCredentials' => 'Identifiants Paypal manquant. Veuillez vérifier vos paramètres Paypal.',
+			],
+		],
 	],
 	'cart' => [
 		'stockUpdated' => 'Votre panier a été mis à jour suite à la fluctuation de notre stock.',
