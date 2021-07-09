@@ -158,14 +158,12 @@ class CartController extends Controller
 			if($cart[$book->id]['quantity'] < $book->quantity) { // Check for stock
 				$cart[$book->id]['quantity'] += 1;
 			} else { // Redirect and inform the user book is not in stock anymore
-				// Needs refractoring -------------------------------------------------------- // TODO
 				return response()->json($bookReturnedDetails)->setStatusCode(500, __('flash.cart.stockLimit'));
 			}
 		} else { // Else push new book id with an array with quantity of 1 and price
 			if($book->quantity > 0) { // Check for stock
 				$cart[$book->id] = [ 'price' => $book->price, 'quantity' => 1];
 			} else {
-				// Needs refractoring -------------------------------------------------------- // TODO
 				return response()->json($bookReturnedDetails)->setStatusCode(500, __('flash.cart.stockLimit'));
 			}
 		}
