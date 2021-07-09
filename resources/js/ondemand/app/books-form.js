@@ -1,3 +1,4 @@
+import { popUpPlus } from '../../shared/popup.mjs';
 
 let quantityInput = document.getElementById('quantity');
 let quantityHiddenInput = document.getElementById('quantity-hidden');
@@ -25,9 +26,15 @@ if(editForm) {
 	editForm.addEventListener('submit', e => {
 		if(originalQuantity !== '0' && preorderInput.checked) {
 			e.preventDefault();
-			if(confirm('Setting the book to pre-order will reset the stock quantity. Are you sure you want to proceed ?')) {	
+			popUpPlus((wrapper, button) => {
+				let title = document.createElement('h2');
+				title.append(document.createTextNode('Warning'));
+				wrapper.append(title);
+				wrapper.append(document.createTextNode('Setting the book to pre-order will reset the stock quantity. Are you sure you want to proceed ?'));
+				button.innerHTML = 'Proceed';
+			}, () => {
 				e.target.submit();
-			}
+			});
 		}
 	});
 }
