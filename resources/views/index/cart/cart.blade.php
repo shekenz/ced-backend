@@ -1,9 +1,8 @@
 <x-index-layout lang="FR_fr">
 
 	<x-slot name="scripts">
-		<script src="{{ asset('js/cart.js') }}" defer></script>
 		<script src="https://www.paypal.com/sdk/js?client-id={{ setting('app.paypal.client-id') }}&currency=EUR&disable-funding=credit,card,bancontact,blik,eps,giropay,ideal,mercadopago,mybank,p24,sepa,sofort,venmo"></script>
-		<script src="{{ asset('js/paypal-checkout.js') }}" defer></script>
+		<script src="{{ asset('js/cart.js') }}" defer></script>
 	</x-slot>
 
 	<x-slot name="title">Cart ({{ CartHelper::count() }})</x-slot>

@@ -4,7 +4,8 @@ require('./index/theme');
 require('./shared/flash');
 //require('./shared/new-orders');
 
-let orderUnread = document.getElementById('orderUnread');
+//let orderUnread = document.getElementById('orderUnread');
+let orderUnread = false // Desactivated the commands notification because of performance issues.
 
 if(orderUnread) {
 	window.fetch('/api/orders/unread/count', {

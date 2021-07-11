@@ -25,9 +25,8 @@ mix.js('resources/js/ondemand/app/books-form.js', 'public/js'); // Loaded on edi
 mix.js('resources/js/ondemand/app/order-ship.js', 'public/js'); // Loaded on display order view
 
 //  Index JS (Frontend)
-mix.js('resources/js/ondemand/index/cart.js', 'public/js'); // Cart script for ajax requests.
+mix.js('resources/js/ondemand/index/cart.js', 'public/js'); // Cart script.
 mix.js('resources/js/ondemand/index/add-to-cart.js', 'public/js'); // "Add to cart" script on main index.
-mix.js('resources/js/ondemand/index/paypal-checkout.js', 'public/js'); // "Add to cart" script on main index.
 mix.js('resources/js/ondemand/index/user-menu.js', 'public/js'); // Loaded on index-layout when user is authenticated
 mix.js('resources/js/ondemand/index/glide.js', 'public/js'); // Index caroussel, loaded on index view 
 //mix.js('resources/js/ondemand/index/shipping-form.js', 'public/js'); // Loaded on shipping form view
