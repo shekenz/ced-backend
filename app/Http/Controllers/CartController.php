@@ -28,7 +28,12 @@ class CartController extends Controller
 		'sale-conditions' => ['accepted'],
 	];
 
-	//TODO place in CartHelper and convert it as a trait
+	//TODO refractor that shit	
+	/**
+	 * updateCart
+	 *
+	 * @return void
+	 */
 	public function updateCart() {
 
 		$cart = session()->get('cart', false);
@@ -51,20 +56,20 @@ class CartController extends Controller
 			// In case book has been removed or is not available for sale while in client's cart
 			$articleUpdated = (count($cart) - $books->count() > 0);
 			$cart = array_intersect_key($cart, $books->toArray());
-
+			
 			// Check stock limits
 			$quantityUpdated = false;
 			array_walk($cart, function(&$article, $id) use ($books, &$quantityUpdated) {
-				$stock = intval($books[$id]->quantity);
-				if($article['quantity'] > $stock && !$books[$id]->pre_order) {
-					$article['quantity'] = $stock;
+				if($article['quantity'] > $books[$id]->quantity && !$books[$id]->pre_order) {
+					$article['quantity'] = $books[$id]->quantity;
 					$quantityUpdated = true;
 				}
 			});
 
-			// Updates $books cartQuantity
-			$books->each(function($book, $id) use ($cart) {
+			// Updates $books cartQuantity and filter out book with quantity of 0
+			$books = $books->filter(function($book, $id) use ($cart) {
 				$book->cartQuantity = $cart[$id]['quantity'];
+				return ($book->cartQuantity > 0);
 			});
 
 			// Update session cart

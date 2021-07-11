@@ -7,7 +7,7 @@
 
 	<x-slot name="title">Cart ({{ CartHelper::count() }})</x-slot>
 	
-		@if(isset($books))
+		@if(isset($books) && $books->isNotEmpty())
 		<div id="cart-wrapper" class="md:grid md:grid-cols-9 md:items-start">
 			<div id="cart" class="cart-list md:col-span-5 md:mr-6 md:grid md:grid-cols-2 md:gap-6">
 			@php
