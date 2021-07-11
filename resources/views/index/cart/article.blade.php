@@ -16,7 +16,7 @@
 		{{ __('Subtotal') }} : <span id="subtotal-for-id-{{ $article->id }}">{{ $article->price * $article->cartQuantity }}</span>€
 	</p>
 	<p class="mb-2 md:mb-3">
-		<a href="{{ route('cart.removeAll', $article->id) }}" class="base-link">{{ __('Retirer') }} </a>
+		<a href="{{ route('cart.api.removeAll', $article->id) }}" class="remove-all-button base-link">{{ __('Retirer') }} </a>
 	</p>
 	</div>
 </div>

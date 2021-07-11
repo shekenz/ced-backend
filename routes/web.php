@@ -32,7 +32,6 @@ Route::get('/order/{orderID}', [OrdersController::class, 'index'])->middleware([
 // Cart
 Route::get('/cart', [CartController::class, 'viewCart'])->middleware(['published', 'shop'])->name('cart');
 Route::get('/cart/clear', [CartController::class, 'clearCart'])->middleware(['published', 'shop'])->name('cart.clear');
-Route::get('/cart/remove-all/{book}', [CartController::class, 'removeAll'])->middleware(['published', 'shop'])->name('cart.removeAll');
 Route::get('/cart/success', [CartController::class, 'success'])->middleware(['published', 'shop'])->name('cart.success');
 
 // Dashboard

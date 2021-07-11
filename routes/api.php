@@ -25,6 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Live cart
 Route::post('/cart/add/{book}', [CartController::class, 'add'])->middleware('shop')->name('cart.api.add');
 Route::post('/cart/remove/{book}', [CartController::class, 'remove'])->middleware('shop')->name('cart.api.remove');
+Route::post('/cart/remove-all/{book}', [CartController::class, 'removeAll'])->middleware('shop')->name('cart.api.removeAll');
 Route::post('/cart/check/', [CartController::class, 'updateCart'])->middleware('shop')->name('cart.api.check');
 
 // Order (Paypal)

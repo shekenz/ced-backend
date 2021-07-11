@@ -23,12 +23,9 @@ export function updateCartQuantity(relativeValue = 0) {
 }
 
 export function updateCartTotal(relativeValue = 0) {
-	console.log(relativeValue);
 	let el = document.getElementById('cart-total').firstChild;
 	let currentTotal = parseFloat(el.nodeValue);
-	console.log(currentTotal);
 	let newTotal = currentTotal + relativeValue;
-	console.log(newTotal);
 	el.nodeValue = Math.round(newTotal * 100) / 100
 	return newTotal;
 }
