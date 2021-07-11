@@ -3,10 +3,6 @@
 		{{ __('Edit book') }}
 	</x-slot>
 
-	<x-slot name="controls">
-		<a href="{{ route('books') }}" class="button-shared">{{ __('Cancel') }}</a> 
-	</x-slot>
-
 	<x-slot name="scripts">
 		<script src="{{ asset('js/media-library-dragdrop.js') }}" type="text/javascript" defer></script>
 		<script src="{{ asset('js/books-form.js') }}" type="text/javascript" defer></script>
@@ -49,7 +45,7 @@
 			<div class="md:row-start-5">
 				<label class="label-shared lg:text-lg" for="quantity">{{ __('Stock') }} :</label>
 				<input class="input-shared" id="quantity" name="quantity" type="number" min="0" value="{{ old('quantity') ?? $book->quantity }}">
-				<input class="input-shared" id="quantity-hidden" name="quantity" type="hidden" disabled="true" value="0">
+				<input class="input-shared" id="quantity-hidden" name="quantity" type="hidden" disabled="true" value="{{ old('quantity') ?? $book->quantity }}">
 				<div class="mt-1">
 					<input class="" id="pre-order" name="pre_order" type="checkbox" value="1" @if(old('pre_order') ?? $book->pre_order){{ 'checked' }}@endif><label for="pre-order"> {{ __('Pre-order') }}</label>
 				</div>
@@ -119,8 +115,9 @@
 				</div>
 			</div>
 
-			<div class="col-span-4 mt-2 lg:text-right">
-            	<input class="button-shared w-full lg:w-auto" type="submit"  value="{{ __('Save') }}">
+			<div class="col-span-4 my-12 flex justify-between">
+				<a href="{{ route('books') }}" class="button-shared px-4 py-2 text-lg">{{ __('Cancel') }}</a> 
+            	<input class="button-shared w-full lg:w-auto px-4 py-2 cursor-pointer text-lg" type="submit"  value="{{ __('Save') }}">
 			</div>
 			
         </form>
