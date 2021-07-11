@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\ShippingMethod;
 use App\Http\Helpers\CartHelper;
+use Illuminate\Database\Eloquent\Collection;
 
 class CartController extends Controller
 {
@@ -28,13 +29,14 @@ class CartController extends Controller
 		'sale-conditions' => ['accepted'],
 	];
 
-	//TODO refractor that shit	
+	protected $cartUpdated = false;
+
 	/**
-	 * updateCart
+	 * Check if cart articles are still in available and in stock
 	 *
-	 * @return void
+	 * @return Collection Filtered out book collection from cart.
 	 */
-	public function updateCart() {
+	public function checkCart() {
 
 		$cart = session()->get('cart', false);
 
@@ -54,15 +56,14 @@ class CartController extends Controller
 
 			// Update cart according to filtered books array
 			// In case book has been removed or is not available for sale while in client's cart
-			$articleUpdated = (count($cart) - $books->count() > 0);
+			$this->cartUpdated = (count($cart) - $books->count() > 0);
 			$cart = array_intersect_key($cart, $books->toArray());
 			
 			// Check stock limits
-			$quantityUpdated = false;
 			array_walk($cart, function(&$article, $id) use ($books, &$quantityUpdated) {
 				if($article['quantity'] > $books[$id]->quantity && !$books[$id]->pre_order) {
 					$article['quantity'] = $books[$id]->quantity;
-					$quantityUpdated = true;
+					$this->cartUpdated = true;
 				}
 			});
 
@@ -75,12 +76,10 @@ class CartController extends Controller
 			// Update session cart
 			session(['cart' => $cart]);
 
-			return [
-				'books' => compact('books'),
-				'updated' => ($articleUpdated || $quantityUpdated),
-			];
+			return $books;
+
 		} else {
-			return false;
+			return new Collection();
 		}
 	}
     
@@ -91,25 +90,17 @@ class CartController extends Controller
      * @return void
      */
     public function viewCart(Request $request) {
-		$cart = $request->session()->get('cart', false);
-		$cartValidation = $this->updateCart($cart);
 
+		$books = $this->checkCart();
 		$shippingMethods = ShippingMethod::orderBy('price')->get();
 
-		if($cartValidation) {
-			// Redirect with flash if needed
-			if($cartValidation['updated']) {
-				session()->now('flash', __('flash.cart.stockUpdated'));
-				session()->now('flash-type', 'warning');
-				return view('index.cart.cart', $cartValidation['books'], compact('shippingMethods'));
-			} else {
-				return view('index.cart.cart',  $cartValidation['books'], compact('shippingMethods'));
-			}
-
+		if($this->cartUpdated) {
+			session()->now('flash', __('flash.cart.stockUpdated'));
+			session()->now('flash-type', 'warning');
+			return view('index.cart.cart', compact('books', 'shippingMethods'));
 		} else {
-			return view('index.cart.cart');
-		}
-		
+			return view('index.cart.cart', compact('books', 'shippingMethods'));
+		}	
 	}
 	
 	/**
@@ -133,7 +124,7 @@ class CartController extends Controller
 			];
 
 			// If cart is empty, create new cart array
-			if(CartHelper::isEmpty()) {
+			if(!boolval(CartHelper::count())) {
 				$cart = [];
 			} else { // or retrieve existing cart
 				$cart = session('cart');
@@ -188,7 +179,7 @@ class CartController extends Controller
 			];
 
 			// If cart is empty, or if book has no price or has no media, you shouldn't be here
-			if(CartHelper::isEmpty() || !isset($book->price) || $book->media->isEmpty()) {
+			if(!boolval(CartHelper::count()) || !isset($book->price) || $book->media->isEmpty()) {
 				return response()->json()->setStatusCode(404, 'Book not available');
 			}
 
@@ -227,7 +218,7 @@ class CartController extends Controller
 			$book = Book::with('media')->findOrFail($id);
 
 			// If cart is empty, or if book has no price or has no media, you shouldn't be here
-			if(CartHelper::isEmpty() || !isset($book->price) || $book->media->isEmpty()) {
+			if(!boolval(CartHelper::count()) || !isset($book->price) || $book->media->isEmpty()) {
 				return response()->json()->setStatusCode(404, 'Book not available');
 			}
 
