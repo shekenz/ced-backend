@@ -397,7 +397,7 @@ class OrdersController extends Controller
 			$errorResponse = true;
 
 		} finally {
-			if($request->isMethod('POST')) {
+			if($request->wantsJson()) {
 				return (isset($errorResponse)) ? response()->json()->setStatusCode(500, 'Can\'t delete order') : [ 'deleted' => $order->order_id ];
 			} else {
 				return (isset($errorResponse)) ? abort(500) : back();
@@ -407,27 +407,23 @@ class OrdersController extends Controller
 	}
 	
 	/**
-	 * details
+	 * Return details of an order.
 	 *
-	 * @param  mixed $orderID
-	 * @return void
+	 * @param  string $orderID
 	 */
 	public function details($orderID) {
-
-		$details = $this->provider->showOrderDetails($orderID);
-
-		return $details;	
+		return $this->provider->showOrderDetails($orderID);
 	}
+	
 	
 	/**
 	 * recycle
 	 *
-	 * @param  mixed $orderID
-	 * @return void
+	 * @param  strig $orderID
 	 */
 	public function recycle($orderID) {
 		$details = $this->details($orderID);
-		if(isset($details['error'])) {
+		if(isset($details['error']) || (isset($details['status']) && $details['status'] === 'CREATED')) {
 			$order = Order::where('order_id', $orderID)->first();
 			$this->cancel(request(), $order);
 			return redirect()->route('orders');

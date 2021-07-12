@@ -237,7 +237,10 @@ if(checkCartButton) {
 
 			onCancel: function (data) {
 				return fetch(`/api/order/cancel/${data.orderID}`, {
-					method: 'post'
+					method: 'post',
+					headers: {
+						'accept': 'application/json'
+					}
 				}).then(
 					response => {
 						return response.json();
