@@ -165,11 +165,11 @@ couponInput.addEventListener('input', e => {
 				couponInfo.classList.remove('hidden');
 				if(jr.type) {
 					couponPrice = parseFloat(jr.value)*-1;
-					couponInfo.append('Coupon : '+couponPrice+'€');
+					couponInfo.innerHTML = 'Coupon : '+couponPrice+'€';
 					updateCartTotal();
 				} else {
 					couponPrice = (Math.round( (parseFloat(jr.value) * cartTotal ) ) / 100)*-1;
-					couponInfo.append('Coupon (-'+jr.value+'%): '+couponPrice+'€');
+					couponInfo.innerHTML = 'Coupon (-'+jr.value+'%): '+couponPrice+'€';
 					updateCartTotal();
 				}
 			} else {
