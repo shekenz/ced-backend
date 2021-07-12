@@ -41,7 +41,6 @@
 					</div>
 				</form>
 				<div id="coupon-info" class="mb-6 row-start-3 col-start-2 hidden">
-						Coupon -<span id="coupon-value">XX</span> : <span id="coupon-price">XX</span>
 				</div>
 				<p class="mb-6 row-start-4 col-start-2">
 					{{ __('Total') }} : <span id="cart-total">{{ $total }}</span>€

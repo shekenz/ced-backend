@@ -7,7 +7,7 @@ import { updateCartQuantity, setCartTotal } from '../../shared/update-cart.mjs';
 let cartTotal = parseFloat(document.getElementById('cart-total').firstChild.nodeValue);
 let shippingPrice = 0;
 let shippingMethod = 0;
-let coupon = 0;
+let couponPrice = 0;
 
 // Elements
 let cart = document.getElementById('cart');
@@ -17,8 +17,6 @@ let removeAllButtons = arrayByClass('remove-all-button');
 let couponInput = document.getElementById('coupon-input');
 let couponAlert = document.getElementById('coupon-alert');
 let couponInfo = document.getElementById('coupon-info');
-let couponValue = document.getElementById('coupon-value');
-let couponPrice = document.getElementById('coupon-price');
 
 // -------------------------------------------------------------------------- Functions
 
@@ -26,12 +24,12 @@ let couponPrice = document.getElementById('coupon-price');
 let updateCartTotal = (value = 0) => {
 	cartTotal = Math.round((cartTotal + value)*100) / 100;
 	// If coupon is higher than total, client pays only shippingPrice
-	let cartTotalDisplay = ((cartTotal + coupon) < 0 ) ? shippingPrice : (cartTotal + shippingPrice + coupon);
+	let cartTotalDisplay = ((cartTotal + couponPrice) < 0 ) ? shippingPrice : (cartTotal + shippingPrice + couponPrice);
 	let total = setCartTotal(cartTotalDisplay);
 	console.table({
 		'Cart': cartTotal,
 		'Shipping': shippingPrice,
-		'Coupon': coupon,
+		'Coupon': couponPrice,
 		'TOTAL': total
 	});
 }
@@ -166,15 +164,12 @@ couponInput.addEventListener('input', e => {
 				couponAlert.classList.remove('text-red-500');
 				couponInfo.classList.remove('hidden');
 				if(jr.type) {
-					coupon = parseFloat(jr.value)*-1;
-					couponValue.firstChild.nodeValue = jr.value+'€';
-					couponPrice.firstChild.nodeValue = coupon+'€';
+					couponPrice = parseFloat(jr.value)*-1;
+					couponInfo.append('Coupon : '+couponPrice+'€');
 					updateCartTotal();
 				} else {
-					couponValue.firstChild.nodeValue = jr.value+'%';
-					console.log(parseFloat(jr.value));
-					coupon = (Math.round( (parseFloat(jr.value) * cartTotal ) ) / 100)*-1;
-					couponPrice.firstChild.nodeValue = coupon+'€';
+					couponPrice = (Math.round( (parseFloat(jr.value) * cartTotal ) ) / 100)*-1;
+					couponInfo.append('Coupon (-'+jr.value+'%): '+couponPrice+'€');
 					updateCartTotal();
 				}
 			} else {
