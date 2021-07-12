@@ -7,6 +7,7 @@
 		<script src="{{ asset('js/settings.js') }}" defer></script>
 	</x-slot>
 
+	{{-------------------------------------- Form Errors --------------------------------------}}
 	@if ($errors->any())
 		<div class="mb-4" :errors="$errors">
 			<div class="font-medium text-red-600">
@@ -20,6 +21,7 @@
 			</ul>
 		</div>
 	@endif
+	{{-------------------------------------- Switches --------------------------------------}}
 	<div class="border-b flex justify-between items-center">
 		<label class="label-shared lg:text-lg">{{ __('Published') }}</label>
 		<div class="text-[1.25rem]">
@@ -40,8 +42,19 @@
 			</form>
 		</div>
 	</div>
+	{{-------------------------------------- Coupons --------------------------------------}}
 	<div class="mt-10">
-		<label class="label-shared lg:text-lg">{{ __('Shipping methods') }} : </label>
+		<h2 class="label-shared lg:text-lg">{{ __('Coupons') }}</h2>
+			<div id="coupons-wrapper" class="border grid grid-cols-6 gap-2 p-2">
+				@foreach($coupons as $coupon)
+				<div class="coupon border border-dotted bg-gray-100 border-gray-400 text-center py-2"><span class="font-bold">{{ $coupon->label }}</span> -{{ $coupon->value}}@if($coupon->type){{ '€' }}@else{{ '%' }}@endif {{ '('.$coupon->use.')' }}</div>
+				@endforeach
+				<a id="add-coupon" href="{{ route('coupons.add') }}" class="bg-green-300 hover:bg-green-400 transition duration-300 rounded text-white text-center font-bold uppercase py-2">{{ __('Add coupon') }}</a>
+			</div>
+	</div>
+	{{-------------------------------------- Shipping methods --------------------------------------}}
+	<div class="mt-10">
+		<h2 class="label-shared lg:text-lg">{{ __('Shipping methods') }} : </h2>
 		<table class="shipping-method w-full m-auto">
 			@foreach($shippingMethods as $shippingMethod)
 				<tr>
@@ -67,11 +80,12 @@
 		</form>
 		<span class="text-sm italic text-gray-500">(Important : Enter {tracking} in place of the actual tracking number in the URL string)</span>
 	</div>
-
+	{{-------------------------------------- Other settings --------------------------------------}}
 	<form method="POST" action="{{ route('settings.update') }}">
 		@csrf
 		@method('patch')
 		<div class="grid grid-cols-2 gap-x-4 gap-y-2 mt-10">
+			{{-------------------------------------- Country list --------------------------------------}}
 			<div class="col-span-2">
 				@php
 					$countryList = (setting('app.shipping.allowed-countries')) ? implode(',', setting('app.shipping.allowed-countries')) : '';
@@ -79,6 +93,7 @@
 				<label for="shipping-allowed-countries" class="label-shared lg:text-lg">{{ __('Shipping to countries (Country codes separated by a coma, leave blank for international)') }} : </label>
 				<input type="text" class="input-shared" id="shipping-allowed-countries" name="shipping-allowed-countries" value="{{ old('shipping-allowed-countries') ??  $countryList }}">
 			</div>
+			{{-------------------------------------- Paypal credentials --------------------------------------}}
 			<div class="col-span-2  mt-8">
 				<label for="paypal-client-id" class="label-shared lg:text-lg">{{ __('Paypal client ID') }} : </label>
 				<input type="text" class="input-shared" id="paypal-client-id" name="paypal-client-id" value="{{ old('paypal-client-id') ?? setting('app.paypal.client-id') }}">
@@ -91,6 +106,7 @@
 				<label for="paypal-sandbox" class="label-shared lg:text-lg">{{ __('Sandbox') }} : </label>
 				<input type="checkbox" class="" id="paypal-sandbox" name="paypal-sandbox" value="true" {{ (old('paypal-sandbox') || setting('app.paypal.sandbox')) ? 'checked' : '' }}>
 			</div>
+			{{-------------------------------------- About --------------------------------------}}
 			<div class="mt-8">
 				<label class="label-shared lg:text-lg" for="about-0">{{ __('About: First Column') }}</label>
 				<textarea class="input-shared h-96" id="about-0" name="about[]">{!! (Storage::disk('raw')->exists('about_0.txt')) ? Storage::disk('raw')->get('about_0.txt') : '' !!}</textarea>

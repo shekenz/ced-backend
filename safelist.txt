@@ -3,3 +3,4 @@ animated
 hover
 mb-6
 border-gray-900
+coupon-input

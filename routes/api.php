@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CouponsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +36,6 @@ Route::post('/order/cancel/{order}', [OrdersController::class, 'cancel'])->middl
 Route::post('/order/details/{orderID}', [OrdersController::class, 'details'])->middleware('shop');
 Route::post('/order/capture/{orderID}', [OrdersController::class, 'capture'])->middleware('shop');
 Route::post('/orders/unread/count', [OrdersController::class, 'countUnread']);
+
+// Coupon
+Route::post('/coupon/get/{couponLabel}', [CouponsController::class, 'get'])->middleware('shop');

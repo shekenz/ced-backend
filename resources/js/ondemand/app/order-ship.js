@@ -181,5 +181,5 @@ document.getElementById('ship-form').addEventListener('submit', e => {
 	returned => {
 		document.getElementById('loader').classList.toggle('hidden');
 		returned.submit();
-	}, true);
+	});
 });

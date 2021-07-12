@@ -1,17 +1,47 @@
 import { arrayByClass } from '../../shared/helpers.mjs';
 import { popUp } from '../../shared/popup.mjs';
 import { updateQuantityFor, updateSubTotalFor } from '../../shared/update-article.mjs';
-import { updateCartQuantity, updateCartTotal } from '../../shared/update-cart.mjs';
+import { updateCartQuantity, setCartTotal } from '../../shared/update-cart.mjs';
 
-// Shipping method init
+// Global Values
+let cartTotal = parseFloat(document.getElementById('cart-total').firstChild.nodeValue);
 let shippingPrice = 0;
 let shippingMethod = 0;
+let coupon = 0;
 
 // Elements
 let cart = document.getElementById('cart');
 let shippingMethodInputs = (Array.from(document.getElementsByName('shipping-method')));
-let incrementButtons = arrayByClass('qte-button');
+let articlesQuantityButtons = arrayByClass('qte-button');
 let removeAllButtons = arrayByClass('remove-all-button');
+let couponInput = document.getElementById('coupon-input');
+let couponAlert = document.getElementById('coupon-alert');
+let couponInfo = document.getElementById('coupon-info');
+let couponValue = document.getElementById('coupon-value');
+let couponPrice = document.getElementById('coupon-price');
+
+// -------------------------------------------------------------------------- Functions
+
+// Check cart total
+let updateCartTotal = (value = 0) => {
+	cartTotal = Math.round((cartTotal + value)*100) / 100;
+	// If coupon is higher than total, client pays only shippingPrice
+	let cartTotalDisplay = ((cartTotal + coupon) < 0 ) ? shippingPrice : (cartTotal + shippingPrice + coupon);
+	let total = setCartTotal(cartTotalDisplay);
+	console.table({
+		'Cart': cartTotal,
+		'Shipping': shippingPrice,
+		'Coupon': coupon,
+		'TOTAL': total
+	});
+}
+
+// Set shipping global values
+let setShipping = (input => {
+	shippingMethod = input.value;
+	shippingPrice = parseFloat(input.dataset.price);
+	updateCartTotal();
+});
 
 // No connection error handler
 let fetchErrorHandler = () => {
@@ -21,7 +51,7 @@ let fetchErrorHandler = () => {
 
 // Empty cart verification
 let checkEmptyCart = () => {
-	if(parseFloat(document.getElementById('cart-total').firstChild.nodeValue) - shippingPrice === 0) {
+	if(cartTotal <= 0) {
 		document.getElementById('content').removeChild(document.getElementById('cart-wrapper'));
 		document.getElementById('empty-cart-info').classList.toggle('hidden');
 		//TODO trigger animation menu reset
@@ -29,17 +59,10 @@ let checkEmptyCart = () => {
 	}
 }
 
-// Initiate current shippingMethod ID
-shippingMethodInputs.forEach(input => {
-	if(input.hasAttribute('checked')) {
-		shippingMethod = input.value;
-		shippingPrice = parseFloat(input.dataset.price);
-		updateCartTotal(shippingPrice);
-	}
-});
+// -------------------------------------------------------------------------- Events
 
-// Increment/Decrement article buttons //TODO rename
-incrementButtons.forEach(button => {
+// Increment/Decrement article buttons
+articlesQuantityButtons.forEach(button => {
 	button.addEventListener('click', e => {
 		e.preventDefault();
 		// Returns any numbers at the end of string
@@ -109,25 +132,60 @@ removeAllButtons.forEach(button => {
 	});
 });
 
-// Update price and shippingMethod ID on change
+// Shipping methods
 shippingMethodInputs.forEach(input => {
+	if(input.hasAttribute('checked')) {
+		setShipping(input);
+	}
 	input.addEventListener('focus', e => {
-		shippingMethod = e.target.value;
-		let newShippingPrice = parseFloat(e.target.dataset.price);
-		updateCartTotal( (shippingPrice * -1));
-		updateCartTotal(newShippingPrice);
-		shippingPrice = newShippingPrice;
+		setShipping(e.target);
 	});
 });
 
-arrayByClass('shipping-method').map(input => {
-	input.addEventListener('change', e => {
-		let totalEl = document.getElementById('total');
-		shippingPrice = parseFloat(e.target.value);
-		let totalNoShipping = parseFloat(totalEl.dataset.totalNoShipping);
-		totalEl.firstChild.nodeValue = shippingPrice + totalNoShipping;
-		document.getElementById('shipping-price').firstChild.nodeValue = shippingPrice;
-	});
+// Coupon Update
+couponInput.addEventListener('input', e => {
+	e.target.value = e.target.value.toUpperCase();
+	if(e.target.value !== '') {
+		if(!couponInfo.classList.contains('hidden')) {
+			couponInfo.classList.add('hidden')
+		}
+		couponAlert.classList.remove('hidden');
+		fetch(`/api/coupon/get/${e.target.value}`, {
+			method: 'post',
+			headers: {
+				'accept': 'application/json'
+			}
+		}).then(r => {
+			if(r.ok) {
+				return r.json();
+			}
+		}).then( jr => {
+			if(jr.id) {
+				couponAlert.firstChild.nodeValue = 'This coupon is valid';
+				couponAlert.classList.add('text-green-500');
+				couponAlert.classList.remove('text-red-500');
+				couponInfo.classList.remove('hidden');
+				if(jr.type) {
+					coupon = parseFloat(jr.value)*-1;
+					couponValue.firstChild.nodeValue = jr.value+'€';
+					couponPrice.firstChild.nodeValue = coupon+'€';
+					updateCartTotal();
+				} else {
+					couponValue.firstChild.nodeValue = jr.value+'%';
+					console.log(parseFloat(jr.value));
+					coupon = (Math.round( (parseFloat(jr.value) * cartTotal ) ) / 100)*-1;
+					couponPrice.firstChild.nodeValue = coupon+'€';
+					updateCartTotal();
+				}
+			} else {
+				couponAlert.firstChild.nodeValue = 'This coupon is not valid';
+				couponAlert.classList.remove('text-green-500');
+				couponAlert.classList.add('text-red-500');
+			}
+		})
+	} else {
+		couponAlert.classList.add('hidden');
+	}
 });
 
 // Paypal

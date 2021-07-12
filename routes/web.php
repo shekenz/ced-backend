@@ -10,6 +10,7 @@ use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ShippingMethodsController;
+use App\Http\Controllers\CouponsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,9 @@ Route::get('/order/success/{orderID}', [OrdersController::class, 'success'])->mi
 // Shipping methods
 Route::post('/dashboard/shipping-methods/add/', [ShippingMethodsController::class, 'add'])->middleware('auth')->name('shippingMethods.add');
 Route::get('/dashboard/shipping-methods/delete/{shippingMethod}', [ShippingMethodsController::class, 'delete'])->middleware('auth')->name('shippingMethods.delete');
+
+// Coupons
+Route::post('/dashboard/coupon/add/', [CouponsController::class, 'add'])->middleware('auth')->name('coupons.add');
 
 // Users
 Route::get('/dashboard/users', [UsersController::class, 'list'])->middleware('auth')->name('users');

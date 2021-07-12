@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ShippingMethod;
+use App\Models\Coupon;
 use App\Traits\ShopControls;
 
 class SettingsController extends Controller
@@ -14,7 +15,8 @@ class SettingsController extends Controller
 
 	public function main() {
 		$shippingMethods = ShippingMethod::orderBy('price')->get();
-		return view('settings.main', compact('shippingMethods'));
+		$coupons = Coupon::orderBy('created_at', 'DESC')->get();
+		return view('settings.main', compact('shippingMethods', 'coupons'));
 	}
 
     public function update(Request $request) {

@@ -77,6 +77,15 @@
 		@apply input-shared rounded-md border border-gray-300;
 	}
 
+	.coupon-input {
+		@apply
+			rounded-md
+			shadow-sm
+			border-gray-300
+			inline
+			w-auto;
+	}
+
 	.dropzone {
 		min-height : calc(102px + 1.5rem);
 	}

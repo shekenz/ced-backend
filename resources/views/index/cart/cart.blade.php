@@ -34,11 +34,20 @@
 					</div>
 				@endforeach
 				</form>
-				<p class="mb-6 row-start-2 col-start-2">
+				<form class="mb-6 row-start-2 col-start-2" id="coupon-form">
+					<div>
+						<input type="text" id="coupon-input" placeholder="COUPON"><br>
+						<span id='coupon-alert' class="text-red-500 text-sm italic hidden">{{ __('This coupon is not valid')}}</span>
+					</div>
+				</form>
+				<div id="coupon-info" class="mb-6 row-start-3 col-start-2 hidden">
+						Coupon -<span id="coupon-value">XX</span> : <span id="coupon-price">XX</span>
+				</div>
+				<p class="mb-6 row-start-4 col-start-2">
 					{{ __('Total') }} : <span id="cart-total">{{ $total }}</span>€
 				</p>
 				@if(setting('app.paypal.client-id') && setting('app.paypal.secret'))
-					<div class="w-48 row-start-3 col-start-2" id="paypal-checkout-button"></div>
+					<div class="w-48 row-start-5 col-start-2" id="paypal-checkout-button"></div>
 				@endif
 			</div>
 		</div>
