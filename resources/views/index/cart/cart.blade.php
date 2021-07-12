@@ -36,7 +36,7 @@
 				</form>
 				<form class="mb-6 row-start-2 col-start-2" id="coupon-form">
 					<div>
-						<input type="text" id="coupon-input" placeholder="COUPON"><br>
+						<input type="text" id="coupon-input" placeholder="COUPON" autocomplete="off"><br>
 						<span id='coupon-alert' class="text-red-500 text-sm italic hidden">{{ __('This coupon is not valid')}}</span>
 					</div>
 				</form>

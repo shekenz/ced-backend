@@ -7,7 +7,9 @@ import { updateCartQuantity, setCartTotal } from '../../shared/update-cart.mjs';
 let cartTotal = parseFloat(document.getElementById('cart-total').firstChild.nodeValue);
 let shippingPrice = 0;
 let shippingMethod = 0;
-let couponPrice = 0;
+let couponValue = 0;
+let couponPercentage = false;
+let couponId = 0;
 
 // Elements
 let cart = document.getElementById('cart');
@@ -20,31 +22,37 @@ let couponInfo = document.getElementById('coupon-info');
 
 // -------------------------------------------------------------------------- Functions
 
-// Check cart total
-let updateCartTotal = (value = 0) => {
-	cartTotal = Math.round((cartTotal + value)*100) / 100;
-	// If coupon is higher than total, client pays only shippingPrice
-	let cartTotalDisplay = ((cartTotal + couponPrice) < 0 ) ? shippingPrice : (cartTotal + shippingPrice + couponPrice);
-	let total = setCartTotal(cartTotalDisplay);
-	console.table({
-		'Cart': cartTotal,
-		'Shipping': shippingPrice,
-		'Coupon': couponPrice,
-		'TOTAL': total
-	});
-}
-
-// Set shipping global values
-let setShipping = (input => {
-	shippingMethod = input.value;
-	shippingPrice = parseFloat(input.dataset.price);
-	updateCartTotal();
-});
-
 // No connection error handler
 let fetchErrorHandler = () => {
 	popUp('Impossible to reach server. Please make sure you are connected to the internet.');
 	console.error('Impossible to reach server. Please make sure you are connected to the internet.');
+}
+
+// ----------------------------------------------------------- Cart utils
+
+// Update cart total
+let updateCartTotal = (value = 0) => {
+	cartTotal = Math.round((cartTotal + value)*100) / 100;
+
+	// Update couponPrice
+	let couponPrice = (couponPercentage) ? 
+		(Math.round(couponValue * cartTotal) / -100)
+		: (-1 * couponValue);
+
+	// If coupon is higher than total, client pays only shippingPrice
+	let cartTotalDisplay = ((cartTotal + couponPrice) < 0 ) ? shippingPrice : (cartTotal + shippingPrice + couponPrice);
+
+	// Update cart total element
+	let total = setCartTotal(cartTotalDisplay);
+
+	console.table({
+		'Cart': cartTotal,
+		'Shipping': shippingPrice,
+		'Coupon Value': couponValue,
+		'Pourcentage': couponPercentage,
+		'Coupon Price': couponPrice,
+		'TOTAL': total
+	});
 }
 
 // Empty cart verification
@@ -56,6 +64,39 @@ let checkEmptyCart = () => {
 		//window.location.href = window.location.origin;
 	}
 }
+
+// ----------------------------------------------------------- Shipping method utils
+
+// Set shipping global values
+let setShipping = (input => {
+	shippingMethod = input.value;
+	shippingPrice = parseFloat(input.dataset.price);
+	updateCartTotal();
+});
+
+// ----------------------------------------------------------- Coupon utils
+
+// Coupon utils
+let toggleCoupon = success => {
+	if(success) {
+		couponAlert.firstChild.nodeValue = 'This coupon is valid';
+		couponAlert.classList.add('text-green-500');
+		couponAlert.classList.remove('text-red-500');
+		couponInfo.classList.remove('hidden');
+	} else {
+		couponAlert.firstChild.nodeValue = 'This coupon is not valid';
+		couponAlert.classList.remove('text-green-500');
+		couponAlert.classList.add('text-red-500');
+		couponInfo.classList.add('hidden');
+	}
+};
+
+let resetCoupon = () => {
+	couponValue = 0;
+	couponPercentage = false;
+	couponId = 0;
+	updateCartTotal();
+};
 
 // -------------------------------------------------------------------------- Events
 
@@ -144,9 +185,6 @@ shippingMethodInputs.forEach(input => {
 couponInput.addEventListener('input', e => {
 	e.target.value = e.target.value.toUpperCase();
 	if(e.target.value !== '') {
-		if(!couponInfo.classList.contains('hidden')) {
-			couponInfo.classList.add('hidden')
-		}
 		couponAlert.classList.remove('hidden');
 		fetch(`/api/coupon/get/${e.target.value}`, {
 			method: 'post',
@@ -159,27 +197,24 @@ couponInput.addEventListener('input', e => {
 			}
 		}).then( jr => {
 			if(jr.id) {
-				couponAlert.firstChild.nodeValue = 'This coupon is valid';
-				couponAlert.classList.add('text-green-500');
-				couponAlert.classList.remove('text-red-500');
-				couponInfo.classList.remove('hidden');
+				toggleCoupon(true);
+				couponValue = Math.round(parseFloat(jr.value) * 100) / 100;
 				if(jr.type) {
-					couponPrice = parseFloat(jr.value)*-1;
-					couponInfo.innerHTML = 'Coupon : '+couponPrice+'€';
-					updateCartTotal();
+					couponInfo.innerHTML = 'Coupon : -'+couponValue+'€';
 				} else {
-					couponPrice = (Math.round( (parseFloat(jr.value) * cartTotal ) ) / 100)*-1;
-					couponInfo.innerHTML = 'Coupon (-'+jr.value+'%): '+couponPrice+'€';
-					updateCartTotal();
+					couponPercentage = true;
+					couponInfo.innerHTML = 'Coupon -'+couponValue+'%';
 				}
+				updateCartTotal();
 			} else {
-				couponAlert.firstChild.nodeValue = 'This coupon is not valid';
-				couponAlert.classList.remove('text-green-500');
-				couponAlert.classList.add('text-red-500');
+				toggleCoupon(false);
+				resetCoupon();
 			}
 		})
 	} else {
 		couponAlert.classList.add('hidden');
+		toggleCoupon(false);
+		resetCoupon();
 	}
 });
 
