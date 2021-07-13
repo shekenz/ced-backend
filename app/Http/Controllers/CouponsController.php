@@ -63,4 +63,9 @@ class CouponsController extends Controller
 			return abort(404);
 		}
 	}
+
+	public function delete(Coupon $coupon) {
+		$coupon->delete();
+		return back();
+	}
 }

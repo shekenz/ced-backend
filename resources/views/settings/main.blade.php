@@ -23,7 +23,7 @@
 	@endif
 	{{-------------------------------------- Switches --------------------------------------}}
 	<div class="border-b flex justify-between items-center">
-		<label class="label-shared lg:text-lg">{{ __('Published') }}</label>
+		<label class="label-shared lg:text-lg">{{ __('Publish site') }}</label>
 		<div class="text-[1.25rem]">
 			<form action="{{ route('settings.publish') }}" method="POST">
 				@csrf
@@ -58,7 +58,7 @@
 					<div>
 						<span class="font-bold">{{ $coupon->label }}</span> -{{ $coupon->value}}@if($coupon->type){{ '€' }}@else{{ '%' }}@endif{{ ' ('.$coupon->used }}@if($coupon->quantity){{ '/'.$coupon->quantity }}@endif{{ ')' }}
 					</div>
-					<a class="delete-coupon text-red-500" href="#"> <x-tabler-circle-x class="inline-block" /></a>
+					<a class="delete-coupon text-red-500" href="{{ route('coupons.delete', $coupon->id) }}"> <x-tabler-circle-x class="inline-block" /></a>
 				</div>
 			@endforeach
 			<a id="add-coupon" href="{{ route('coupons.add') }}" class="bg-green-300 hover:bg-green-400 transition duration-300 rounded text-white text-center font-bold uppercase py-2">{{ __('Add coupon') }}</a>

@@ -54,6 +54,7 @@ Route::get('/dashboard/shipping-methods/delete/{shippingMethod}', [ShippingMetho
 
 // Coupons
 Route::post('/dashboard/coupon/add/', [CouponsController::class, 'add'])->middleware('auth')->name('coupons.add');
+Route::get('/dashboard/coupon/delete/{coupon}', [CouponsController::class, 'delete'])->middleware('auth')->name('coupons.delete');
 
 // Users
 Route::get('/dashboard/users', [UsersController::class, 'list'])->middleware('auth')->name('users');
