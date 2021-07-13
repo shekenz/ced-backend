@@ -74,7 +74,7 @@ class OrdersController extends Controller
 	 * @return void
 	 */
 	public function display($id) {
-		$order = Order::with('books')->where('id', $id)->first();
+		$order = Order::with(['books', 'coupons'])->where('id', $id)->first();
 		$order->read = 1;
 		$order->save();
 		$shippingMethod = ShippingMethod::where('label', $order->shipping_method)->first();
@@ -172,7 +172,6 @@ class OrdersController extends Controller
 								'currency_code'=> 'EUR',
 								'value' => $couponPrice,
 							],
-
 						]
 					],
 					'items' => $items
@@ -187,6 +186,7 @@ class OrdersController extends Controller
 				'shipping_method' => $shippingMethod->label,
 				'shipping_price' => $shippingMethod->price,
 				'pre_order' => ($preOrder),
+				'coupon_id' => ($couponID !== 0) ? $couponID : null,
 			]);
 		} catch(Exception $e) {
 			$order = Order::create([
@@ -194,6 +194,7 @@ class OrdersController extends Controller
 				'shipping_method' => $shippingMethod->label,
 				'shipping_price' => $shippingMethod->price,
 				'pre_order' => ($preOrder),
+				'coupon_id' => ($couponID !== 0) ? $couponID : null,
 			]);
 			
 			$customMessage = 'Can\'t create order! The Esteban error!';
@@ -251,7 +252,7 @@ class OrdersController extends Controller
 		try{
 			if(!isset($paypalOrder['error'])) {
 				// process order
-				$order = Order::where('order_id', $paypalOrder['id'])->first();
+				$order = Order::with('coupons')->where('order_id', $paypalOrder['id'])->first();
 
 				// Check those optional fields, log if empty
 				if(!empty($paypalOrder['payer']['name']['surname'])) {
@@ -326,6 +327,13 @@ class OrdersController extends Controller
 					]] : [];
 				
 				} finally {
+					
+					// Updating coupons count
+					if($order->coupons) {
+						$order->coupons->used++;
+						$order->coupons->save();
+					}
+
 					// Saving order in database
 					$order->save();
 

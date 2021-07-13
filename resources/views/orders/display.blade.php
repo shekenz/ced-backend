@@ -8,7 +8,10 @@
 		<script src="{{ asset('js/order-ship.js') }}" defer></script>
 	</x-slot>
 
+
 	@php
+		$couponPrice = 0;
+
 		switch ($order->status) {
 			case 'FAILED':
 				$statusClass = 'bg-red-500';
@@ -118,6 +121,24 @@
 					<td>{{ round($book->pivot->quantity * $book->price, 2) }} €</td>
 				</tr>
 			@endforeach
+				@isset($order->coupons)
+				@php
+					if(boolval($order->type)) {
+						$couponPrice =  $order->coupons->value * -1;
+					}else{
+						$couponPrice = round($order->coupons->value / -100 * $total, 2);
+					}
+				@endphp
+				<tr class="border-b-2 border-t-2 border-black">
+					<td>{{ __('Coupon') }}</td>
+					<td>{{ $order->coupons->label }}</td>
+					<td>-{{ $order->coupons->value }}@if(boolval($order->type)){{ '€' }}@else{{ '%' }}@endif</td>
+					@if($order->pre_order)
+						<td></td>
+					@endif
+					<td>{{ $couponPrice }}€</td>
+				</tr>
+				@endif
 				<tr class="border-b-2 border-t-2 border-black">
 					<td>{{ __('Shipping method') }}</td>
 					<td>{{ $order->shipping_method }}</td>
@@ -134,7 +155,7 @@
 					@if($order->pre_order)
 						<td></td>
 					@endif
-					<td class="font-bold">{{ round($order->shipping_price + $total, 2) }} €</td>
+					<td class="font-bold">{{ round($order->shipping_price + $total + $couponPrice, 2) }} €</td>
 				</tfoot>
 			</table>
 		</div>

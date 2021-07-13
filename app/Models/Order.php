@@ -24,6 +24,7 @@ class Order extends Model
 		'admin_area_1',
 		'postal_code',
 		'country_code',
+		'coupon_id',
 		'shipping_method',
 		'shipping_price',
 		'shipped_at',
@@ -38,6 +39,10 @@ class Order extends Model
 	}
 
 	public function shippingMethods() {
-		$this->belongsTo(ShippingMethod::class, 'shipping_option_id');
+		return $this->belongsTo(ShippingMethod::class, 'shipping_option_id');
+	}
+
+	public function coupons() {
+		return $this->belongsTo(Coupon::class, 'coupon_id');
 	}
 }
