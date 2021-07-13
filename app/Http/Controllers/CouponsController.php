@@ -23,6 +23,9 @@ class CouponsController extends Controller
 			'boolean',
 			'required',
 		],
+		'quantity' => [
+			'numeric',
+		],
 		'starts_at' => [
 			'date',
 			'required',

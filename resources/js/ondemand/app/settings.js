@@ -1,4 +1,5 @@
 import { popUpPlus } from '../../shared/popup.mjs';
+import { randomString } from '../../shared/helpers.mjs';
 
 document.getElementById('shipping-allowed-countries').addEventListener('input', e => {
 	if(e.target.value.search(/^([A-z]{2},+)*([A-z]{2},*)?$/g) < 0) {
@@ -10,9 +11,8 @@ document.getElementById('shipping-allowed-countries').addEventListener('input', 
 
 document.getElementById('add-coupon').addEventListener('click', e => {
 	popUpPlus((wrapper, button) => {
-
 		e.preventDefault();
-
+		
 		button.firstChild.nodeValue = 'Add';
 
 		let br = document.createElement('br');
@@ -24,15 +24,23 @@ document.getElementById('add-coupon').addEventListener('click', e => {
 		couponForm.setAttribute('method', 'POST');
 		couponForm.setAttribute('action', e.target.href);
 
+		// ----------------------- Wrappers
+
 		let dateOutterWrapper = document.createElement('div');
 		dateOutterWrapper.classList.add('flex');
 		dateOutterWrapper.classList.add('gap-x-2');
 		let couponOutterWrapper = dateOutterWrapper.cloneNode();
+		couponOutterWrapper.classList.add('items-start');
 
 		dateOutterWrapper.classList.add('mt-3');
 		let startsInnerWrapper = document.createElement('div');
 		startsInnerWrapper.classList.add('w-full');
 		let expiresInnerWrapper = startsInnerWrapper.cloneNode();
+		let quantityInnerWrapper = startsInnerWrapper.cloneNode();
+
+		let labelWrapper = document.createElement('div');
+
+		// ----------------------- Inputs & labels
 
 		let labelInput = document.createElement('input');
 		labelInput.setAttribute('name', 'label');
@@ -46,15 +54,29 @@ document.getElementById('add-coupon').addEventListener('click', e => {
 			e.target.value = e.target.value.toUpperCase();
 		});
 
+		let labelGeneration = document.createElement('a');
+		labelGeneration.setAttribute('href', '#');
+		labelGeneration.append('Generate random label');
+		labelGeneration.classList.add('base-link');
+		labelGeneration.classList.add('text-sm');
+		labelGeneration.classList.add('italic');
+
+		labelGeneration.addEventListener('click', e => {
+			e.preventDefault();
+			labelInput.value = randomString();
+		});
+
 		let valueInput = document.createElement('input');
 		valueInput.setAttribute('name', 'value');
 		valueInput.setAttribute('type', 'number');
 		valueInput.setAttribute('placeholder', 'Value');
 		valueInput.classList.add('coupon-input');
 		valueInput.classList.add('flex-grow');
+
 		let typeInput = document.createElement('select');
 		typeInput.setAttribute('name', 'type');
 		typeInput.classList.add('coupon-input');
+
 		let typeOptionPercentage = document.createElement('option');
 		typeOptionPercentage.append('%');
 		typeOptionPercentage.setAttribute('value', 0);
@@ -84,9 +106,30 @@ document.getElementById('add-coupon').addEventListener('click', e => {
 		expiresInputLabel.classList.add('label-shared');
 		expiresInputLabel.classList.add('lg:text-lg');
 
+		let quantityInput = document.createElement('input');
+		quantityInput.setAttribute('name', 'quantity');
+		quantityInput.setAttribute('type', 'number');
+		quantityInput.setAttribute('min', 0);
+		quantityInput.setAttribute('value', 0);
+		quantityInput.classList.add('input-shared');
+		let quantityInputLabel = document.createElement('label');
+		quantityInputLabel.append('Quantity :');
+		quantityInputLabel.classList.add('label-shared');
+		quantityInputLabel.classList.add('lg:text-lg');
+		let quantityInfo = document.createElement('span');
+		quantityInfo.append('(Leave 0 for no limit)');
+		quantityInfo.classList.add('text-sm');
+		quantityInfo.classList.add('text-gray-500');
+		quantityInfo.classList.add('italic');
+
+		// ----------------------- Appends
+
 		typeInput.append(typeOptionPercentage);
 		typeInput.append(typeOptionAmount);
-		couponOutterWrapper.append(labelInput);
+		labelWrapper.append(labelInput);
+		labelWrapper.append(br.cloneNode());
+		labelWrapper.append(labelGeneration);
+		couponOutterWrapper.append(labelWrapper);
 		couponOutterWrapper.append(valueInput);
 		couponOutterWrapper.append(typeInput);
 		couponForm.append(couponOutterWrapper);
@@ -97,6 +140,12 @@ document.getElementById('add-coupon').addEventListener('click', e => {
 		expiresInnerWrapper.append(expiresInputLabel);
 		expiresInnerWrapper.append(br.cloneNode());
 		expiresInnerWrapper.append(expiresInput);
+		quantityInnerWrapper.append(quantityInputLabel);
+		quantityInnerWrapper.append(br.cloneNode());
+		quantityInnerWrapper.append(quantityInput);
+		quantityInnerWrapper.append(quantityInfo);
+
+		dateOutterWrapper.append(quantityInnerWrapper);
 		dateOutterWrapper.append(startsInnerWrapper);
 		dateOutterWrapper.append(expiresInnerWrapper);
 

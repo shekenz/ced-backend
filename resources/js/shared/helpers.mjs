@@ -20,3 +20,16 @@ export const coolDown = (init, callback, timeout) => {
 		}, timeout);
 	}
 };
+
+export const randomString = (stringLength = 8) => {
+	let allowedGenerationChar = '';
+	let randomLabel = '';
+	for(let i = 49; i <= 57; i++) { allowedGenerationChar += String.fromCharCode(i); }
+	for(let i = 65; i <= 78; i++) { allowedGenerationChar += String.fromCharCode(i); }
+	for(let i = 80; i <= 90; i++) { allowedGenerationChar += String.fromCharCode(i); }
+
+	for( let i = 0; i < stringLength; i++ ) {
+		randomLabel += allowedGenerationChar[Math.round(Math.random() * (allowedGenerationChar.length - 1))];
+	}
+	return randomLabel;
+}

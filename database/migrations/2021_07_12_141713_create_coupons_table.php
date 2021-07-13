@@ -18,6 +18,8 @@ class CreateCouponsTable extends Migration
 			$table->string('label', 8);
 			$table->float('value');
 			$table->boolean('type');
+			$table->integer('quantity')->default(0);
+			$table->integer('used')->default(0);
             $table->timestamp('created_at');
             $table->date('starts_at');
             $table->date('expires_at');
