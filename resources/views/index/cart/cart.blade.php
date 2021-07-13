@@ -36,7 +36,10 @@
 				</form>
 				<form class="mb-6 row-start-2 col-start-2" id="coupon-form">
 					<div>
-						<input type="text" id="coupon-input" placeholder="COUPON" autocomplete="off"><br>
+						<div class="flex items-center">
+							<input type="text" id="coupon-input" placeholder="COUPON" autocomplete="off">
+							<img src="{{ asset('img/loader2.gif') }}" class="hidden ml-2 w-6 h-6" id="loader" />
+						</div>
 						<span id='coupon-alert' class="text-red-500 text-sm italic hidden">{{ __('This coupon is not valid')}}</span>
 					</div>
 				</form>

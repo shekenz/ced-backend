@@ -1,4 +1,4 @@
-import { arrayByClass } from '../../shared/helpers.mjs';
+import { arrayByClass, coolDown } from '../../shared/helpers.mjs';
 import { popUp } from '../../shared/popup.mjs';
 import { updateQuantityFor, updateSubTotalFor } from '../../shared/update-article.mjs';
 import { updateCartQuantity, setCartTotal } from '../../shared/update-cart.mjs';
@@ -19,6 +19,7 @@ let removeAllButtons = arrayByClass('remove-all-button');
 let couponInput = document.getElementById('coupon-input');
 let couponAlert = document.getElementById('coupon-alert');
 let couponInfo = document.getElementById('coupon-info');
+let couponLoader = document.getElementById('loader');
 
 // -------------------------------------------------------------------------- Functions
 
@@ -82,6 +83,7 @@ let toggleCoupon = success => {
 		couponAlert.firstChild.nodeValue = 'This coupon is valid';
 		couponAlert.classList.add('text-green-500');
 		couponAlert.classList.remove('text-red-500');
+		
 		couponInfo.classList.remove('hidden');
 	} else {
 		couponAlert.firstChild.nodeValue = 'This coupon is not valid';
@@ -181,41 +183,55 @@ shippingMethodInputs.forEach(input => {
 	});
 });
 
+couponInput.addEventListener('input', coolDown(
+	e => {
+		console.log('Executed');
+		e.target.value = e.target.value.toUpperCase();
+		couponAlert.classList.add('hidden');
+		couponLoader.classList.remove('hidden');
+	}, 
+	e => {
+		console.log('Throttled');
+		if(e.target.value !== '') {
+			window.fetch(`/api/coupon/get/${e.target.value}`, {
+				method: 'post',
+				headers: {
+					'accept': 'application/json'
+				}
+			}).then(r => {
+				if(r.ok) {
+					return r.json();
+				}
+			}).then( jr => {
+				couponAlert.classList.remove('hidden');
+				couponLoader.classList.add('hidden');
+				if(jr.id) {
+					toggleCoupon(true);
+					couponValue = Math.round(parseFloat(jr.value) * 100) / 100;
+					if(jr.type) {
+						couponInfo.innerHTML = 'Coupon : -'+couponValue+'€';
+					} else {
+						couponPercentage = true;
+						couponInfo.innerHTML = 'Coupon -'+couponValue+'%';
+					}
+					updateCartTotal();
+				} else {
+					toggleCoupon(false);
+					resetCoupon();
+				}
+			});
+		} else {
+			couponLoader.classList.add('hidden');
+			toggleCoupon(false);
+			resetCoupon();
+		}
+	}, 
+	500)
+);
+
 // Coupon Update
 couponInput.addEventListener('input', e => {
-	e.target.value = e.target.value.toUpperCase();
-	if(e.target.value !== '') {
-		couponAlert.classList.remove('hidden');
-		fetch(`/api/coupon/get/${e.target.value}`, {
-			method: 'post',
-			headers: {
-				'accept': 'application/json'
-			}
-		}).then(r => {
-			if(r.ok) {
-				return r.json();
-			}
-		}).then( jr => {
-			if(jr.id) {
-				toggleCoupon(true);
-				couponValue = Math.round(parseFloat(jr.value) * 100) / 100;
-				if(jr.type) {
-					couponInfo.innerHTML = 'Coupon : -'+couponValue+'€';
-				} else {
-					couponPercentage = true;
-					couponInfo.innerHTML = 'Coupon -'+couponValue+'%';
-				}
-				updateCartTotal();
-			} else {
-				toggleCoupon(false);
-				resetCoupon();
-			}
-		})
-	} else {
-		couponAlert.classList.add('hidden');
-		toggleCoupon(false);
-		resetCoupon();
-	}
+	
 });
 
 // Paypal
