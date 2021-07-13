@@ -10,12 +10,12 @@ $couponPrice = 0;
 @endphp
 @foreach ($order->books as $book)
 	@php $total += $book->pivot->quantity * $book->price; @endphp
-	{{ $book->title }} X {{ $book->pivot->quantity }} : {{ round($book->pivot->quantity * $book->price, 2) }} €
+	{{ $book->title }} X {{ $book->pivot->quantity }} : {{ round($book->pivot->quantity * $book->price, 2) }} €@if(!$loop->last)<br>@endif
 @endforeach
 @isset($order->coupons)
 <br>----------------------------------------------------<br>
 @php
-	if(boolval($order->type)) {
+	if(boolval($order->coupons->type)) {
 		$couponPrice =  $order->coupons->value * -1;
 		$couponType = ' €'; 
 	}else{

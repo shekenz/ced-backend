@@ -123,7 +123,7 @@
 			@endforeach
 				@isset($order->coupons)
 				@php
-					if(boolval($order->type)) {
+					if(boolval($order->coupons->type)) {
 						$couponPrice =  $order->coupons->value * -1;
 					}else{
 						$couponPrice = round($order->coupons->value / -100 * $total, 2);
@@ -132,7 +132,7 @@
 				<tr class="border-b-2 border-t-2 border-black">
 					<td>{{ __('Coupon') }}</td>
 					<td>{{ $order->coupons->label }}</td>
-					<td>-{{ $order->coupons->value }}@if(boolval($order->type)){{ '€' }}@else{{ '%' }}@endif</td>
+					<td>-{{ $order->coupons->value }}@if(boolval($order->coupons->type)){{ '€' }}@else{{ '%' }}@endif</td>
 					@if($order->pre_order)
 						<td></td>
 					@endif
