@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Book;
 use App\Models\User;
 use App\Models\ShippingMethod;
+use App\Models\Coupon;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -96,7 +97,7 @@ class OrdersController extends Controller
 	 * @param  mixed $shippingCost
 	 * @return void
 	 */
-	public function createOrder(Request $request, ShippingMethod $shippingMethod) {
+	public function createOrder(Request $request, ShippingMethod $shippingMethod, int $couponID) {
 
 		$preOrder = false;
 
@@ -110,16 +111,19 @@ class OrdersController extends Controller
 		$booksInCart = Book::findMany(array_keys($cart));
 
 		// ITEMS
-		$total = array_reduce($cart, function($total, $item) {
+		$totalItems = round(array_reduce($cart, function($total, $item) {
 			return $total + ($item['price'] * $item['quantity']);
-		}, $shippingMethod->price);
+		}), 2);
 
 		$items = [];
 		if($booksInCart) {
-			$booksInCart->each(function($book) use ($cart, $items, &$preOrder) {
+			$booksInCart->each(function($book) use ($cart, &$items, &$preOrder) {
 				array_push($items, [
 					'name' => $book->title,
-					'unit_amount' => $book->price,
+					'unit_amount' => [
+						'currency_code' => 'EUR',
+						'value' => $book->price,
+					],
 					'quantity' => $cart[$book->id]['quantity'],
 				]);
 
@@ -130,6 +134,23 @@ class OrdersController extends Controller
 			});
 		}
 
+		// If coupon id is found, calculate $couponPrice (aka discount)
+		if($couponID > 0) {
+			$coupon = Coupon::find($couponID);
+			if(boolval($coupon->type)) {
+				// Type is €
+				$couponPrice = $coupon->value;
+			} else {
+				// Type is %
+				$couponPrice = round($coupon->value / 100 * $totalItems,2);
+			}
+		} else {
+			$couponPrice = 0;
+		}
+
+		// Calculate total including shippingPrice and couponPrice
+		$total = round( $totalItems + $shippingMethod->price - $couponPrice, 2);
+
 		// ORDER
 		$paypalOrder = $this->provider->createOrder([
 			'intent' => 'CAPTURE',
@@ -137,7 +158,22 @@ class OrdersController extends Controller
 				0 => [
 					'amount' => [
 						'currency_code'=> 'EUR',
-						'value' => round($total, 2),
+						'value' => $total,
+						'breakdown' => [
+							'item_total' => [ // Total added items
+								'currency_code'=> 'EUR',
+								'value' => $totalItems,
+							],
+							'shipping' => [
+								'currency_code'=> 'EUR',
+								'value' => $shippingMethod->price,
+							],
+							'discount' => [
+								'currency_code'=> 'EUR',
+								'value' => $couponPrice,
+							],
+
+						]
 					],
 					'items' => $items
 				]

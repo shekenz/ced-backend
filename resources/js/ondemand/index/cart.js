@@ -49,6 +49,7 @@ let updateCartTotal = (value = 0) => {
 	console.table({
 		'Cart': cartTotal,
 		'Shipping': shippingPrice,
+		'Coupon ID': couponId,
 		'Coupon Value': couponValue,
 		'Pourcentage': couponPercentage,
 		'Coupon Price': couponPrice,
@@ -208,6 +209,7 @@ couponInput.addEventListener('input', coolDown(
 				if(jr.id) {
 					toggleCoupon(true);
 					couponValue = Math.round(parseFloat(jr.value) * 100) / 100;
+					couponId = jr.id;
 					if(jr.type) {
 						couponInfo.innerHTML = 'Coupon : -'+couponValue+'€';
 					} else {
@@ -270,7 +272,7 @@ if(checkCartButton) {
 						if(cartCheckResponseJSON.updated) {
 							popUp('Some articles from you cart are not available anymore. Your cart will now be reloaded. Please check your order again before payment.', () => { window.location.reload() });
 						} else {
-							return fetch(`/api/order/create/${shippingMethod}`, {
+							return fetch(`/api/order/create/${shippingMethod}/${couponId}`, {
 								method: 'post',
 								headers: {
 								'accept': 'application/json'
@@ -282,6 +284,7 @@ if(checkCartButton) {
 							).then( // Create fetch response JSON
 								createResponseJSON => {
 									if(createResponseJSON.id && !createResponseJSON.error) {
+										console.log(createResponseJSON);
 										return createResponseJSON.id;
 									} else if(createResponseJSON.error) {
 										// We have error details

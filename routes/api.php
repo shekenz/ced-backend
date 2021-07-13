@@ -30,7 +30,7 @@ Route::post('/cart/remove-all/{book}', [CartController::class, 'removeAll'])->mi
 Route::post('/cart/check/', [CartController::class, 'checkCart'])->middleware('shop')->name('cart.api.check');
 
 // Order (Paypal)
-Route::post('/order/create/{shippingMethod}', [OrdersController::class, 'createOrder'])->middleware('shop');
+Route::post('/order/create/{shippingMethod}/{couponID}', [OrdersController::class, 'createOrder'])->middleware('shop');
 Route::post('/order/check-country/{countryCode}', [OrdersController::class, 'checkCountry'])->middleware('shop');
 Route::post('/order/cancel/{order}', [OrdersController::class, 'cancel'])->middleware('shop');
 Route::post('/order/details/{orderID}', [OrdersController::class, 'details'])->middleware('shop');
