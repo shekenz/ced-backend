@@ -61,6 +61,7 @@ document.getElementById('add-coupon').addEventListener('click', e => {
 		labelInput.setAttribute('type', 'text');
 		labelInput.setAttribute('placeholder', 'LABEL');
 		labelInput.setAttribute('maxlength', '8');
+		labelInput.setAttribute('autocomplete', 'off');
 		labelInput.classList.add('coupon-input');
 		labelInput.classList.add('flex-grow');
 

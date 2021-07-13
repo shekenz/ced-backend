@@ -118,18 +118,20 @@ class OrdersController extends Controller
 		$items = [];
 		if($booksInCart) {
 			$booksInCart->each(function($book) use ($cart, &$items, &$preOrder) {
-				array_push($items, [
-					'name' => $book->title,
-					'unit_amount' => [
-						'currency_code' => 'EUR',
-						'value' => $book->price,
-					],
-					'quantity' => $cart[$book->id]['quantity'],
-				]);
-
-				// Checking for pre_order
-				if($book->pre_order) {
-					$preOrder = true;
+				if($cart[$book->id]['quantity'] > 0) {
+					array_push($items, [
+						'name' => $book->title,
+						'unit_amount' => [
+							'currency_code' => 'EUR',
+							'value' => $book->price,
+						],
+						'quantity' => $cart[$book->id]['quantity'],
+					]);
+	
+					// Checking for pre_order
+					if($book->pre_order) {
+						$preOrder = true;
+					}
 				}
 			});
 		}
@@ -327,7 +329,7 @@ class OrdersController extends Controller
 					]] : [];
 				
 				} finally {
-					
+
 					// Updating coupons count
 					if($order->coupons) {
 						$order->coupons->used++;

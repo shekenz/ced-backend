@@ -7,6 +7,7 @@ return [
 			'intro' => 'Your order n° :order_id have been confirmed',
 			'summary' => 'Order summary',
 			'shipping' => 'You will soon receive another email to inform you when your order has been shipped',
+			'coupon' => 'Coupons discount (:coupon_value) : :coupon_price',
 			'method' => 'Shipped with :method for :shipping_price',
 			'thanks' => 'Thank you for orderning on e.p.g.',
 
