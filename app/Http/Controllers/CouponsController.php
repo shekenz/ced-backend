@@ -53,7 +53,8 @@ class CouponsController extends Controller
 	public function get(Request $request, string $couponLabel) {
 		if($request->wantsJson()) {
 			$coupon = Coupon::where('label', $couponLabel)->first();
-			if($coupon && Carbon::now()->between($coupon->starts_at, $coupon->expires_at)) {
+			if( $coupon && Carbon::now()->between($coupon->starts_at, $coupon->expires_at) && (($coupon->used < $coupon->quantity && $coupon->quantity > 0) || ($coupon->quantity === 0))
+			) {
 				return response()->json($coupon);
 			} else {
 				return response()->json();

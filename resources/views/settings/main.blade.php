@@ -45,21 +45,24 @@
 	{{-------------------------------------- Coupons --------------------------------------}}
 	<div class="mt-10">
 		<h2 class="label-shared lg:text-lg">{{ __('Coupons') }}</h2>
-			<div id="coupons-wrapper" class="border grid grid-cols-6 gap-2 p-2">
-				@foreach($coupons as $coupon)
-					{{-- If coupon has expired OR coupon used equal quantity AND coupon quantity is not 0 --}}
-					@if($coupon->expires_at->lt(\Carbon\Carbon::now()) || ($coupon->quantity === $coupon->used && $coupon->quantity !== 0 ))
-						<div class="coupon border border-dotted bg-red-200 border-red-500 text-center py-2">
-							<span class="font-bold">{{ $coupon->label }}</span> -{{ $coupon->value}}@if($coupon->type){{ '€' }}@else{{ '%' }}@endif{{ ' ('.$coupon->used }}@if($coupon->quantity){{ '/'.$coupon->quantity }}@endif{{ ')' }}
-						</div>
-					@else
-						<div class="coupon border border-dotted bg-gray-100 border-gray-400 text-center py-2">
-							<span class="font-bold">{{ $coupon->label }}</span> -{{ $coupon->value}}@if($coupon->type){{ '€' }}@else{{ '%' }}@endif{{ ' ('.$coupon->used }}@if($coupon->quantity){{ '/'.$coupon->quantity }}@endif{{ ')' }}
-						</div>
-					@endif
-				@endforeach
-				<a id="add-coupon" href="{{ route('coupons.add') }}" class="bg-green-300 hover:bg-green-400 transition duration-300 rounded text-white text-center font-bold uppercase py-2">{{ __('Add coupon') }}</a>
-			</div>
+			<div id="coupons-wrapper" class="border grid grid-cols-5 gap-2 p-2">
+			@foreach($coupons as $coupon)
+				@php
+					if($coupon->expires_at->gt(\Carbon\Carbon::now()) && (($coupon->used < $coupon->quantity && $coupon->quantity > 0) || ($coupon->quantity === 0))) {
+						$extraCouponClass ='bg-gray-100 border-gray-400';
+					} else {
+						$extraCouponClass ='bg-red-200 border-red-500';
+					}
+				@endphp
+				<div class="coupon border border-dotted p-2 flex justify-between items-center {{ $extraCouponClass }}">
+					<div>
+						<span class="font-bold">{{ $coupon->label }}</span> -{{ $coupon->value}}@if($coupon->type){{ '€' }}@else{{ '%' }}@endif{{ ' ('.$coupon->used }}@if($coupon->quantity){{ '/'.$coupon->quantity }}@endif{{ ')' }}
+					</div>
+					<a class="delete-coupon text-red-500" href="#"> <x-tabler-circle-x class="inline-block" /></a>
+				</div>
+			@endforeach
+			<a id="add-coupon" href="{{ route('coupons.add') }}" class="bg-green-300 hover:bg-green-400 transition duration-300 rounded text-white text-center font-bold uppercase py-2">{{ __('Add coupon') }}</a>
+		</div>
 	</div>
 	{{-------------------------------------- Shipping methods --------------------------------------}}
 	<div class="mt-10">
