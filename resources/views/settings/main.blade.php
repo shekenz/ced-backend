@@ -74,7 +74,7 @@
 					<td>{!! preg_replace('/\{tracking\}/', '<span class="font-bold text-white bg-gray-400 text-sm px-1 py-0.5 mx-0.5 uppercase rounded">tracking</span>', $shippingMethod->tracking_url) !!}</td>
 					<td class="font-bold text-right">{{ $shippingMethod->price }} €</td>
 					<td class="text-right w-14">
-						<a href="{{ route('shippingMethods.delete', $shippingMethod->id) }}"><x-tabler-trash class="icon text-red-300 hover:text-red-500 inline-block"/></a>
+						<a class="delete-shipping-method" href="{{ route('shippingMethods.delete', $shippingMethod->id) }}"><x-tabler-trash class="icon text-red-300 hover:text-red-500 inline-block"/></a>
 					</td>
 				</tr>
 			@endforeach

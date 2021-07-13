@@ -1,5 +1,5 @@
 import { popUpPlus } from '../../shared/popup.mjs';
-import { randomString } from '../../shared/helpers.mjs';
+import { arrayByClass, randomString } from '../../shared/helpers.mjs';
 
 document.getElementById('shipping-allowed-countries').addEventListener('input', e => {
 	if(e.target.value.search(/^([A-z]{2},+)*([A-z]{2},*)?$/g) < 0) {
@@ -7,6 +7,20 @@ document.getElementById('shipping-allowed-countries').addEventListener('input', 
 	} else {
 		e.target.classList.remove('error');
 	}
+});
+
+arrayByClass('delete-coupon').forEach(button => {
+	button.addEventListener('click', e => {
+		let coupon = e.currentTarget.parentNode.firstElementChild.firstElementChild.firstChild.nodeValue;
+		if(!confirm(`Are you sure you want to delete coupon ${coupon} ?`)) { e.preventDefault() };
+	}, false);
+});
+
+arrayByClass('delete-shipping-method').forEach(button => {
+	button.addEventListener('click', e => {
+		let shippingMethod = e.currentTarget.parentNode.parentNode.firstElementChild.firstChild.nodeValue;
+		if(!confirm(`Are you sure you want to delete shipping method ${shippingMethod} ?`)) { e.preventDefault() };
+	}, false);
 });
 
 document.getElementById('add-coupon').addEventListener('click', e => {
