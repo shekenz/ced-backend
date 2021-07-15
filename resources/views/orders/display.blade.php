@@ -84,8 +84,9 @@
 				<div class="p-4">
 					<p class="my-2"><span class="font-bold">{{ __('Shipped at') }} : </span>{{ $order->shipped_at }}</p>
 					<p class="my-2"><span class="font-bold">{{ __('Shipping method') }} : </span>{{ $order->shipping_method }}</p>
-					<p class="my-2"><span class="font-bold">{{ __('Tracking number') }} : </span>{{ $order->tracking_number }}</p>
+					@isset($order->tracking_url)
 					<p class="my-2"><span class="font-bold">{{ __('Tracking URL') }} : </span><a class="new-tab hover:underline" href="{{ $order->tracking_url }}">{{ $order->tracking_url }}</a></p>
+					@endif
 				</div>
 			@endisset
 			</div>

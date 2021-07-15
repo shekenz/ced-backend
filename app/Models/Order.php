@@ -28,7 +28,7 @@ class Order extends Model
 		'shipping_method',
 		'shipping_price',
 		'shipped_at',
-		'tracking_number',
+		'tracking_url',
 		'status',
 		'pre_order',
 		'read',

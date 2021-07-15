@@ -71,7 +71,6 @@
 			@foreach($shippingMethods as $shippingMethod)
 				<tr>
 					<td class="font-bold">{{ $shippingMethod->label }}</td>
-					<td>{!! preg_replace('/\{tracking\}/', '<span class="font-bold text-white bg-gray-400 text-sm px-1 py-0.5 mx-0.5 uppercase rounded">tracking</span>', $shippingMethod->tracking_url) !!}</td>
 					<td class="font-bold text-right">{{ $shippingMethod->price }} €</td>
 					<td class="text-right w-14">
 						<a class="delete-shipping-method" href="{{ route('shippingMethods.delete', $shippingMethod->id) }}"><x-tabler-trash class="icon text-red-300 hover:text-red-500 inline-block"/></a>
@@ -81,11 +80,8 @@
 		</table>
 		<form class="flex justify-center items-end m-auto gap-x-2 w-full mt-2" method="post" action="{{ route('shippingMethods.add') }}">
 			@csrf
-			<div class="flex w-full gap-x-2">
-				<input type="text" class="input-shared h-12 w-1/4" placeholder="{{ __('Label') }}" name="label" value="{{ old('label') ?? ''}}"">
-				<input type="text" class="input-shared h-12 w-1/4" placeholder="{{ __('Price') }}" name="price" value="{{ old('price') ?? ''}}">
-				<input type="text" class="input-shared h-12" placeholder="{{ __('Tracking URL') }}" name="tracking_url" value="{{ old('tracking_url') ?? ''}}">
-			</div>
+			<input type="text" class="input-shared h-12" placeholder="{{ __('Label') }}" name="label" value="{{ old('label') ?? ''}}"">
+			<input type="text" class="input-shared h-12" placeholder="{{ __('Price') }}" name="price" value="{{ old('price') ?? ''}}">
 			<button id="shipping-method-form-submit" class="bg-green-300 hover:bg-green-400 transition duration-300 rounded text-white p-2 h-12">
 				<x-tabler-circle-plus class="w-8 h-8"/>
 			</button>

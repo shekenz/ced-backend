@@ -482,7 +482,7 @@ class OrdersController extends Controller
 	}
 	
 	/**
-	 * shipped
+	 * Process an order as shipped.
 	 *
 	 * @param  mixed $orderID
 	 * @return void
@@ -491,21 +491,18 @@ class OrdersController extends Controller
 		$order = Order::where('order_id', $orderID)->first();
 		if($order->status == 'COMPLETED') {
 			$data = $request->validate([
-				'tracking_number' => ['required', 'string'],
-				'tracking_url' => ['required', 'string'],
+				'tracking_url' => ['nullable', 'string'],
 			]);
-
 			$order->status = 'SHIPPED';
 			$order->shipped_at = Carbon::now();
-			$order->tracking_number = $data['tracking_number'];
 			$order->tracking_url = $data['tracking_url'];
 
-			Mail::to($order->email_address)->send(new OrderShipped($order));
+			//Mail::to($order->email_address)->send(new OrderShipped($order));
+			Mail::to('aureltrotebas@icloud.com')->send(new OrderShipped($order));
 		} else {
 			$order->status = 'COMPLETED';
 			$order->shipped_at = null;
-			$order->tracking_number = null;
-			$order->tracking_url = null;
+ 			$order->tracking_url = null;
 		}
 		
 		$order->save();
