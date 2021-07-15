@@ -3,9 +3,9 @@
 return [
 	"status" => [
 		"FAILED" => "Failed",
-		"CREATED" => "Aborded",
+		"CREATED" => "Created",
 		"COMPLETED" => "Paid",
 		"SHIPPED" => "Shipped",
-		"preorder" => "Pre-order",
+		"preorder" => "Pre",
 	],
 ];

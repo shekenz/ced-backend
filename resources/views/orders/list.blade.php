@@ -33,7 +33,7 @@
 				@case('CREATED') {{ 'bg-yellow-500' }} @break
 				@case('COMPLETED') {{ 'bg-blue-500' }} @break
 				@case('SHIPPED') {{ 'bg-green-500' }} @break
-			@endswitch">@if($order->pre_order)
+			@endswitch">@if($order->pre_order && $order->status === 'COMPLETED')
 				{{ mb_strtoupper(__('paypal.status.preorder')) }}
 			@else
 				{{ mb_strtoupper(__('paypal.status.'.$order->status)) }}
