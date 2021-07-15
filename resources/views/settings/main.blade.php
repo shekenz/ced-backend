@@ -48,7 +48,7 @@
 			<div id="coupons-wrapper" class="border grid grid-cols-5 gap-2 p-2">
 			@foreach($coupons as $coupon)
 				@php
-					if($coupon->expires_at->gt(\Carbon\Carbon::now()) && (($coupon->used < $coupon->quantity && $coupon->quantity > 0) || ($coupon->quantity === 0))) {
+					if((empty($coupon->expires_at) || (!empty($coupon->expires_at) && $coupon->expires_at->gt(\Carbon\Carbon::now()))) && (($coupon->used < $coupon->quantity && $coupon->quantity > 0) || ($coupon->quantity === 0))) {
 						$extraCouponClass ='bg-gray-100 border-gray-400';
 					} else {
 						$extraCouponClass ='bg-red-200 border-red-500';

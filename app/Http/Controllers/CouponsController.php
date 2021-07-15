@@ -32,7 +32,7 @@ class CouponsController extends Controller
 		],
 		'expires_at' => [
 			'date',
-			'required',
+			'nullable',
 			'after:starts_at',
 		]
 	];
@@ -53,8 +53,7 @@ class CouponsController extends Controller
 	public function get(Request $request, string $couponLabel) {
 		if($request->wantsJson()) {
 			$coupon = Coupon::where('label', $couponLabel)->first();
-			if( $coupon && Carbon::now()->between($coupon->starts_at, $coupon->expires_at) && (($coupon->used < $coupon->quantity && $coupon->quantity > 0) || ($coupon->quantity === 0))
-			) {
+			if($coupon && (empty($coupon->expires_at) || (!empty($coupon->expires_at) && $coupon->expires_at->gt(\Carbon\Carbon::now()))) && (($coupon->used < $coupon->quantity && $coupon->quantity > 0) || ($coupon->quantity === 0))) {
 				return response()->json($coupon);
 			} else {
 				return response()->json();

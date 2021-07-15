@@ -1,5 +1,6 @@
 import { popUpPlus } from '../../shared/popup.mjs';
 import { arrayByClass, randomString } from '../../shared/helpers.mjs';
+import { formatISO } from 'date-fns';
 
 document.getElementById('shipping-allowed-countries').addEventListener('input', e => {
 	if(e.target.value.search(/^([A-z]{2},+)*([A-z]{2},*)?$/g) < 0) {
@@ -26,8 +27,11 @@ arrayByClass('delete-shipping-method').forEach(button => {
 document.getElementById('add-coupon').addEventListener('click', e => {
 	popUpPlus((wrapper, button) => {
 		e.preventDefault();
+
+		// ----------------------- Init
 		
 		button.firstChild.nodeValue = 'Add';
+		button.setAttribute('disabled', true);
 
 		let br = document.createElement('br');
 
@@ -103,6 +107,7 @@ document.getElementById('add-coupon').addEventListener('click', e => {
 		startsInput.setAttribute('name', 'starts_at');
 		startsInput.setAttribute('type', 'date');
 		startsInput.setAttribute('id', 'starts-at');
+		startsInput.setAttribute('value', formatISO(new Date(), {representation: 'date'}));
 		startsInput.classList.add('input-shared');
 		let startsInputLabel = document.createElement('label');
 		startsInputLabel.append('Valid from :');
@@ -120,6 +125,11 @@ document.getElementById('add-coupon').addEventListener('click', e => {
 		expiresInputLabel.setAttribute('for', 'expires-at');
 		expiresInputLabel.classList.add('label-shared');
 		expiresInputLabel.classList.add('lg:text-lg');
+		let expiresInfo = document.createElement('span');
+		expiresInfo.append('(Leave default for infinity)');
+		expiresInfo.classList.add('text-sm');
+		expiresInfo.classList.add('text-gray-500');
+		expiresInfo.classList.add('italic');
 
 		let quantityInput = document.createElement('input');
 		quantityInput.setAttribute('name', 'quantity');
@@ -136,6 +146,23 @@ document.getElementById('add-coupon').addEventListener('click', e => {
 		quantityInfo.classList.add('text-sm');
 		quantityInfo.classList.add('text-gray-500');
 		quantityInfo.classList.add('italic');
+
+
+		// ----------------------- Functions
+
+		// Validate inputs
+		let validate = () => {
+			if(labelInput.value !== '' && valueInput.value !== '') {
+				button.removeAttribute('disabled');
+			} else {
+				button.setAttribute('disabled', true);
+			}
+		}
+
+		// ----------------------- Events
+		[labelInput, valueInput].forEach(input => {
+			input.addEventListener('input', validate);
+		});
 
 		// ----------------------- Appends
 
@@ -155,6 +182,7 @@ document.getElementById('add-coupon').addEventListener('click', e => {
 		expiresInnerWrapper.append(expiresInputLabel);
 		expiresInnerWrapper.append(br.cloneNode());
 		expiresInnerWrapper.append(expiresInput);
+		expiresInnerWrapper.append(expiresInfo);
 		quantityInnerWrapper.append(quantityInputLabel);
 		quantityInnerWrapper.append(br.cloneNode());
 		quantityInnerWrapper.append(quantityInput);
