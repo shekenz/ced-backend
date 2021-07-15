@@ -11,6 +11,7 @@ use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\ShippingMethodsController;
 use App\Http\Controllers\CouponsController;
+use App\Http\Controllers\OrdersMassController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,9 @@ Route::get('/dashboard/order/cancel/{order}', [OrdersController::class, 'cancel'
 Route::get('/dashboard/order/recycle/{orderID}', [OrdersController::class, 'recycle'])->middleware('auth')->name('orders.recycle');
 Route::post('/dashboard/order/shipped/{orderID}', [OrdersController::class, 'shipped'])->middleware('auth')->name('orders.shipped');
 Route::get('/order/success/{orderID}', [OrdersController::class, 'success'])->middleware('auth')->name('orders.success');
+
+// Orders mass process
+Route::post('/dashboard/orders/csv', [OrdersMassController::class, 'csv'])->middleware('auth')->name('orders.csv');
 
 // Shipping methods
 Route::post('/dashboard/shipping-methods/add/', [ShippingMethodsController::class, 'add'])->middleware('auth')->name('shippingMethods.add');

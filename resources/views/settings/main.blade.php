@@ -4,7 +4,7 @@
 	</x-slot>
 
 	<x-slot name="scripts">
-		<script src="{{ asset('js/settings.js') }}" defer></script>
+		<script src="{{ asset('js/settings.js') }}" type="text/javascript" defer></script>
 	</x-slot>
 
 	{{-------------------------------------- Form Errors --------------------------------------}}

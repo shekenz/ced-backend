@@ -6,6 +6,7 @@
     "/js/media-library-dragdrop.js": "/js/media-library-dragdrop.js",
     "/js/books-form.js": "/js/books-form.js",
     "/js/order-ship.js": "/js/order-ship.js",
+    "/js/order-list.js": "/js/order-list.js",
     "/js/cart.js": "/js/cart.js",
     "/js/add-to-cart.js": "/js/add-to-cart.js",
     "/js/user-menu.js": "/js/user-menu.js",

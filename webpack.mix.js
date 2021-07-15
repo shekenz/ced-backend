@@ -23,6 +23,7 @@ mix.js('resources/js/ondemand/app/media-optimized.js', 'public/js'); // Loaded o
 mix.js('resources/js/ondemand/app/media-library-dragdrop.js', 'public/js'); // Loaded on edit and create book view
 mix.js('resources/js/ondemand/app/books-form.js', 'public/js'); // Loaded on edit and create book view
 mix.js('resources/js/ondemand/app/order-ship.js', 'public/js'); // Loaded on display order view
+mix.js('resources/js/ondemand/app/order-list.js', 'public/js'); // Loaded on list order view
 
 //  Index JS (Frontend)
 mix.js('resources/js/ondemand/index/cart.js', 'public/js'); // Cart script.
