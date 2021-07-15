@@ -7,10 +7,23 @@
 		<script src="{{ asset('js/order-list.js') }}" type="text/javascript" defer></script>
 	</x-slot>
 
-	<form method="POST" action="{{ route('orders.csv') }}">
+	<form id="orders-selection" method="POST" action="{{ route('orders.csv') }}">
 		@csrf
-
-		<div class="mb-3"><input class="button-shared cursor-pointer" type="submit" value="{{ __('CSV Export') }}"></div>
+		<div class="flex justify-between mb-3">
+			<div>
+				<input class="button-shared cursor-pointer" type="submit" value="{{ __('CSV Export') }}">
+				@if(request()->routeIs('orders'))
+				<input class="button-shared cursor-pointer" id="hide" type="button" data-action="{{ route('orders.hide') }}" value="{{ __('Hide selected') }}">
+				@else
+				<input class="button-shared cursor-pointer" id="hide" type="button" data-action="{{ route('orders.unhide') }}" value="{{ __('Unhide selected') }}">
+				@endif
+			</div>
+			<div>
+				@if(request()->routeIs('orders'))
+				<a href="{{ route('orders.hidden') }}" class="button-shared cursor-pointer">{{ __('Hidden orders') }}</a>
+				@endif
+			</div>
+		</div>
 		
 		<table class="app-table">
 			<thead>

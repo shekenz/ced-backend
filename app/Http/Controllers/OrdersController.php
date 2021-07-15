@@ -58,12 +58,22 @@ class OrdersController extends Controller
 	}
 
     /**
-     * list
+     * List all visible & active orders
      *
      * @return void
      */
     public function list() {
-		$orders = Order::with('books')->orderBy('created_at', 'DESC')->get();
+		$orders = Order::with('books')->where('hidden', false)->orderBy('created_at', 'DESC')->get();
+		return view('orders.list', compact('orders'));
+	}
+
+    /**
+     * List all hidden orders
+     *
+     * @return void
+     */
+    public function hidden() {
+		$orders = Order::with('books')->where('hidden', true)->orderBy('created_at', 'DESC')->get();
 		return view('orders.list', compact('orders'));
 	}
 	

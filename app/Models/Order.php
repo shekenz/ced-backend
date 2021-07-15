@@ -32,6 +32,7 @@ class Order extends Model
 		'status',
 		'pre_order',
 		'read',
+		'hidden',
 	];
 
 	public function books() {

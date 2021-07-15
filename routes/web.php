@@ -48,9 +48,12 @@ Route::get('/dashboard/order/cancel/{order}', [OrdersController::class, 'cancel'
 Route::get('/dashboard/order/recycle/{orderID}', [OrdersController::class, 'recycle'])->middleware('auth')->name('orders.recycle');
 Route::post('/dashboard/order/shipped/{orderID}', [OrdersController::class, 'shipped'])->middleware('auth')->name('orders.shipped');
 Route::get('/order/success/{orderID}', [OrdersController::class, 'success'])->middleware('auth')->name('orders.success');
+Route::get('/orders/hidden', [OrdersController::class, 'hidden'])->middleware('auth')->name('orders.hidden');
 
 // Orders mass process
 Route::post('/dashboard/orders/csv', [OrdersMassController::class, 'csv'])->middleware('auth')->name('orders.csv');
+Route::post('/dashboard/orders/hide', [OrdersMassController::class, 'hide'])->middleware('auth')->name('orders.hide');
+Route::post('/dashboard/orders/unhide', [OrdersMassController::class, 'unhide'])->middleware('auth')->name('orders.unhide');
 
 // Shipping methods
 Route::post('/dashboard/shipping-methods/add/', [ShippingMethodsController::class, 'add'])->middleware('auth')->name('shippingMethods.add');

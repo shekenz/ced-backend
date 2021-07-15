@@ -8,11 +8,13 @@ use Carbon\Carbon;
 
 class OrdersMassController extends Controller
 {
+	public $validation = [
+		'ids' => ['nullable', 'array'],
+		'ids.*' => ['numeric']
+	];
+
     public function csv(Request $request) {
-		$data = $request->validate([
-			'ids' => ['nullable', 'array'],
-			'ids.*' => ['numeric']
-		]);
+		$data = $request->validate($this->validation);
 
 		$orders = Order::find($data['ids']);
 
@@ -55,5 +57,33 @@ class OrdersMassController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+	}
+
+	public function hide(Request $request) {
+		$data = $request->validate($this->validation);
+			if(!empty($data)) {
+			$orders = Order::find($data['ids']);
+
+			$orders->each(function($order) {
+				$order->hidden = true;
+				$order->save();
+			});
+		}
+
+		return back();
+	}
+
+	public function unhide(Request $request) {
+		$data = $request->validate($this->validation);
+		if(!empty($data)) {
+			$orders = Order::find($data['ids']);
+
+			$orders->each(function($order) {
+				$order->hidden = false;
+				$order->save();
+			});
+		}
+
+		return redirect()->route('orders');
 	}
 }
