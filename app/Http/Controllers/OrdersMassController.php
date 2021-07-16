@@ -101,7 +101,10 @@ class OrdersMassController extends Controller
 
 			switch($method) {
 				case 'all' : return $this->all(); break;
-				case 'status' : return $this->status($data); break;
+				case 'order' : return $this->like($data, 'order_id'); break;
+				case 'name' : return $this->like($data, 'full_name'); break;
+				case 'email' : return $this->like($data, 'email_address'); break;
+				case 'status' : return $this->exact($data, 'status'); break;
 				default : return response()->json()->setStatusCode(400, '"'.$method.'" method not supported');
 			}
 		} else {
@@ -113,9 +116,17 @@ class OrdersMassController extends Controller
 		return Order::with('books')->where($this->globalConditions)->orderBy('created_at', 'DESC')->get();
 	}
 
-	public function status($data) {
+	public function like($data, string $column) {
 		if($data) {
-			return Order::with('books')->orderBy('created_at', 'DESC')->where('status', $data)->get();
+			return Order::with('books')->where(array_merge($this->globalConditions, [[$column, 'like', '%'.$data.'%']]))->orderBy('created_at', 'DESC')->get();
+		} else {
+			return $this->all();
+		}
+	}
+
+	public function exact($data, string $column) {
+		if($data) {
+			return Order::with('books')->where(array_merge($this->globalConditions, [[$column, $data]]))->orderBy('created_at', 'DESC')->get();
 		} else {
 			return $this->all();
 		}

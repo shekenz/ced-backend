@@ -59,18 +59,25 @@
 		@apply mt-0 font-medium text-sm text-gray-500;
 	}
 
-	.input-shared {
-		@apply w-full rounded-md shadow-sm border-gray-300;
+	.input-base {
+		@apply rounded-md shadow-sm border-gray-300;
 	}
 
-	.input-shared:focus {
+	.input-base:focus {
 		@apply border-indigo-300 ring ring-indigo-200 ring-opacity-50;
 	}
 
-	.input-shared:disabled {
+	.input-base:disabled {
 		@apply
 			text-gray-400
 			bg-gray-100;
+	}
+	.input-shared {
+		@apply input-base w-full;
+	}
+
+	.input-inline {
+		@apply input-base w-auto;
 	}
 
 	.input-mimic {

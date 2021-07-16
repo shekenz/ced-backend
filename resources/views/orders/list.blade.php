@@ -10,19 +10,20 @@
 		<div class="flex justify-between mb-3">
 			<div>
 				@php $maxDate = \Carbon\Carbon::now()->toDateString(); @endphp
-				<label for="filter">{{ __('Filter') }} : </label>
-				<select id="filter" placeholder="Filter">
+				<label for="filter">{{ __('Filter') }}</label>
+				<select class="input-inline" id="filter" placeholder="Filter">
 					<option selected value="all"></option>
 					<option value="order">{{ __('Order ID') }}</option>
 					<option value="name">{{ __('Name') }}</option>
 					<option value="email">{{ __('Email') }}</option>
 					<option value="status">{{ __('Status') }}</option>
-				</select> :
-				<input id="filter-data" type="text">
-				<label for="start-date">{{ __('From') }} : </label>
-				<input id="start-date" type="date" value="{{ \Carbon\Carbon::now()->subYear(1)->toDateString()}}" max="{{ $maxDate }}">
-				<label for="end-date">{{ __('To') }} : </label>
-				<input id="end-date" type="date" value="{{ $maxDate }}" max="{{ $maxDate }}">
+				</select>
+				<label for="filter-data">{{ __('with') }}</label>
+				<input class="input-inline" id="filter-data" type="text" disabled="true">
+				<label for="start-date">{{ __('from') }}</label>
+				<input class="input-inline" id="start-date" type="date" value="{{ \Carbon\Carbon::now()->subYear(1)->toDateString()}}" max="{{ $maxDate }}">
+				<label for="end-date">{{ __('to') }}</label>
+				<input class="input-inline" id="end-date" type="date" value="{{ $maxDate }}" max="{{ $maxDate }}">
 				<input class="ml-2" id="visibility" type="checkbox"><label for="visibility" class="label-shared"> Hidden</label>
 				<img id="loader" class="hidden ml-2 w-6 h-6 inline-block" src="{{ asset('img/loader2.gif')}}">
 				</select>
@@ -89,6 +90,10 @@
 			</tbody>
 		</table>
 	</form>
+
+	<div id="no-result" class="hidden text-center text-xl text-gray-400 my-8">
+		{{ __('No result found') }}
+	</div>
 
 	<x-tabler-recycle class="hidden" id="recycle-blueprint"/>
 	<x-tabler-trash class="hidden" id="trash-blueprint"/>

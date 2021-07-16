@@ -13,17 +13,20 @@ let visibilityInput = document.getElementById('visibility');
 let loader = document.getElementById('loader');
 let recycleBlueprint = document.getElementById('recycle-blueprint');
 let trashBlueprint = document.getElementById('trash-blueprint');
+let noResult = document.getElementById('no-result');
 
 let coolDownFire = e => {
 	if(loader.classList.contains('hidden')) {
 		loader.classList.remove('hidden');
 	}
 	let method = filterInput.value;
-	let data = e.target.value;
+	let data = filterDataInput.value;
 	let from = startDate.value;
 	let to = endDate.value;
 	let hidden = visibilityInput.checked;
-	fetch(`/api/orders/get/${method}/${from}/${to}/${hidden}/${data}`, {
+	let url = `/api/orders/get/${method}/${from}/${to}/${hidden}/${data}`;
+	console.log(url);
+	fetch(url, {
 		method: 'post',
 		headers: {
 			'accept': 'application/json',
@@ -42,99 +45,103 @@ let coolDownFire = e => {
 	.then(rJson => {
 		if(rJson) {
 			orderRowsContainer.innerHTML = '';
-			rJson.forEach((order) => {
-				console.log(order);
-				let orderCreationDate = new Date(order.created_at);
+			if(rJson.length > 0) {
+				noResult.classList.add('hidden');
+				rJson.forEach((order) => {
+					let orderCreationDate = new Date(order.created_at);
 
-				// Parent row
-				let row = document.createElement('tr');
-				if(!order.read) {
-					row.classList.add('unread');
-				}
-
-				// First cell with checkbox
-				let firstCell = document.createElement('td');
-				let firstCellInput = document.createElement('input');
-				firstCellInput.setAttribute('class', 'checkbox');
-				firstCellInput.setAttribute('type', 'checkbox');
-				firstCellInput.setAttribute('value', order.id);
-				firstCellInput.setAttribute('name', 'ids[]');
-				firstCell.append(firstCellInput);
-				row.append(firstCell);
-
-				// Cells depending on their index
-				let rowCells = [order.order_id, order.full_name, order.email_address, order.books.length, order.status, orderCreationDate, new Date(order.updated_at)];
-				rowCells.forEach((cellData, index) => {
-					let cell = document.createElement('td');
-					
-					switch(index) {
-						case 0: // order_id
-							let orderLink = document.createElement('a');
-							orderLink.setAttribute('class', 'default');
-							orderLink.setAttribute('href', window.location.origin+'/dashboard/order/'+order.id);
-							if(!cellData) {
-								cellData = '[ ID commande manquante ]';
-							}
-							orderLink.append(cellData);
-							cell.append(orderLink)
-							break;
-						case 3:
-							cell.setAttribute('class', 'text-right');
-							cell.append(cellData);
-							break;
-						case 4:
-							let label = document.createElement('span');
-							label.setAttribute('class', 'font-bold text-center inline-block w-full text-white px-2 py-1 rounded');
-							let bgClass = '';
-							switch(order.status) {
-								case 'FAILED': bgClass = 'bg-red-500'; cellData = 'Échec'.toUpperCase(); break;
-								case 'CREATED': bgClass = 'bg-yellow-500'; cellData = 'Créé'.toUpperCase(); break;
-								case 'COMPLETED': bgClass = 'bg-blue-500'; cellData = 'Payé'.toUpperCase(); break;
-								case 'SHIPPED': bgClass = 'bg-green-500'; cellData = 'Envoyé'.toUpperCase(); break;
-							}
-							if(order.pre_order === 1 && order.status === 'COMPLETED') {
-								cellData = 'Pré'.toUpperCase();
-							}
-							label.classList.add(bgClass);
-							label.append(cellData);
-							cell.append(label);
-							break;
-						case (5):
-						case (6):
-							cell.append(formatDate(cellData));
-							break;
-						default:
-							cell.append(cellData);
-							break;
+					// Parent row
+					let row = document.createElement('tr');
+					if(!order.read) {
+						row.classList.add('unread');
 					}
-					row.append(cell);
+
+					// First cell with checkbox
+					let firstCell = document.createElement('td');
+					let firstCellInput = document.createElement('input');
+					firstCellInput.setAttribute('class', 'checkbox');
+					firstCellInput.setAttribute('type', 'checkbox');
+					firstCellInput.setAttribute('value', order.id);
+					firstCellInput.setAttribute('name', 'ids[]');
+					firstCell.append(firstCellInput);
+					row.append(firstCell);
+
+					// Cells depending on their index
+					let rowCells = [order.order_id, order.full_name, order.email_address, order.books.length, order.status, orderCreationDate, new Date(order.updated_at)];
+					rowCells.forEach((cellData, index) => {
+						let cell = document.createElement('td');
+						
+						switch(index) {
+							case 0: // order_id
+								let orderLink = document.createElement('a');
+								orderLink.setAttribute('class', 'default');
+								orderLink.setAttribute('href', window.location.origin+'/dashboard/order/'+order.id);
+								if(!cellData) {
+									cellData = '[ ID commande manquante ]';
+								}
+								orderLink.append(cellData);
+								cell.append(orderLink)
+								break;
+							case 3:
+								cell.setAttribute('class', 'text-right');
+								cell.append(cellData);
+								break;
+							case 4:
+								let label = document.createElement('span');
+								label.setAttribute('class', 'font-bold text-center inline-block w-full text-white px-2 py-1 rounded');
+								let bgClass = '';
+								switch(order.status) {
+									case 'FAILED': bgClass = 'bg-red-500'; cellData = 'Échec'.toUpperCase(); break;
+									case 'CREATED': bgClass = 'bg-yellow-500'; cellData = 'Créé'.toUpperCase(); break;
+									case 'COMPLETED': bgClass = 'bg-blue-500'; cellData = 'Payé'.toUpperCase(); break;
+									case 'SHIPPED': bgClass = 'bg-green-500'; cellData = 'Envoyé'.toUpperCase(); break;
+								}
+								if(order.pre_order === 1 && order.status === 'COMPLETED') {
+									cellData = 'Pré'.toUpperCase();
+								}
+								label.classList.add(bgClass);
+								label.append(cellData);
+								cell.append(label);
+								break;
+							case (5):
+							case (6):
+								cell.append(formatDate(cellData));
+								break;
+							default:
+								cell.append(cellData);
+								break;
+						}
+						row.append(cell);
+					});
+
+					// Last cell
+					let toolsCell = document.createElement('td');
+					if(order.status === 'FAILED') {
+						let trashLink = document.createElement('a');
+						trashLink.setAttribute('href', window.location.origin+'/dashboard/order/cancel/'+order.id);
+						trashLink.setAttribute('class', 'icon');
+						let trashIcon = trashBlueprint.cloneNode(true);
+						trashIcon.classList.remove('hidden');
+						trashLink.append(trashIcon);
+						toolsCell.append(trashLink);
+					} else if(order.status === 'CREATED' && order.order_id && !isThisHour(orderCreationDate)) {
+						let recycleLink = document.createElement('a');
+						recycleLink.setAttribute('href', window.location.origin+'/dashboard/order/recycle/'+order.order_id);
+						recycleLink.setAttribute('class', 'icon');
+						let recycleIcon = recycleBlueprint.cloneNode(true);
+						recycleIcon.classList.remove('hidden');
+						recycleLink.append(recycleIcon);
+						toolsCell.append(recycleLink);
+					}
+					toolsCell.setAttribute('class', 'text-right');
+					row.append(toolsCell);
+
+					// Append row
+					orderRowsContainer.append(row);
 				});
-
-				// Last cell
-				let toolsCell = document.createElement('td');
-				if(order.status === 'FAILED') {
-					let trashLink = document.createElement('a');
-					trashLink.setAttribute('href', window.location.origin+'/dashboard/order/cancel/'+order.id);
-					trashLink.setAttribute('class', 'icon');
-					let trashIcon = trashBlueprint.cloneNode(true);
-					trashIcon.classList.remove('hidden');
-					trashLink.append(trashIcon);
-					toolsCell.append(trashLink);
-				} else if(order.status === 'CREATED' && order.order_id && !isThisHour(orderCreationDate)) {
-					let recycleLink = document.createElement('a');
-					recycleLink.setAttribute('href', window.location.origin+'/dashboard/order/recycle/'+order.order_id);
-					recycleLink.setAttribute('class', 'icon');
-					let recycleIcon = recycleBlueprint.cloneNode(true);
-					recycleIcon.classList.remove('hidden');
-					recycleLink.append(recycleIcon);
-					toolsCell.append(recycleLink);
-				}
-				toolsCell.setAttribute('class', 'text-right');
-				row.append(toolsCell);
-
-				// Append row
-				orderRowsContainer.append(row);
-			});
+			} else {
+				noResult.classList.remove('hidden');
+			}
 		} else {
 			throw new Error('Bad JSON response')
 		}
@@ -162,13 +169,19 @@ actions.forEach(action => {
 });
 
 filterInput.addEventListener('input', e => {
-	if(e.target.value !== '') {
-		console.log(e.target.value);
+	if(e.target.value !== 'all') {
+		if(filterDataInput.hasAttribute('disabled')) {
+			filterDataInput.removeAttribute('disabled');
+		}
 		filterDataInput.focus();
+	} else {
+		filterDataInput.disabled = true;
+		filterDataInput.setAttribute('disabled', true);
 	}
 });
 
+filterInput.addEventListener('input', coolDown(() => {}, coolDownFire, 0));
 filterDataInput.addEventListener('input', coolDown(() => {}, coolDownFire, 500));
-startDate.addEventListener('input', coolDown(() => {}, coolDownFire, 500));
-endDate.addEventListener('input', coolDown(() => {}, coolDownFire, 500));
-visibilityInput.addEventListener('input', coolDown(() => {}, coolDownFire, 500));
+startDate.addEventListener('input', coolDown(() => {}, coolDownFire, 0));
+endDate.addEventListener('input', coolDown(() => {}, coolDownFire, 0));
+visibilityInput.addEventListener('input', coolDown(() => {}, coolDownFire, 0));
