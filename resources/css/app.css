@@ -107,6 +107,10 @@
 		@apply bg-gray-900;
 	}
 
+	.button-small {
+		@apply button-shared py-0.5 px-1;
+	}
+
 	.button-shared:focus {
 		@apply outline-none border-gray-900 ring ring-gray-300;
 	}

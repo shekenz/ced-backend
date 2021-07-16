@@ -9,18 +9,30 @@
 
 		<div class="flex justify-between mb-3">
 			<div>
-				<input class="button-shared cursor-pointer action" type="button" data-action="{{ route('orders.csv') }}" value="{{ __('CSV Export') }}">
-				@if(request()->routeIs('orders'))
-				<input class="button-shared cursor-pointer action" type="button" data-action="{{ route('orders.hide') }}" value="{{ __('Hide selected') }}">
-				<input id="filter" type="text" placeholder="Filter"><img id="loader" class="hidden ml-2 w-6 h-6 inline-block" src="{{ asset('img/loader2.gif')}}">
-				@else
-				<input class="button-shared cursor-pointer action" type="button" data-action="{{ route('orders.unhide') }}" value="{{ __('Unhide selected') }}">
-				@endif
+				@php $maxDate = \Carbon\Carbon::now()->toDateString(); @endphp
+				<label for="filter">{{ __('Filter') }} : </label>
+				<select id="filter" placeholder="Filter">
+					<option selected value="all"></option>
+					<option value="order">{{ __('Order ID') }}</option>
+					<option value="name">{{ __('Name') }}</option>
+					<option value="email">{{ __('Email') }}</option>
+					<option value="status">{{ __('Status') }}</option>
+				</select> :
+				<input id="filter-data" type="text">
+				<label for="start-date">{{ __('From') }} : </label>
+				<input id="start-date" type="date" value="{{ \Carbon\Carbon::now()->subYear(1)->toDateString()}}" max="{{ $maxDate }}">
+				<label for="end-date">{{ __('To') }} : </label>
+				<input id="end-date" type="date" value="{{ $maxDate }}" max="{{ $maxDate }}">
+				<input class="ml-2" id="visibility" type="checkbox"><label for="visibility" class="label-shared"> Hidden</label>
+				<img id="loader" class="hidden ml-2 w-6 h-6 inline-block" src="{{ asset('img/loader2.gif')}}">
+				</select>
 			</div>
-			<div>
-				@if(request()->routeIs('orders'))
-				<a href="{{ route('orders.hidden') }}" class="button-shared cursor-pointer">{{ __('Hidden orders') }}</a>
-				@endif
+		</div>
+		<div class="flex items-end border-t pt-1">
+			<x-tabler-corner-left-down class="ml-2 inline-block" />
+			<div class="mb-2">
+				<input class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.csv') }}" value="{{ __('CSV Export') }}">
+				<input class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.hide') }}" value="{{ __('Hide') }}">
 			</div>
 		</div>
 		

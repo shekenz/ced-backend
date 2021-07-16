@@ -8,6 +8,8 @@ use Carbon\Carbon;
 
 class OrdersMassController extends Controller
 {
+	public $globalConditions;
+
 	public $validation = [
 		'ids' => ['nullable', 'array'],
 		'ids.*' => ['numeric']
@@ -89,8 +91,14 @@ class OrdersMassController extends Controller
 		return redirect()->route('orders');
 	}
 
-	public function get(Request $request, string $method, $data = null) {
+	public function get(Request $request, string $method, string $from, string $end, string $visibility, $data = null) {
 		if($request->wantsJson()) {
+			$this->globalConditions = [
+				['created_at', '>=', $from],
+				['created_at', '<=', Carbon::create($end)->addDay()],
+				['hidden', ($visibility !== 'false') ? true : false],
+			];
+
 			switch($method) {
 				case 'all' : return $this->all(); break;
 				case 'status' : return $this->status($data); break;
@@ -102,7 +110,7 @@ class OrdersMassController extends Controller
 	}
 
 	public function all() {
-		return Order::with('books')->orderBy('created_at', 'DESC')->get();
+		return Order::with('books')->where($this->globalConditions)->orderBy('created_at', 'DESC')->get();
 	}
 
 	public function status($data) {
