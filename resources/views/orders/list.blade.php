@@ -24,7 +24,8 @@
 				<input class="input-inline" id="start-date" type="date" value="{{ \Carbon\Carbon::now()->subYear(1)->toDateString()}}" max="{{ $maxDate }}">
 				<label for="end-date">{{ __('to') }}</label>
 				<input class="input-inline" id="end-date" type="date" value="{{ $maxDate }}" max="{{ $maxDate }}">
-				<input class="ml-2" id="visibility" type="checkbox"><label for="visibility" class="label-shared"> Hidden</label>
+				<input class="ml-2" id="visibility" type="checkbox"><label for="visibility" class="label-shared"> {{ __('Hidden') }}</label>
+				<input class="ml-2" id="preorder" type="checkbox"><label for="preorder" class="label-shared"> {{ __('Pre-order') }}</label>
 				<img id="loader" class="hidden ml-2 w-6 h-6 inline-block" src="{{ asset('img/loader2.gif')}}">
 				</select>
 			</div>
@@ -33,7 +34,7 @@
 			<x-tabler-corner-left-down class="ml-2 inline-block" />
 			<div class="mb-2">
 				<input class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.csv') }}" value="{{ __('CSV Export') }}">
-				<input class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.hide') }}" value="{{ __('Hide') }}">
+				<input id="hide" class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.hide') }}" value="{{ __('Hide') }}">
 			</div>
 		</div>
 		

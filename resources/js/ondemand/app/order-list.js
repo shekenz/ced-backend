@@ -10,6 +10,7 @@ let filterDataInput = document.getElementById('filter-data');
 let startDate = document.getElementById('start-date');
 let endDate = document.getElementById('end-date');
 let visibilityInput = document.getElementById('visibility');
+let hideButton = document.getElementById('hide');
 let loader = document.getElementById('loader');
 let recycleBlueprint = document.getElementById('recycle-blueprint');
 let trashBlueprint = document.getElementById('trash-blueprint');
@@ -177,6 +178,16 @@ filterInput.addEventListener('input', e => {
 	} else {
 		filterDataInput.disabled = true;
 		filterDataInput.setAttribute('disabled', true);
+	}
+});
+
+visibilityInput.addEventListener('input', e => {
+	if(e.target.checked) {
+		hideButton.value = 'unhide';
+		hideButton.dataset.action = window.location.origin+'/dashboard/orders/unhide';
+	} else {
+		hideButton.value = 'hide';
+		hideButton.dataset.action = window.location.origin+'/dashboard/orders/hide';
 	}
 });
 
