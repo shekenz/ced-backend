@@ -88,4 +88,28 @@ class OrdersMassController extends Controller
 
 		return redirect()->route('orders');
 	}
+
+	public function get(Request $request, string $method, $data = null) {
+		if($request->wantsJson()) {
+			switch($method) {
+				case 'all' : return $this->all(); break;
+				case 'status' : return $this->status($data); break;
+				default : return response()->json()->setStatusCode(400, '"'.$method.'" method not supported');
+			}
+		} else {
+			return abort(404);
+		}
+	}
+
+	public function all() {
+		return Order::with('books')->orderBy('created_at', 'DESC')->get();
+	}
+
+	public function status($data) {
+		if($data) {
+			return Order::with('books')->orderBy('created_at', 'DESC')->where('status', $data)->get();
+		} else {
+			return $this->all();
+		}
+	}
 }

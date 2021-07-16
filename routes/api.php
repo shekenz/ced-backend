@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\OrdersMassController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CouponsController;
 
@@ -39,3 +40,6 @@ Route::post('/orders/unread/count', [OrdersController::class, 'countUnread']);
 
 // Coupon
 Route::post('/coupon/get/{couponLabel}', [CouponsController::class, 'get'])->middleware('shop');
+
+// Backend API
+Route::post('/orders/get/{method}/{data?}', [OrdersMassController::class, 'get'])->middleware('auth');
