@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use Carbon\Carbon;
+use PDF;
 
 class OrdersMassController extends Controller
 {
@@ -119,11 +120,11 @@ class OrdersMassController extends Controller
 		}
 	}
 
-	public function all() {
+	protected function all() {
 		return Order::with('books')->where($this->globalConditions)->orderBy('created_at', 'DESC')->get();
 	}
 
-	public function like($data, string $column) {
+	protected function like($data, string $column) {
 		if($data) {
 			return Order::with('books')->where(array_merge($this->globalConditions, [[$column, 'like', '%'.$data.'%']]))->orderBy('created_at', 'DESC')->get();
 		} else {
@@ -131,7 +132,7 @@ class OrdersMassController extends Controller
 		}
 	}
 
-	public function exact($data, string $column) {
+	protected function exact($data, string $column) {
 		if($data) {
 			return Order::with('books')->where(array_merge($this->globalConditions, [[$column, $data]]))->orderBy('created_at', 'DESC')->get();
 		} else {
@@ -139,13 +140,22 @@ class OrdersMassController extends Controller
 		}
 	}
 
-	public function book($data) {
+	protected function book($data) {
 		if($data) {
 			return Order::with(['books' => function($query) use ($data) {
 				$query->where('title', 'like', '%'.$data.'%');
 			}])->where($this->globalConditions)->orderBy('created_at', 'DESC')->get();
 		} else {
 			return $this->all();
+		}
+	}
+
+	public function pdf(Request $request) {
+		$data = $request->validate($this->validation);
+		if(!empty($data)) {
+			$orders = Order::with(['books', 'coupons'])->orderBy('created_at', 'DESC')->find($data['ids']);
+			$pdf = PDF::loadView('pdf.packaging-list', compact('orders'));
+			return $pdf->stream('packaging-list.pdf');
 		}
 	}
 }

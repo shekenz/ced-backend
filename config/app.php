@@ -186,11 +186,12 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-
+		
         /*
-         * Package Service Providers...
-         */
+		* Package Service Providers...
+		*/
 		Intervention\Image\ImageServiceProvider::class,
+		Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -254,6 +255,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 		'Image' => Intervention\Image\ImageServiceProvider::class,
 		'CartHelper' => App\Http\Helpers\CartHelper::class,
+		'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];

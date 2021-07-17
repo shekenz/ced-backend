@@ -54,6 +54,7 @@
 			<div class="mb-2">
 				<input class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.csv') }}" value="{{ __('CSV Export') }}">
 				<input id="hide" class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.hide') }}" value="{{ __('Hide') }}">
+				<input id="hide" class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.pdf') }}" value="{{ __('Generate PDF') }}">
 			</div>
 		</div>
 		
