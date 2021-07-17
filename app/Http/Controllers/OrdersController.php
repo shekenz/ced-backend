@@ -64,7 +64,8 @@ class OrdersController extends Controller
      */
     public function list() {
 		$orders = Order::with('books')->where('hidden', false)->orderBy('created_at', 'DESC')->get();
-		return view('orders.list', compact('orders'));
+		$coupons = Coupon::get();
+		return view('orders.list', compact('orders', 'coupons'));
 	}
 
     /**

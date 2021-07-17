@@ -6,7 +6,10 @@ let orderRowsContainer = document.getElementById('order-rows');
 let selectAllButton = document.getElementById('checkall');
 let actions = arrayByClass('action');
 let filterInput = document.getElementById('filter');
-let filterDataInput = document.getElementById('filter-data');
+let filterDataInputText = document.getElementById('filter-data-text');
+let filterDataInputStatus = document.getElementById('filter-data-status');
+let filterDataInputCoupons = document.getElementById('filter-data-coupons');
+let filterDataInput = filterDataInputText;
 let startDate = document.getElementById('start-date');
 let endDate = document.getElementById('end-date');
 let visibilityInput = document.getElementById('visibility');
@@ -169,18 +172,6 @@ actions.forEach(action => {
 	});
 });
 
-filterInput.addEventListener('input', e => {
-	if(e.target.value !== 'all') {
-		if(filterDataInput.hasAttribute('disabled')) {
-			filterDataInput.removeAttribute('disabled');
-		}
-		filterDataInput.focus();
-	} else {
-		filterDataInput.disabled = true;
-		filterDataInput.setAttribute('disabled', true);
-	}
-});
-
 visibilityInput.addEventListener('input', e => {
 	if(e.target.checked) {
 		hideButton.value = 'unhide';
@@ -191,8 +182,48 @@ visibilityInput.addEventListener('input', e => {
 	}
 });
 
-filterInput.addEventListener('input', coolDown(() => {}, coolDownFire, 0));
-filterDataInput.addEventListener('input', coolDown(() => {}, coolDownFire, 500));
-startDate.addEventListener('input', coolDown(() => {}, coolDownFire, 0));
-endDate.addEventListener('input', coolDown(() => {}, coolDownFire, 0));
-visibilityInput.addEventListener('input', coolDown(() => {}, coolDownFire, 0));
+filterInput.addEventListener('input', e => {
+	switch(e.target.value) {
+		case('all'):
+			filterDataInputText.classList.remove('hidden');
+			filterDataInputStatus.classList.add('hidden');
+			filterDataInputCoupons.classList.add('hidden');
+			filterDataInput = filterDataInputText; 
+			filterDataInputText.disabled = true;
+			filterDataInputText.setAttribute('disabled', true);
+			break;
+		case('status'): 
+			filterDataInputText.classList.add('hidden');
+			filterDataInputStatus.classList.remove('hidden');
+			filterDataInputCoupons.classList.add('hidden');
+			filterDataInput = filterDataInputStatus;
+			break;
+		case('coupons'): 
+			filterDataInputText.classList.add('hidden');
+			filterDataInputStatus.classList.add('hidden');
+			filterDataInputCoupons.classList.remove('hidden');
+			filterDataInput = filterDataInputCoupons;
+			break;
+		default:
+			filterDataInputText.classList.remove('hidden');
+			filterDataInputStatus.classList.add('hidden');
+			filterDataInputCoupons.classList.add('hidden');
+			filterDataInput = filterDataInputText; 
+			if(e.target.value !== 'all') {
+				if(filterDataInput.hasAttribute('disabled')) {
+					filterDataInput.removeAttribute('disabled');
+				}
+				filterDataInput.focus();
+			}
+			break;
+	}
+	coolDownFire(e);
+});
+
+
+filterDataInputText.addEventListener('input', coolDown(() => {}, coolDownFire, 500));
+startDate.addEventListener('input', coolDown(() => {}, coolDownFire, 500));
+endDate.addEventListener('input', coolDown(() => {}, coolDownFire, 500));
+filterDataInputStatus.addEventListener('input', coolDownFire);
+filterDataInputCoupons.addEventListener('input', coolDownFire);
+visibilityInput.addEventListener('input', coolDownFire);
