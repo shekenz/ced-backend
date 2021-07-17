@@ -78,7 +78,7 @@
 				@endif
 				<br>
 				@auth
-					<div class="hideable"><a href="{{ route('books.edit', $book->id) }}" class="user-edit">{{ __('Edit') }}</a><a href="{{ route('books.archive', $book->id) }}" class="user-edit">{{ __('Archive') }}</a></div><br>
+					<div class="hideable mb-4"><a href="{{ route('books.edit', $book->id) }}" class="user-edit">{{ __('Edit') }}</a><a href="{{ route('books.archive', $book->id) }}" class="user-edit">{{ __('Archive') }}</a></div>
 				@endauth
 		</div>
 		<div class="col-span-2">
