@@ -91,7 +91,7 @@ class OrdersMassController extends Controller
 		return redirect()->route('orders');
 	}
 
-	public function get(Request $request, string $method, string $from, string $end, string $visibility, $data = null) {
+	public function get(Request $request, string $method, string $from, string $end, string $visibility, string $preorder, $data = null) {
 		if($request->wantsJson()) {
 			$this->globalConditions = [
 				['created_at', '>=', $from],
@@ -99,12 +99,19 @@ class OrdersMassController extends Controller
 				['hidden', ($visibility !== 'false') ? true : false],
 			];
 
+			if($preorder !== 'false') {
+				array_push($this->globalConditions, ['orders.pre_order', true]);
+			}
+
 			switch($method) {
 				case 'all' : return $this->all(); break;
 				case 'order' : return $this->like($data, 'order_id'); break;
 				case 'name' : return $this->like($data, 'full_name'); break;
 				case 'email' : return $this->like($data, 'email_address'); break;
 				case 'status' : return $this->exact($data, 'status'); break;
+				case 'book' : return $this->book($data); break;
+				case 'coupon' : return $this->exact($data, 'coupon_id'); break;
+				case 'shipping' : return $this->exact($data, 'shipping_method'); break;
 				default : return response()->json()->setStatusCode(400, '"'.$method.'" method not supported');
 			}
 		} else {
@@ -127,6 +134,16 @@ class OrdersMassController extends Controller
 	public function exact($data, string $column) {
 		if($data) {
 			return Order::with('books')->where(array_merge($this->globalConditions, [[$column, $data]]))->orderBy('created_at', 'DESC')->get();
+		} else {
+			return $this->all();
+		}
+	}
+
+	public function book($data) {
+		if($data) {
+			return Order::with(['books' => function($query) use ($data) {
+				$query->where('title', 'like', '%'.$data.'%');
+			}])->where($this->globalConditions)->orderBy('created_at', 'DESC')->get();
 		} else {
 			return $this->all();
 		}

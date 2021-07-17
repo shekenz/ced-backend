@@ -13,10 +13,13 @@
 				<label for="filter">{{ __('Filter') }}</label>
 				<select class="input-inline" id="filter" placeholder="Filter">
 					<option selected value="all"></option>
+					<option value="book">{{ __('Book') }}</option>
 					<option value="order">{{ __('Order ID') }}</option>
 					<option value="name">{{ __('Name') }}</option>
 					<option value="email">{{ __('Email') }}</option>
 					<option value="status">{{ __('Status') }}</option>
+					<option value="coupon">{{ __('Coupon') }}</option>
+					<option value="shipping">{{ __('Shipping method') }}</option>
 				</select>
 				<label for="filter-data">{{ __('with') }}</label>
 				<input class="input-inline" id="filter-data-text" type="text" disabled="true">
@@ -31,12 +34,17 @@
 						<option value="{{ $coupon->id }}">{{ $coupon->label }}</option>
 					@endforeach
 				</select>
+				<select class="input-inline hidden" id="filter-data-shipping">
+					@foreach ($shippingMethods as $shippingMethod)
+						<option value="{{ $shippingMethod->label }}">{{ $shippingMethod->label }}</option>
+					@endforeach
+				</select>
 				<label for="start-date">{{ __('from') }}</label>
 				<input class="input-inline" id="start-date" type="date" value="{{ \Carbon\Carbon::now()->subYear(1)->toDateString()}}" max="{{ $maxDate }}">
 				<label for="end-date">{{ __('to') }}</label>
 				<input class="input-inline" id="end-date" type="date" value="{{ $maxDate }}" max="{{ $maxDate }}">
 				<input class="ml-2" id="visibility" type="checkbox"><label for="visibility" class="label-shared"> {{ __('Hidden') }}</label>
-				<input class="ml-2" id="preorder" type="checkbox"><label for="preorder" class="label-shared"> {{ __('Pre-order only') }}</label>
+				<input class="ml-2" id="preorder" type="checkbox"><label for="preorder" class="label-shared"> {{ __('Pre-orders only') }}</label>
 				<img id="loader" class="hidden ml-2 w-6 h-6 inline-block" src="{{ asset('img/loader2.gif')}}">
 				</select>
 			</div>
