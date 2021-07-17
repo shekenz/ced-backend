@@ -24,10 +24,10 @@
 				<label for="filter-data">{{ __('with') }}</label>
 				<input class="input-inline" id="filter-data-text" type="text" disabled="true">
 				<select class="input-inline hidden" id="filter-data-status">
-					<option value="FAILED">{{ __('FAILED') }}</option>
-					<option value="CREATED">{{ __('CREATED') }}</option>
-					<option value="COMPLETED" selected="selected">{{ __('COMPLETED') }}</option>
-					<option value="SHIPPED">{{ __('SHIPPED') }}</option>
+					<option value="FAILED">{{ __('paypal.status.FAILED') }}</option>
+					<option value="CREATED">{{ __('paypal.status.CREATED') }}</option>
+					<option value="COMPLETED" selected="selected">{{ __('paypal.status.COMPLETED') }}</option>
+					<option value="SHIPPED">{{ __('paypal.status.SHIPPED') }}</option>
 				</select>
 				<select class="input-inline hidden" id="filter-data-coupons">
 					@foreach ($coupons as $coupon)
@@ -44,7 +44,7 @@
 				<label for="end-date">{{ __('to') }}</label>
 				<input class="input-inline" id="end-date" type="date" value="{{ $maxDate }}" max="{{ $maxDate }}">
 				<input class="ml-2" id="visibility" type="checkbox"><label for="visibility" class="label-shared"> {{ __('Hidden') }}</label>
-				<input class="ml-2" id="preorder" type="checkbox"><label for="preorder" class="label-shared"> {{ __('Pre-orders only') }}</label>
+				<input class="ml-2" id="preorder" type="checkbox"><label for="preorder" class="label-shared"> {{ __('Pre-orders') }}</label>
 				<img id="loader" class="hidden ml-2 w-6 h-6 inline-block" src="{{ asset('img/loader2.gif')}}">
 				</select>
 			</div>
