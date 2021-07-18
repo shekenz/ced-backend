@@ -150,12 +150,35 @@ class OrdersMassController extends Controller
 		}
 	}
 
-	public function pdf(Request $request) {
+	public function pdf(Request $request, string $view) {
 		$data = $request->validate($this->validation);
 		if(!empty($data)) {
 			$orders = Order::with(['books', 'coupons'])->orderBy('created_at', 'DESC')->find($data['ids']);
-			$pdf = PDF::loadView('pdf.packaging-list', compact('orders'));
-			return $pdf->stream('packaging-list.pdf');
+			//$orders = Order::factory()->count(16)->make();
+			$pdf = PDF::loadView('pdf.'.$view, compact('orders'));
+			return $pdf->download($view.'_'.Carbon::now()->toDateString().'.pdf');
+		} else {
+			return back();
 		}
+	}
+
+	public function labelsPreview(Request $request) {
+		$data = $request->validate($this->validation);
+		if(!empty($data)) {
+			$orders = Order::with(['books', 'coupons'])->orderBy('created_at', 'DESC')->find($data['ids']);
+			//$orders = Order::factory()->count(16)->make();
+			return view('pdf.labelsPreview', compact('orders'));
+		}  else {
+			return back();
+		}
+	}
+
+	public function labels(Request $request, int $extra) {
+		$extra = ($extra % 12);
+		$data = $request->validate($this->validation);
+			$orders = Order::with(['books', 'coupons'])->orderBy('created_at', 'DESC')->find($data['ids']);
+			//$orders = Order::factory()->count(16)->make();
+			$pdf = PDF::loadView('pdf.labels', compact('orders', 'extra'));
+			return $pdf->download('labels_'.Carbon::now()->toDateString().'.pdf');
 	}
 }

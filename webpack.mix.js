@@ -24,6 +24,7 @@ mix.js('resources/js/ondemand/app/media-library-dragdrop.js', 'public/js'); // L
 mix.js('resources/js/ondemand/app/books-form.js', 'public/js'); // Loaded on edit and create book view
 mix.js('resources/js/ondemand/app/order-ship.js', 'public/js'); // Loaded on display order view
 mix.js('resources/js/ondemand/app/order-list.js', 'public/js'); // Loaded on list order view
+mix.js('resources/js/ondemand/app/labels.js', 'public/js'); // Loaded on labels preview view
 
 //  Index JS (Frontend)
 mix.js('resources/js/ondemand/index/cart.js', 'public/js'); // Cart script.
@@ -44,6 +45,13 @@ mix.postCss('resources/css/app.css', 'public/css', [
 
 // Index CSS (Frontend)
 mix.postCss('resources/css/index.css', 'public/css', [
+    require('postcss-import'),
+    require('tailwindcss'),
+    require('autoprefixer'),
+])
+
+// LabelsPreview CSS (Frontend)
+mix.postCss('resources/css/labels.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),

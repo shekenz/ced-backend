@@ -54,7 +54,9 @@ Route::get('/orders/hidden', [OrdersController::class, 'hidden'])->middleware('a
 Route::post('/dashboard/orders/csv', [OrdersMassController::class, 'csv'])->middleware('auth')->name('orders.csv');
 Route::post('/dashboard/orders/hide', [OrdersMassController::class, 'hide'])->middleware('auth')->name('orders.hide');
 Route::post('/dashboard/orders/unhide', [OrdersMassController::class, 'unhide'])->middleware('auth')->name('orders.unhide');
-Route::post('/dashboard/orders/pdf', [OrdersMassController::class, 'pdf'])->middleware('auth')->name('orders.pdf');
+Route::post('/dashboard/orders/print/{view}', [OrdersMassController::class, 'pdf'])->middleware('auth')->name('orders.print');
+Route::post('/dashboard/orders/print/labels/preview', [OrdersMassController::class, 'labelsPreview'])->middleware('auth')->name('orders.labelsPreview');
+Route::post('/dashboard/orders/print/labels/{extra?}', [OrdersMassController::class, 'labels'])->middleware('auth')->name('orders.labels');
 
 // Shipping methods
 Route::post('/dashboard/shipping-methods/add/', [ShippingMethodsController::class, 'add'])->middleware('auth')->name('shippingMethods.add');

@@ -5,7 +5,7 @@
 @import '@glidejs/glide/dist/css/glide.core.min.css';
 @import './index/glide.theme.css';
 
-@import './index/fonts.css';
+@import './fonts.css';
 @import './index/style.css';
 @import './index/structure.css';
 @import './index/flash.css';

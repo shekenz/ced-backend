@@ -33,3 +33,7 @@ export const randomString = (stringLength = 8) => {
 	}
 	return randomLabel;
 }
+
+export const arrayOf = (length, fn) => {
+	return Array.apply(null, Array(length)).map(fn);
+}

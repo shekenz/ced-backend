@@ -52,9 +52,9 @@
 		<div class="flex items-end border-t pt-1">
 			<x-tabler-corner-left-down class="ml-2 inline-block" />
 			<div class="mb-2">
-				<input class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.csv') }}" value="{{ __('CSV Export') }}">
 				<input id="hide" class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.hide') }}" value="{{ __('Hide') }}">
-				<input id="hide" class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.pdf') }}" value="{{ __('Generate PDF') }}">
+				<input class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.csv') }}" value="CSV">
+				<input id="hide" class="button-small cursor-pointer action" type="button" data-action="{{ route('orders.labelsPreview') }}" value="PDF">
 			</div>
 		</div>
 		

@@ -1,0 +1,19 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import './fonts.css';
+@import './app.css';
+
+@layer base {
+
+}
+
+@layer components {
+
+	.page {
+		width: 960px;
+		height: calc(960px * 1.41);
+	}
+
+}

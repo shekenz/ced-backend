@@ -160,6 +160,12 @@
 				</tfoot>
 			</table>
 		</div>
+
+		<form action="{{ route('orders.print', 'packaging-list') }}" method="POST" class="my-8 flex justify-end">
+			@csrf
+			<input type="hidden" name="ids[]" value="{{ $order->id }}">
+			<input type="submit" class="button-shared cursor-pointer" value="Download PDF">
+		</form>
 	</div>
 		
 	<span id="tracking-data" data-tracking-url="@isset($shippingMethod){{ $shippingMethod->tracking_url }}@endisset"></span>

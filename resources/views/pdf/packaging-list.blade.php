@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>PDF</title>
+	<title>Packaging list</title>
 
 	<style>
 		td {
@@ -30,7 +30,8 @@
 		1 Adresse e.p.g.<br>
 		75000 Paris<br>
 		FRANCE<br>
-		Tel : 0123456789
+		Tel : 0123456789<br>
+		DATE ?
 	</div>
 	<div style="float:right;width:25%;border:3px solid black;padding:30px 50px;">
 		<span style="display:block;font-weight:bold;">{{ $order->full_name }}</span>
