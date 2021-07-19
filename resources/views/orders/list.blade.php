@@ -66,10 +66,10 @@
 				<td>{{ __('Order') }}</td>
 				<td>{{ __('Client') }}</td>
 				<td>{{ __('Client email') }}</td>
-				<td>{{ __('Articles') }}</td>
+				<td>{{ __('Pre') }}</td>
 				<td>{{ __('Status') }}</td>
 				<td>{{ __('Created at') }}</td>
-				<td>{{ __('Last updated') }}</td>
+				{{-- <td>{{ __('Last updated') }}</td> --}}
 				<td>{{ __('Tools') }}</td>
 			</thead>
 			<tbody id="order-rows">
@@ -83,28 +83,23 @@
 					@endisset</a></td>
 					<td>{{ $order->full_name }}</td>
 					<td>{{ $order->email_address }}</td>
-					<td class="text-right">{{ $order->books->reduce(function($total, $book) {
-						return $total + $book->pivot->quantity;
-					}) }}</td>
+					<td class="text-center">@if($order->pre_order === 1)<x-tabler-forklift />@endif</td>
 					<td><span class="font-bold text-center inline-block w-full text-white px-2 py-1 rounded @switch($order->status)
 						@case('FAILED') {{ 'bg-red-500' }} @break
 						@case('CREATED') {{ 'bg-yellow-500' }} @break
 						@case('COMPLETED') {{ 'bg-blue-500' }} @break
 						@case('SHIPPED') {{ 'bg-green-500' }} @break
-					@endswitch">@if($order->pre_order && $order->status === 'COMPLETED')
-						{{ mb_strtoupper(__('paypal.status.preorder')) }}
-					@else
+					@endswitch">
 						{{ mb_strtoupper(__('paypal.status.'.$order->status)) }}
-					@endif</span></td>
-					<td>{{ $order->created_at }}</td>
-					<td>{{ $order->updated_at }}</td>
+					</span></td>
+					<td>{{ $order->created_at_formated }}</td>
+					{{-- <td>{{ $order->updated_at }}</td> --}}
 					<td class="text-right">
 						@if($order->status == 'CREATED' && isset($order->order_id) && !$order->created_at->isCurrentHour())
 							<a class="icon" href="{{ route('orders.recycle', $order->order_id) }}"><x-tabler-recycle /></a>
 						@elseif($order->status == 'FAILED')
 							<a class="icon" href="{{ route('orders.cancel', $order->id) }}"><x-tabler-trash /></a>
 						@endif
-
 					</td>
 				</tr>
 			@endforeach
@@ -118,5 +113,6 @@
 
 	<x-tabler-recycle class="hidden" id="recycle-blueprint"/>
 	<x-tabler-trash class="hidden" id="trash-blueprint"/>
+	<x-tabler-forklift class="hidden" id="forklift-blueprint"/>
 
 </x-app-layout>

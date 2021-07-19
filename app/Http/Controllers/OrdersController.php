@@ -63,7 +63,7 @@ class OrdersController extends Controller
      * @return void
      */
     public function list() {
-		$orders = Order::with('books')->where('hidden', false)->orderBy('created_at', 'DESC')->get();
+		$orders = Order::where('hidden', false)->orderBy('created_at', 'DESC')->get();
 		$coupons = Coupon::get();
 		$shippingMethods = ShippingMethod::get();
 		return view('orders.list', compact('orders', 'coupons', 'shippingMethods'));

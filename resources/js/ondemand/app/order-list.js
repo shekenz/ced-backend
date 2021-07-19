@@ -1,5 +1,5 @@
 import { arrayByClass, coolDown } from '../../shared/helpers.mjs';
-import { formatISO9075 as formatDate, isThisHour } from 'date-fns';
+import { isThisHour } from 'date-fns';
 
 let ordersForm = document.getElementById('orders-selection');
 let orderRowsContainer = document.getElementById('order-rows');
@@ -19,6 +19,7 @@ let hideButton = document.getElementById('hide');
 let loader = document.getElementById('loader');
 let recycleBlueprint = document.getElementById('recycle-blueprint');
 let trashBlueprint = document.getElementById('trash-blueprint');
+let forkliftBlueprint = document.getElementById('forklift-blueprint');
 let noResult = document.getElementById('no-result');
 
 let coolDownFire = e => {
@@ -75,8 +76,7 @@ let coolDownFire = e => {
 						row.append(firstCell);
 
 						// Cells depending on their index
-						let articlesTotalCount = order.books.reduce((total, book) => total + book.pivot.quantity, 0);
-						let rowCells = [order.order_id, order.full_name, order.email_address, articlesTotalCount, order.status, orderCreationDate, new Date(order.updated_at)];
+						let rowCells = [order.order_id, order.full_name, order.email_address, order.pre_order, order.status, order.created_at_formated];
 						rowCells.forEach((cellData, index) => {
 							let cell = document.createElement('td');
 							
@@ -92,8 +92,12 @@ let coolDownFire = e => {
 									cell.append(orderLink)
 									break;
 								case 3:
-									cell.setAttribute('class', 'text-right');
-									cell.append(cellData);
+									cell.setAttribute('class', 'text-center');
+									if(cellData === 1) {
+										let forkliftIcon = forkliftBlueprint.cloneNode(true);
+										forkliftIcon.classList.remove('hidden');
+										cell.append(forkliftIcon);
+									}
 									break;
 								case 4:
 									let label = document.createElement('span');
@@ -105,17 +109,14 @@ let coolDownFire = e => {
 										case 'COMPLETED': bgClass = 'bg-blue-500'; cellData = 'Payé'.toUpperCase(); break;
 										case 'SHIPPED': bgClass = 'bg-green-500'; cellData = 'Envoyé'.toUpperCase(); break;
 									}
-									if(order.pre_order === 1 && order.status === 'COMPLETED') {
-										cellData = 'Pré'.toUpperCase();
-									}
 									label.classList.add(bgClass);
 									label.append(cellData);
 									cell.append(label);
 									break;
-								case (5):
-								case (6):
-									cell.append(formatDate(cellData));
-									break;
+								// case (5):
+								// //case (6):
+								// 	cell.append(formatDate(cellData));
+								// 	break;
 								default:
 									cell.append(cellData);
 									break;

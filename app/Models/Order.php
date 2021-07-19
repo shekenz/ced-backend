@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Order extends Model
 {
     use HasFactory;
+
+	protected $appends = ['created_at_formated'];
 
 	protected $fillable = [
 		'order_id',
@@ -34,6 +37,10 @@ class Order extends Model
 		'read',
 		'hidden',
 	];
+
+	public function getCreatedAtFormatedAttribute() {
+		return ucfirst($this->created_at->locale(config('app.locale'))->isoFormat('LLLL'));
+	}
 
 	public function books() {
 		return $this->belongsToMany(Book::class)->withPivot('quantity');

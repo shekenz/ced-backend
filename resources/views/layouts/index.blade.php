@@ -1,5 +1,5 @@
 <!doctype html>
-<html {{ $attributes }}>
+<html lang="{{ config('app.locale') }}">
     <head>
 		<script type="text/javascript">
 			// On page load or when changing themes, best to add inline in `head` to avoid FOUC

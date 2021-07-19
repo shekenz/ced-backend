@@ -1,4 +1,4 @@
-<x-index-layout lang="FR_fr">
+<x-index-layout>
 
 	<x-slot name="title">About</x-slot>
 
