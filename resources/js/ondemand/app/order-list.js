@@ -164,32 +164,8 @@ let coolDownFire = e => {
 	});
 };
 
-selectAllButton.addEventListener('click', e => {
-	let checkboxes = arrayByClass('checkbox');
-	checkboxes.forEach(checkbox => {
-		checkbox.checked = e.target.checked;
-	});
-});
-
-actions.forEach(action => {
-	action.addEventListener('click', e => {
-		ordersForm.action = e.target.dataset.action;
-		ordersForm.submit();
-	});
-});
-
-visibilityInput.addEventListener('input', e => {
-	if(e.target.checked) {
-		hideButton.value = 'unhide';
-		hideButton.dataset.action = window.location.origin+'/dashboard/orders/unhide';
-	} else {
-		hideButton.value = 'hide';
-		hideButton.dataset.action = window.location.origin+'/dashboard/orders/hide';
-	}
-});
-
-filterInput.addEventListener('input', e => {
-	switch(e.target.value) {
+let enableValueInput = value => {
+	switch(value) {
 		case('all'):
 			filterDataInputText.classList.remove('hidden');
 			filterDataInputStatus.classList.add('hidden');
@@ -226,7 +202,7 @@ filterInput.addEventListener('input', e => {
 			filterDataInputCoupons.classList.add('hidden');
 			filterDataInputShipping.classList.add('hidden');
 			filterDataInput = filterDataInputText; 
-			if(e.target.value !== 'all') {
+			if(value !== 'all') {
 				if(filterDataInput.hasAttribute('disabled')) {
 					filterDataInput.removeAttribute('disabled');
 				}
@@ -234,6 +210,36 @@ filterInput.addEventListener('input', e => {
 			}
 			break;
 	}
+}
+
+enableValueInput(filterInput.value);
+
+selectAllButton.addEventListener('click', e => {
+	let checkboxes = arrayByClass('checkbox');
+	checkboxes.forEach(checkbox => {
+		checkbox.checked = e.target.checked;
+	});
+});
+
+actions.forEach(action => {
+	action.addEventListener('click', e => {
+		ordersForm.action = e.target.dataset.action;
+		ordersForm.submit();
+	});
+});
+
+visibilityInput.addEventListener('input', e => {
+	if(e.target.checked) {
+		hideButton.value = 'unhide';
+		hideButton.dataset.action = window.location.origin+'/dashboard/orders/unhide';
+	} else {
+		hideButton.value = 'hide';
+		hideButton.dataset.action = window.location.origin+'/dashboard/orders/hide';
+	}
+});
+
+filterInput.addEventListener('input', e => {
+	enableValueInput(e.target.value);
 	coolDownFire(e);
 });
 
