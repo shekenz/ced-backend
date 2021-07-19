@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Faker\Generator as Faker;
+
 
 class OrderFactory extends Factory
 {
@@ -22,21 +22,25 @@ class OrderFactory extends Factory
      */
     public function definition()
     {
-		$randomId = $this->faker->randomElements(str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 17);
-		$randomId2 = $this->faker->randomElements(str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 17);
-		$randomIdPayer = $this->faker->randomElements(str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 13);
+		$randomId = implode($this->faker->randomElements(str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 17));
+		$randomId2 = implode($this->faker->randomElements(str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 17));
+		$randomIdPayer = implode($this->faker->randomElements(str_split('ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'), 13));
 		$surname = $this->faker->lastName();
 		$givenName = $this->faker->firstName();
 		$randomStatus = rand(0,20);
 		switch($randomStatus) {
 			case(0) : $status = 'FAILED'; break;
 			case(1) : $status = 'CREATED'; break;
-			//case($randomStatus > 15) : $status = 'SHIPPED'; break;
-			default : $status = 'COMPLETED'; break;
+			default : 
+				if($randomStatus > 15) {
+					$status = 'SHIPPED';
+				} else {
+					$status = 'COMPLETED';
+				}
+				break;
 		}
 
         return [
-			'id' => $this->faker->randomNumber(9),
             'order_id' => $randomId,
             'transaction_id' => $randomId2,
             'payer_id' => $randomIdPayer,
@@ -55,7 +59,7 @@ class OrderFactory extends Factory
 			'shipping_method' => 'La Poste',
 			'shipping_price' => 8.95,
 			'shipped_at' => null,
-			'tracking_number' => null,
+			'tracking_url' => null,
 			'status' => $status,
 			'pre_order' => $this->faker->numberBetween(0, 1),
 			'read' => $this->faker->numberBetween(0, 1),
