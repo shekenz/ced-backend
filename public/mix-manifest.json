@@ -38,5 +38,9 @@
     "/fonts/MonumentGroteskTrial-Italic.woff": "/fonts/MonumentGroteskTrial-Italic.woff",
     "/fonts/MonumentGroteskTrial-Medium.woff": "/fonts/MonumentGroteskTrial-Medium.woff",
     "/fonts/MonumentGroteskTrial-MediumItalic.woff": "/fonts/MonumentGroteskTrial-MediumItalic.woff",
-    "/fonts/MonumentGroteskTrial-Regular.woff": "/fonts/MonumentGroteskTrial-Regular.woff"
+    "/fonts/MonumentGroteskTrial-Regular.woff": "/fonts/MonumentGroteskTrial-Regular.woff",
+    "/fonts/Nunito-Bold.ttf": "/fonts/Nunito-Bold.ttf",
+    "/fonts/Nunito-Regular.ttf": "/fonts/Nunito-Regular.ttf",
+    "/fonts/Roboto-Medium.ttf": "/fonts/Roboto-Medium.ttf",
+    "/fonts/Roboto-Bold.ttf": "/fonts/Roboto-Bold.ttf"
 }
