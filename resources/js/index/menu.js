@@ -2,6 +2,8 @@ import { arrayByClass } from '../shared/helpers.mjs';
 
 window.addEventListener('load', () => {
 
+	console.log('menu');
+
 	let blackSquare = document.createElement('div');
 	blackSquare.setAttribute('id', 'black-square');
 	document.body.insertBefore(blackSquare, document.getElementById('menu-wrapper').nextElementSibling);
@@ -25,8 +27,9 @@ window.addEventListener('load', () => {
 	menuItems.map(item => {
 		item.addEventListener('click', e => {
 			e.preventDefault();
+			blackSquare.classList.add('animated');
 			let itemDimension = e.target.getBoundingClientRect();
-			applyTransform(itemDimension, 7, 1);	
+			applyTransform(itemDimension, 7, 1);
 			setTimeout(() => { window.location = e.target.href }, 300);
 		});
 	});
@@ -46,13 +49,5 @@ window.addEventListener('load', () => {
 	window.addEventListener('resize', () => {
 		applyTransform(arrayByClass('active')[0].getBoundingClientRect(), 7, 1);
 	});
-
-	// Adding delay before applying the animated class to stop trigerring animations at load
-	// Firefox will apply animation before applying first initial transform otherwise.
-	setTimeout(() => {
-		blackSquare.classList.add();
-	}, 500);
-
-	
 });
 
